@@ -1,0 +1,15 @@
+[run]
+branch = 1
+cover_pylib = 0
+include=*testbrain/*
+omit = testbrain.tests.*
+
+[report]
+omit =
+    */python?.?/*
+    */site-packages/*
+    */pypy/*
+    *testbrain/bin/logtool.py
+    *testbrain/utils/debug.py
+    *testbrain/contrib/testing/*
+    *testbrain/contrib/pytest.py

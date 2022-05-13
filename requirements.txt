@@ -1,0 +1,6 @@
+-r requirements/default.txt
+-r requirements/dev.txt
+-r requirements/docs.txt
+-r requirements/pkgutils.txt
+-r requirements/security.txt
+-r requirements/test.txt
