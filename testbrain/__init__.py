@@ -15,7 +15,7 @@ from . import local
 
 SERIES = 'dawn-chorus'
 
-__version__ = '2022.7.4'
+__version__ = '2022.7.4dev'
 __author__ = 'Artem Demidenko'
 __contact__ = 'ar.demidenko@gmail.com'
 __homepage__ = 'https://appsurify.com/'
