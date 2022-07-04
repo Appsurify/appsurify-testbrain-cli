@@ -1,6 +1,90 @@
+[tool.poetry]
+name = "appsurify-testbrain-cli"
+version = "2023.9.21"
+description = "Command Line Interface for Appsurify Testbrain."
+license = "MIT"
+authors = [
+    "James Farrier <jamesfarrier@appsurify.com>",
+    "Artem Demidenko <ar.demidenko@appsurify.com>",
+]
+maintainers = [
+    "James Farrier <jamesfarrier@appsurify.com>",
+    "Artem Demidenko <ar.demidenko@appsurify.com>",
+]
+readme = "README.md"
+homepage = "https://appsurify.com"
+repository = "https://github.com/Appsurify/appsurify-testbrain-cli"
+documentation = ""
+keywords = ["appsurify", "testbrain", "cli"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Education",
+    "Environment :: Console",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS",
+    "Operating System :: Microsoft :: Windows :: Windows 10",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Software Development :: Libraries :: Python Modules"
+]
+packages = [
+    {include = "testbrain"},
+
+]
+include = ["CHANGELOG.md"]
+
+
+[tool.poetry.scripts]
+testbrain = "testbrain.__main__:cli"
+git2testbrain = "testbrain.bin.git2testbrain:cli"
+
+
+[tool.poetry.dependencies]
+python = ">=3.7,<4"
+pydantic = "^2.4.2"
+requests = "^2.31.0"
+requests-toolbelt = "^1.0.0"
+urllib3 = "<2.0.0"
+click = "^8.1.7"
+
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.4.2"
+pytest-subprocess = "^1.5.0"
+requests-mock = "^1.11.0"
+pytest-cov = "^4.1.0"
+
+[tool.poetry.group.dev.dependencies]
+bump2version = "^1.0.1"
+pytest = "^7.4.2"
+pytest-subprocess = "^1.5.0"
+requests-mock = "^1.11.0"
+pytest-cov = "^4.1.0"
+gitpython = "^3.1.37"
+black = [{version = "^23.1.0", python = "^3.7"},{version = "^23.9.1", python = "^3.8"}]
+flake8 = [{version = "5.0.4", python = "3.7"},{version = "^6.1.0", python = "^3.8.2"}]
+flake8-pyproject = "^1.2.3"
+isort = [{version = "5.11.5", python = "3.7"},{version = "^5.12.0", python = "^3.8"}]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
 [tool.pytest.ini_options]
-addopts = "--strict-markers"
-testpaths = "tests/unit/"
-python_classes = "test_*"
-xdfail_strict=true
-markers = ["sleepdeprived_patched_module", "masked_modules", "patched_environ", "patched_module"]
+pythonpath = "testbrain/"
+testpaths = "tests/"
+
+[tool.black]
+line-length = 88
+target-version = ["py37", "py38", "py39", "py311"]
+
+[tool.isort]
+profile = "black"
+src_paths = ["isort", "test"]
+
+[tool.flake8]
+max-line-length = 88
+exclude = [".git", "__pycache__"]
+extend-ignore = ["E203", "W605", "F841"]  # "F541",
