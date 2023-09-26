@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "appsurify-testbrain-cli"
+version = "1.0.0"
+description = ""
+authors = [
+    "Artem Demidenko <ar.demidenko@appsurify.com>",
+    "James Farrier <jamesfarrier@appsurify.com>",
+]
+readme = "README.md"
+packages = [{include = "testbrain"}]
+
+
+[tool.poetry.scripts]
+#testbrain = "testbrain.__main__:app"
+git2testbrain = "testbrain.git2testbrain:main"
+
+
+[tool.poetry.dependencies]
+python = "^3.8"
+#typer = {extras = ["all"], version = "^0.9.0"}
+#typer = "^0.9.0"
+#rich = "^13.5.3"
+click = "^8.0.0"
+requests = "^2.31.0"
+requests-toolbelt = "^1.0.0"
+pytest = "^7.4.2"
+coverage = "^7.3.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

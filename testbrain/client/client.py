@@ -9,7 +9,7 @@ from testbrain.client.auth import HTTPTokenAuth
 
 
 class APIClient(object):
-    user_agent = "Testbrain/2.x (Python 3.x) Requests/2.31.0 urllib3/2.0.4"
+    user_agent = "TestbrainCLI/1.x (Python 3.x) Requests/2.31.0 urllib3/2.0.4"
 
     def __init__(self, endpoint, token):
         self.endpoint = endpoint

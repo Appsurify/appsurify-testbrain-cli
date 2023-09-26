@@ -38,7 +38,7 @@ class TCPKeepAliveAdapter(SocketOptionsAdapter):
                 (socket.SOL_TCP, socket.TCP_KEEPCNT, count)
             ]
 
-        # TCP Keep Alive Probes for Mac OS
+        # TCP Keep Alive Probes for macOS
         elif platform == 'darwin':
             # On OSX, TCP_KEEPALIVE from netinet/tcp.h is not exported
             # by python's socket module
