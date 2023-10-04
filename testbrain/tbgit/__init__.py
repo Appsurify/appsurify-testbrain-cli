@@ -689,12 +689,17 @@ def _parse_patch(text):
                 a_path=a_path if a_path else a_path,
                 b_path=b_path if b_path else b_path,
                 a_blob_id=a_blob_id,
-                a_blob=a_blob, b_blob_id=b_blob_id, b_blob=b_blob,
+                a_blob=a_blob,
+                b_blob_id=b_blob_id,
+                b_blob=b_blob,
                 a_mode=a_mode and a_mode,
                 b_mode=b_mode and b_mode,
-                new_file=new_file, deleted_file=deleted_file,
+                new_file=new_file,
+                deleted_file=deleted_file,
                 rename_from=rename_from,
-                rename_to=rename_to, change_type=change_type, score=""
+                rename_to=rename_to,
+                change_type=change_type,
+                score=""
             )
 
             diffs.append(diff)
