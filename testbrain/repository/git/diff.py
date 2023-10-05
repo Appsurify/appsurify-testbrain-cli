@@ -72,7 +72,7 @@ class DiffIndex(List[T_Diff]):
     # T = Changed in the type
     change_type = ("A", "C", "D", "R", "M", "T", "U")
 
-    def iter_change_type(self, change_type: Lit_change_type) -> Iterator[T_Diff]:
+    def iter_change_type(self, change_type: Lit_change_type) -> Any[T_Diff]:
         """
         :return:
             iterator yielding Diff instances that match the given change_type
@@ -89,7 +89,8 @@ class DiffIndex(List[T_Diff]):
         if change_type not in self.change_type:
             raise ValueError("Invalid change type: %s" % change_type)
 
-        for diff_idx in self:
+        iterator = iter(self)
+        for diff_idx in iterator:
             if diff_idx.change_type == change_type:
                 yield diff_idx
             elif change_type == "A" and diff_idx.new_file:
@@ -111,7 +112,8 @@ class DiffIndex(List[T_Diff]):
 
     def as_dict(self) -> Dict[str, T_Diff]:
         diff_dict = {}
-        for diff in self:
+        iterator = iter(self)
+        for diff in iterator:
             if diff.change_type == "A":
                 diff_dict[diff.b_path] = diff
             elif diff.change_type == "D":

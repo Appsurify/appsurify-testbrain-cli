@@ -32,3 +32,5 @@ exclude:
   - name: All
     paths:
       - testbrain/tbgit
+include:
+  - name: CheckDependencyLicenses
