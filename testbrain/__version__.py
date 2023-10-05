@@ -1,7 +1,7 @@
-__title__ = "testbrain-cli"
-__description__ = ""
-__url__ = ""
-__version__ = "1.0.0"
-__build__ = 0x010000
-__author__ = ""
-__author_email__ = ""
+__title__ = "TestbrainCLI"
+__version__ = "2023.9.5"
+__description__ = ("A package with a set of CI utilities for "
+                   "interacting with the Appsurify Testbrain system")
+__url__ = "https://appsurify.com"
+__author__ = "James Farrier"
+__author_email__ = "jamesfarrier@appsurify.com"

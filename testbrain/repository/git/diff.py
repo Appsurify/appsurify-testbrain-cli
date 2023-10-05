@@ -243,7 +243,6 @@ class Diff(object):
             h %= self.b_blob["path"]
 
         msg: str = ""
-        line = None  # temp line
         line_length = 0  # line length
         for b, n in zip((self.a_blob, self.b_blob), ("lhs", "rhs")):
             if b:
@@ -334,8 +333,10 @@ class Diff(object):
         index: "DiffIndex" = DiffIndex()
         previous_header: Union[Match[str], None] = None
         header: Union[Match[str], None] = None
-        a_path, b_path = None, None  # for mypy
-        a_mode, b_mode = None, None  # for mypy
+        # a_path: str
+        # b_path: str
+        # a_mode: str
+        # b_mode: str
         for _header in cls.re_header.finditer(text):
             (
                 a_path_fallback,

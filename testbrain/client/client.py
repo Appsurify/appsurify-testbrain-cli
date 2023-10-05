@@ -1,38 +1,49 @@
+from typing import Optional
+
+import abc
 import requests
-
 from testbrain.client.adapter import TCPKeepAliveAdapter
-from testbrain.client.auth import HTTPTokenAuth
+from testbrain.client.auth import AuthBase, HTTPAPIAuth
+from testbrain.client.utils import default_headers
 
 
-class APIClient(object):
-    user_agent: str = "TestbrainCLI/1.x"
+class APIClient(abc.ABC):
+    default_adapter = TCPKeepAliveAdapter(idle=60, interval=20, count=5)
+    default_headers = default_headers()
 
-    def __init__(self, endpoint: str, token: str):
-        self.endpoint = endpoint
+    def __init__(self, *args, **kwargs):
+        self.session = requests.Session()
+
+    def request(self, method: str, url: str, **kwargs) -> requests.Response:
+        headers = kwargs.pop("headers", self.default_headers)
+        auth = kwargs.pop("auth", None)
+        self.session.auth = auth
+        self.session.mount("http://", self.default_adapter)
+        self.session.mount("https://", self.default_adapter)
+        return self.session.request(method, url, headers=headers, **kwargs)
+
+    def get(
+        self, url: str, params: Optional[dict] = None, **kwargs
+    ) -> requests.Response:
+        req = self.request("get", url, params=params, **kwargs)
+        return req
+
+    def post(
+        self, url: str, data: Optional[dict] = None, **kwargs
+    ) -> requests.Response:
+        req = self.request("post", url, data=data, **kwargs)
+        return req
+
+
+class TestbrainAPIClient(APIClient):
+
+    def __init__(self, server: str, token: str, **kwargs):
+        self.base_url = server
         self.token = token
+        self.auth = HTTPAPIAuth(token=token)
+        super(TestbrainAPIClient, self).__init__(**kwargs)
 
-    def get_session(self):
-        adapter = TCPKeepAliveAdapter()
-        auth = HTTPTokenAuth(token=self.token)
-
-        session = requests.Session()
-        session.mount('http://', adapter)
-        session.mount('https://', adapter)
-
-        session.auth = auth
-        session.headers.update({'User-Agent': self.user_agent})
-
-        return session
-
-
-class TestbrainClient(APIClient):
-
-    def get_project_id(self, project_name: str) -> int:
-
-        api_url = self.endpoint + "/api/ssh_v2/hook/fetch/"
-        params = {"project_name": project_name}
-
-        headers = {
-            "Content-Type": "application/json",
-            "User-Agent": "TestbrainCLI/1.x"
-        }
+    def request(self, method: str, url: str, **kwargs) -> requests.Response:
+        return super(TestbrainAPIClient, self).request(
+            method, url, auth=self.auth, **kwargs
+        )

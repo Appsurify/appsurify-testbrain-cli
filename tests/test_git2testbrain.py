@@ -1,5 +1,4 @@
 import pytest
-from unittest.mock import MagicMock, patch
 from typer.testing import CliRunner
 
 
@@ -15,6 +14,7 @@ runner = CliRunner()
 
 
 class TestRepositoryGit:
+
     def test_send_hook_simple(self, fp, tmp_path):
         tmppath = tmp_path.mkdir(777, "demoRepo", exist_ok=True)
 
@@ -100,6 +100,12 @@ class TestRepositoryGit:
         result = runner.invoke(
             app,
             [
+                "--server",
+                "https://demo.testbrain.cloud",
+                "--token",
+                "<TOKEN>",
+                "--project",
+                "<PROJECT>",
                 "--repo-dir",
                 tmppath,
                 "--repo-name",
@@ -112,4 +118,5 @@ class TestRepositoryGit:
                 "latest",
             ],
         )
+
         assert result.exit_code == 0

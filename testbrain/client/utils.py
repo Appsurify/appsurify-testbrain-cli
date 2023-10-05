@@ -1,21 +1,9 @@
+from testbrain.__version__ import __version__, __title__
 
 
-from testbrain.__version__ import __version__
-
-def default_user_agent(name="python-requests"):
-    """
-    Return a string representing the default user agent.
-
-    :rtype: str
-    """
+def default_user_agent(name: str = __title__) -> str:
     return f"{name}/{__version__}"
 
 
-def default_headers():
-    """
-    :rtype: requests.structures.CaseInsensitiveDict
-    """
-    return {
-            "User-Agent": default_user_agent(),
-            "Connection": "keep-alive",
-        }
+def default_headers() -> dict:
+    return {"User-Agent": default_user_agent(), "Connection": "keep-alive"}

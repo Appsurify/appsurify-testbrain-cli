@@ -8,15 +8,14 @@ from typing import (
     Sequence as Sequence,
     Tuple,
     Iterator,
+    Iterable,
     cast,
     Match,
     Union,
     Any,
     Optional,
-    Self,
     List,
     Callable,
-    LiteralString,
     TYPE_CHECKING,
     TypeVar,
     NewType,
@@ -42,7 +41,7 @@ else:
 
 T_Branch = TypeVar("T_Branch", bound=str)
 
-T_SHA = TypeVar('T_SHA', bound=Union[Literal['HEAD'], str])
+T_SHA = TypeVar('T_SHA', bound=str)
 
 T_File = TypeVar('T_File', bound=str)
 

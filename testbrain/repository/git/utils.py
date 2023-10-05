@@ -1,11 +1,11 @@
 import re
 import binascii
-from typing import Dict, LiteralString, Any
 
 from testbrain.repository.git.types import *
 from testbrain.repository.git.models import *
 from testbrain.repository.git.patterns import *
 from testbrain.repository.git.diff import *
+
 
 def parse_stats_from_text(text: str) -> "Stats":
     hsh = {

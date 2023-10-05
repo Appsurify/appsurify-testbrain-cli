@@ -1,4 +1,4 @@
-from testbrain.client.client import APIClient
+from testbrain.client.client import APIClient, TestbrainAPIClient
 
 
-__all__ = ["APIClient"]
+__all__ = ["APIClient", "TestbrainAPIClient"]

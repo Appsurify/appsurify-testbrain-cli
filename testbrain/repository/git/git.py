@@ -6,10 +6,7 @@ from testbrain.repository.git.utils import *
 
 
 class Git(object):
-    def __init__(
-        self, repo_dir: Optional[PathLike] = None,
-        repo_name: Optional[str] = None
-    ):
+    def __init__(self, repo_dir: Optional[PathLike] = None, repo_name: Optional[str] = None):
         repo_dir = repo_dir or pathlib.Path(".")
         self.repo_dir = pathlib.Path(repo_dir).resolve()
         self.cmd = GitCmd(repo_dir=self.repo_dir)
@@ -50,7 +47,7 @@ class Git(object):
         if branch is None:
             branch = self._get_current_branch()
 
-        result = self._get_commits(
+        self._get_commits(
             branch=branch, start=start, number=number, blame=blame
         )
         return 0

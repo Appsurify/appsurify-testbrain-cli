@@ -1,4 +1,4 @@
-from testbrain.repository import git
+from testbrain.repository import git, svn
 
 
-__all__ = ["git"]
+__all__ = ["git", "svn"]

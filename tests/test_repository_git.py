@@ -1,12 +1,17 @@
 import pytest
 from unittest.mock import MagicMock, patch
 
-
+from requests_mock.mocker import Mocker
+from urllib.parse import urljoin
+from testbrain.client import APIClient, TestbrainAPIClient
+from testbrain.client.auth import HTTPAPIAuth
+from testbrain.client.utils import default_user_agent
 from testbrain.repository.git.models import *
 from testbrain.repository.git.utils import *
 from testbrain.repository.git.types import *
 from testbrain.repository.git.cmd import *
 from testbrain.repository.git import Git
+from testbrain.repository.git.client import Git2TestbrainClient
 
 
 class TestRepositoryModel:
@@ -322,3 +327,33 @@ class TestRepositoryGit:
 
         assert len(commits) == 4
         assert isinstance(commits[0], Commit)
+
+
+class TestRepositoryClient:
+    def test_g2t_client(self, requests_mock):
+        requests_mock.get(
+            "https://demo.testbrain.cloud/api/ssh_v2/hook/fetch/",
+            json={"project_id": "1"},
+            status_code=200,
+        )
+        api_client = Git2TestbrainClient(
+            server="https://demo.testbrain.cloud", token="<TOKEN>"
+        )
+
+        api_response = api_client.get_project_id(name="test")
+        assert api_response == 1
+
+    def test_g2t_client(self, requests_mock):
+        with pytest.raises(Exception) as exc_info:
+            requests_mock.get(
+                "https://demo.testbrain.cloud/api/ssh_v2/hook/fetch/",
+                json={},
+                status_code=404,
+            )
+            api_client = Git2TestbrainClient(
+                server="https://demo.testbrain.cloud/", token="<TOKEN>"
+            )
+
+            api_response = api_client.get_project_id(name="test")
+            raise Exception("project_id")
+        assert exc_info.value.args[0] == "project_id"

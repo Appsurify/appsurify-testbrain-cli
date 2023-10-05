@@ -1,5 +1,7 @@
 import sys
 import socket
+from typing import Any
+
 from requests_toolbelt.adapters.socket_options import SocketOptionsAdapter
 
 
@@ -46,9 +48,9 @@ class TCPKeepAliveAdapter(SocketOptionsAdapter):
         elif platform == "darwin":
             # On OSX, TCP_KEEPALIVE from netinet/tcp.h is not exported
             # by python's socket module
-            TCP_KEEPALIVE = getattr(socket, "TCP_KEEPALIVE", 0x10)
+            tcp_keepalive = getattr(socket, "TCP_KEEPALIVE", 0x10)
             socket_options += [
-                (socket.IPPROTO_TCP, TCP_KEEPALIVE, idle),
+                (socket.IPPROTO_TCP, tcp_keepalive, idle),
                 (socket.SOL_TCP, socket.TCP_KEEPINTVL, interval),
                 (socket.SOL_TCP, socket.TCP_KEEPCNT, count),
             ]
