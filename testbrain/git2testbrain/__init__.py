@@ -1,4 +1,4 @@
-from testbrain.git2testbrain.git import GitRepository
+from testbrain.git2testbrain.controller import Git2TestBrainController
 
 
-__all__ = ["GitRepository"]
+__all__ = ["Git2TestBrainController"]

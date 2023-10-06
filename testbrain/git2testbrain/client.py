@@ -1,3 +1,7 @@
+from urllib.parse import urljoin
+from testbrain.client.client import TestbrainAPIClient
+
+
 class Git2TestbrainAPIClient(TestbrainAPIClient):
     def get_project_id(self, name: str) -> int:
         endpoint = "/api/ssh_v2/hook/fetch/"

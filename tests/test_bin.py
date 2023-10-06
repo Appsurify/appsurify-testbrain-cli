@@ -5,7 +5,6 @@ from typer.testing import CliRunner
 from testbrain.git2testbrain.models import *
 from testbrain.git2testbrain.utils import *
 from testbrain.git2testbrain.types import *
-from testbrain.git2testbrain import GitRepository
 from testbrain.bin.git2testbrain import app
 
 

@@ -31,10 +31,14 @@ class GitRepository(object):
         return branch_str
 
     def _get_commits(
-        self, branch: T_Branch, start: T_SHA, number: int, blame: Optional[bool] = False
+        self,
+        branch: T_Branch,
+        commit: T_SHA,
+        number: int,
+        blame: Optional[bool] = False,
     ) -> List[Commit]:
         log_result = self.cmd.execute_log(
-            branch=branch, start=start, number=number, blame=blame
+            branch=branch, commit=commit, number=number, blame=blame
         )
         # commits = parse_commits_from_text(log_result)
         commits = [commit for commit in parse_commits_from_text_iter(log_result)]
@@ -48,14 +52,14 @@ class GitRepository(object):
     def get_changes(
         self,
         branch: Union[T_Branch, None],
-        start: T_SHA,
+        commit: T_SHA,
         number: int,
         blame: Optional[bool] = False,
     ) -> Any:
         if branch is None:
             branch = self._get_current_branch()
 
-        self._get_commits(branch=branch, start=start, number=number, blame=blame)
+        self._get_commits(branch=branch, commit=commit, number=number, blame=blame)
         return 0
 
 
@@ -101,7 +105,7 @@ class GitCommand(object):
     def execute_log(
         self,
         branch: T_Branch,
-        start: T_SHA,
+        commit: T_SHA,
         number: int,
         reverse: Optional[bool] = True,
         numstat: Optional[bool] = True,
@@ -143,7 +147,7 @@ class GitCommand(object):
         cmd = (
             f"git log {' '.join(extra_params)} "
             f"--pretty=format:'{pretty_format}' "
-            f"{start}"
+            f"{commit}"
         )
         cmd_result = self._execute(command_line=cmd)
         return cmd_result

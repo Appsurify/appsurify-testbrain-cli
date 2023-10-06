@@ -2,7 +2,6 @@ from typing import Optional
 
 import abc
 import requests
-from urllib.parse import urljoin
 from testbrain.client.adapter import TCPKeepAliveAdapter
 from testbrain.client.auth import AuthBase, HTTPAPIAuth
 from testbrain.client.utils import default_headers

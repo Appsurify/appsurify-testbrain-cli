@@ -5,7 +5,7 @@ import typer
 import pathlib
 from typing import Optional, List
 from typing_extensions import Annotated
-from testbrain.apps.git2testbrain import Git2TestBrain
+from testbrain.git2testbrain import Git2TestBrainController
 
 
 CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"], show_default=True)
@@ -108,9 +108,18 @@ def push(
     # repository = GitRepository(repo_dir=repo_dir)
     # service = Git2TestbrainService(repository=repository, client=client)
     # git.send_hook(branch=branch, start=start, number=number, blame=blame)
-    app = Git2TestBrain()
-    result = app.capture_changes()
-    result = app.deliver_changes()
+
+    app = Git2TestBrainController(
+        server=server,
+        token=token,
+        project=project,
+        repo_dir=repo_dir,
+        repo_name=repo_name,
+    )
+    changes_result = app.capture_changes(
+        branch=branch, commit=start, number=number, blame=blame
+    )
+    delivery_result = app.deliver_changes()
     print("OK")
 
 

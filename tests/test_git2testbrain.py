@@ -5,7 +5,7 @@ from requests_mock.mocker import Mocker
 from urllib.parse import urljoin
 from testbrain.client.auth import HTTPAPIAuth
 from testbrain.client.utils import default_user_agent
-from testbrain.git2testbrain.git import *
+from testbrain.git2testbrain.repository import *
 from testbrain.git2testbrain.utils import *
 from testbrain.git2testbrain.models import *
 from testbrain.git2testbrain.types import *
@@ -199,7 +199,7 @@ class TestGit2TestBrainGitCommand:
 
         cmd = GitCommand()
         branch: T_Branch = "master"
-        commits_data = cmd.execute_log(branch=branch, start="HEAD", number=4)
+        commits_data = cmd.execute_log(branch=branch, commit="HEAD", number=4)
 
         assert len(commits_data) == 2899
 
@@ -332,7 +332,7 @@ class TestGit2TestbrainGitRepository:
 
         git = GitRepository()
         branch: T_Branch = "master"
-        commits = git._get_commits(branch=branch, start="HEAD", number=4)
+        commits = git._get_commits(branch=branch, commit="HEAD", number=4)
 
         assert len(commits) == 4
         assert isinstance(commits[0], Commit)
