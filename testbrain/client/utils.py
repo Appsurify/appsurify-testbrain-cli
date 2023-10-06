@@ -1,7 +1,7 @@
-from testbrain.__version__ import __version__, __title__
+from testbrain.__version__ import __version__
 
 
-def default_user_agent(name: str = __title__) -> str:
+def default_user_agent(name: str = "testbrain-cli") -> str:
     return f"{name}/{__version__}"
 
 

@@ -1,10 +1,4 @@
-from testbrain.client import TestbrainAPIClient
-from urllib.parse import urljoin
-
-
-class Git2TestbrainClient(TestbrainAPIClient):
-
-
+class Git2TestbrainAPIClient(TestbrainAPIClient):
     def get_project_id(self, name: str) -> int:
         endpoint = "/api/ssh_v2/hook/fetch/"
         params = {"project": name}
@@ -17,3 +11,7 @@ class Git2TestbrainClient(TestbrainAPIClient):
             project_id = int(project_id)
         return project_id
 
+    def post_hook(self, project_id: int, json: dict):
+        endpoint = f"/api/ssh_v2/hook/{project_id}/"
+        resp = self.post(url=urljoin(self.base_url, endpoint), json=json)
+        return resp

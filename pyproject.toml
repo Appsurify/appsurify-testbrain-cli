@@ -1,10 +1,10 @@
 [tool.poetry]
-name = "appsurify-testbrain-cli"
-version = "1.0.0"
-description = ""
+name = "testbrain-cli"
+version = "2023.9.6"
+description = "A package with a set of CI utilities for interacting with the Appsurify Testbrain system."
 authors = [
-    "Artem Demidenko <ar.demidenko@appsurify.com>",
     "James Farrier <jamesfarrier@appsurify.com>",
+    "Artem Demidenko <ar.demidenko@appsurify.com>",
 ]
 readme = "README.md"
 packages = [{include = "testbrain"}]
@@ -21,8 +21,7 @@ python = "^3.8"
 #typer = "^0.9.0"
 #rich = "^13.5.3"
 #click = "^8.0.0"
-#requests = "^2.31.0"
-#requests-toolbelt = "^1.0.0"
+requests = "^2.31.0"
 pytest = "^7.4.2"
 coverage = "^7.3.2"
 typer = {extras = ["all"], version = "^0.9.0"}
@@ -30,6 +29,9 @@ gitpython = "^3.1.37"
 pydantic = "^2.4.2"
 pytest-subprocess = "^1.5.0"
 requests-mock = "^1.11.0"
+bump2version = "^1.0.1"
+pytest-cov = "^4.1.0"
+requests-toolbelt = "^1.0.0"
 
 
 [build-system]

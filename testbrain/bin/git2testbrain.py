@@ -5,8 +5,7 @@ import typer
 import pathlib
 from typing import Optional, List
 from typing_extensions import Annotated
-from urllib.parse import urlparse
-from testbrain.repository.git import Git
+from testbrain.apps.git2testbrain import Git2TestBrain
 
 
 CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"], show_default=True)
@@ -54,7 +53,7 @@ def push(
         str,
         typer.Option(
             envvar="TESTBRAIN_REPO_NAME",
-            help="Define repository name. If not specified, it will be automatically taken from the Git repository.",
+            help="Define repository name. If not specified, it will be automatically taken from the GitRepository repository.",
         ),
     ] = None,
     repo_dir: Annotated[
@@ -100,12 +99,18 @@ def push(
     ] = False,
     minimize: Annotated[bool, typer.Option(is_flag=True)] = False,
     debug: Annotated[bool, typer.Option(is_flag=True)] = False,
-    verbose: Annotated[Optional[int], typer.Option("--verbose", "-v", show_choices=True, count=True, min=0, max=3)] = 0
+    verbose: Annotated[
+        Optional[int],
+        typer.Option("--verbose", "-v", show_choices=True, count=True, min=0, max=3),
+    ] = 0,
 ):
-    # for k, v in ctx.params.items():
-    #     print(f"\t{k.upper()}: {v}")
-    git = Git(repo_dir=repo_dir)
-    git.send_hook(branch=branch, start=start, number=number, blame=blame)
+    # client = Git2TestbrainAPIClient(server=server, token=token)
+    # repository = GitRepository(repo_dir=repo_dir)
+    # service = Git2TestbrainService(repository=repository, client=client)
+    # git.send_hook(branch=branch, start=start, number=number, blame=blame)
+    app = Git2TestBrain()
+    result = app.capture_changes()
+    result = app.deliver_changes()
     print("OK")
 
 

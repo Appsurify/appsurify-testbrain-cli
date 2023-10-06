@@ -1,6 +1,7 @@
 import datetime
+
 from pydantic import BaseModel
-from testbrain.repository.git.types import *
+from testbrain.git2testbrain.types import *
 
 
 class Branch(BaseModel):
@@ -11,30 +12,35 @@ class Person(BaseModel):
     name: str
     email: Optional[str] = ""
     date: Optional[datetime.datetime] = None
+    #
+    # @classmethod
+    # def parse_str(cls, string: str) -> "Person":
+    #     person_dict = parse_person_from_text(string)
+    #     return Person(**person_dict)
 
 
 class FileStatusEnum(str, Enum):
-    added = 'added'
-    deleted = 'deleted'
-    modified = 'modified'
-    copied = 'copied'
-    renamed = 'renamed'
-    removed = 'removed'
-    unknown = 'unknown'
+    added = "added"
+    deleted = "deleted"
+    modified = "modified"
+    copied = "copied"
+    renamed = "renamed"
+    removed = "removed"
+    unknown = "unknown"
 
 
 class CommitFile(BaseModel):
     filename: Union[T_File, PathLike]
-    sha: Optional[T_SHA] = ''
+    sha: Optional[T_SHA] = ""
     additions: int = 0
     insertions: int = 0
     deletions: int = 0
     changes: int = 0
     lines: int = 0
     status: Optional[FileStatusEnum] = FileStatusEnum.unknown
-    previous_filename: Optional[T_File] = ''
-    patch: Optional[T_Patch] = ''
-    blame: Optional[T_Blame] = ''
+    previous_filename: Optional[T_File] = ""
+    patch: Optional[T_Patch] = ""
+    blame: Optional[T_Blame] = ""
 
 
 class CommitStat(BaseModel):
@@ -59,7 +65,7 @@ class Commit(BaseModel):
     author: Optional[Person] = None
     committer: Optional[Person] = None
     message: Optional[str] = ""
-    parents: Optional[List['Commit']] = []
+    parents: Optional[List["Commit"]] = []
     stats: Optional[CommitStat] = CommitStat()
     files: Optional[List[CommitFile]] = []
 
@@ -69,7 +75,7 @@ class Events(BaseModel):
     ref: T_Branch
     base_ref: T_Branch
     size: int
-    ref_type: str = 'commit'
+    ref_type: str = "commit"
     before: Optional[Commit] = None
     after: Optional[Commit] = None
     head_commit: Optional[Commit] = None
