@@ -1,23 +1,32 @@
+import pathlib
+
 from testbrain.git2testbrain.repository import GitRepository
 from testbrain.git2testbrain.client import Git2TestbrainAPIClient
 from testbrain.git2testbrain.types import *
 
 
-class Git2TestBrainController(object):
+class Git2TestbrainController(object):
     client = None
     repository = None
 
     def __init__(
-        self, server: str, token: str, project: str, repo_dir: str, repo_name: str
+        self,
+        server: str,
+        token: str,
+        project: str,
+        repo_dir: Optional[PathLike] = None,
+        repo_name: Optional[str] = None,
     ):
-        self.project = project
-        self.server = server
-        self.token = token
-
-        self.client = Git2TestbrainAPIClient(server=server, token=token)
         self.repository = GitRepository(repo_dir=repo_dir, repo_name=repo_name)
+        self.client = Git2TestbrainAPIClient(server=server, token=token)
+        self.project = project
+        # self.project_id = self.get_project_id()
 
-    def capture_changes(
+    def get_project_id(self) -> int:
+        result = self.client.get_project_id(name=self.project)
+        return result
+
+    def get_repository_changes(
         self,
         branch: Union[T_Branch, None],
         commit: T_SHA,
@@ -26,5 +35,5 @@ class Git2TestBrainController(object):
     ):
         ...
 
-    def deliver_changes(self):
+    def deliver_repository_changes(self):
         ...

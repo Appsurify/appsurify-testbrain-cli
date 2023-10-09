@@ -3,6 +3,8 @@ from unittest.mock import MagicMock, patch
 
 from requests_mock.mocker import Mocker
 from urllib.parse import urljoin
+
+from testbrain.git2testbrain import Git2TestbrainController
 from testbrain.client.auth import HTTPAPIAuth
 from testbrain.client.utils import default_user_agent
 from testbrain.git2testbrain.repository import *
@@ -210,7 +212,7 @@ class TestGit2TestbrainGitRepository:
             "git config --get remote.origin.url",
             stdout=["../../GitRepository/demoRepo"],
         )
-        git = GitRepository(repo_name="demoRepo")
+        git = GitRepository(".", repo_name="demoRepo")
         repo_name = git.repo_name
         assert repo_name == "demoRepo"
 
@@ -245,8 +247,8 @@ class TestGit2TestbrainGitRepository:
             "git config --get remote.origin.url",
             stdout=["https://github.com/Appsurify/appsurify-testbrain-cli.git"],
         )
-        git = GitRepository()
-        current_branch = git._get_current_branch()
+        git = GitRepository(".")
+        current_branch = git.get_current_branch()
 
         assert current_branch == "master"
 
@@ -330,9 +332,9 @@ class TestGit2TestbrainGitRepository:
             ],
         )
 
-        git = GitRepository()
+        git = GitRepository(".")
         branch: T_Branch = "master"
-        commits = git._get_commits(branch=branch, commit="HEAD", number=4)
+        commits = git.get_commits(branch=branch, commit="HEAD", number=4)
 
         assert len(commits) == 4
         assert isinstance(commits[0], Commit)

@@ -28,6 +28,7 @@ if sys.version_info >= (3, 12):
         Protocol,
         SupportsIndex as SupportsIndex,
         runtime_checkable,
+        Annotated,
     )  # noqa: F401
 else:
     from typing_extensions import (
@@ -36,6 +37,7 @@ else:
         TypedDict,
         Protocol,
         runtime_checkable,
+        Annotated,
     )  # noqa: F401
 
 

@@ -8,17 +8,13 @@ from testbrain.git2testbrain.exceptions import *
 
 
 class GitRepository(object):
-    _commits = []
-
-    def __init__(
-        self, repo_dir: Optional[PathLike] = None, repo_name: Optional[str] = None
-    ):
+    def __init__(self, repo_dir: PathLike, repo_name: Optional[str] = None):
         repo_dir = repo_dir or pathlib.Path(".")
         self.repo_dir = pathlib.Path(repo_dir).resolve()
         self.cmd = GitCommand(repo_dir=self.repo_dir)
-        self.repo_name = repo_name or self._recognize_repo_name()
+        self.repo_name = repo_name or self.get_repo_name()
 
-    def _recognize_repo_name(self) -> str:
+    def get_repo_name(self) -> str:
         remote_url = self.cmd.execute_remote_url()
         remote_url = remote_url.replace(".git", "")
         if not remote_url:
@@ -26,41 +22,28 @@ class GitRepository(object):
         repo_name = remote_url.split("/")[-1]
         return repo_name
 
-    def _get_current_branch(self) -> T_Branch:
+    def get_current_branch(self) -> T_Branch:
         branch_str = self.cmd.execute_branches(show_current=True)
         return branch_str
 
-    def _get_commits(
-        self,
-        branch: T_Branch,
-        commit: T_SHA,
-        number: int,
-        blame: Optional[bool] = False,
-    ) -> List[Commit]:
-        log_result = self.cmd.execute_log(
-            branch=branch, commit=commit, number=number, blame=blame
-        )
-        # commits = parse_commits_from_text(log_result)
-        commits = [commit for commit in parse_commits_from_text_iter(log_result)]
-        self._commits = commits
-        return self._commits
-
-    @property
-    def commits(self) -> List[Commit]:
-        return self._commits
-
-    def get_changes(
+    def get_commits(
         self,
         branch: Union[T_Branch, None],
         commit: T_SHA,
         number: int,
         blame: Optional[bool] = False,
-    ) -> Any:
+    ) -> List[Commit]:
         if branch is None:
-            branch = self._get_current_branch()
+            branch = self.get_current_branch()
 
-        self._get_commits(branch=branch, commit=commit, number=number, blame=blame)
-        return 0
+        log_result = self.cmd.execute_log(
+            branch=branch, commit=commit, number=number, blame=blame
+        )
+        # commits = [commit
+        #            for commit in parse_commits_from_text_iter(log_result)]
+        # self._commits = commits
+        commits = parse_commits_from_text(log_result)
+        return commits
 
 
 class GitCommand(object):
