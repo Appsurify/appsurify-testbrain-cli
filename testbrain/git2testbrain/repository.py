@@ -1,10 +1,14 @@
 import pathlib
 import subprocess
+import logging
+from typing import List, Optional
+from testbrain.git2testbrain.exceptions import GitCommandException
+from testbrain.git2testbrain.models import Commit
+from testbrain.git2testbrain.types import T_SHA, PathLike, T_Branch
+from testbrain.git2testbrain.utils import parse_commits_from_text
 
-from testbrain.git2testbrain.models import *
-from testbrain.git2testbrain.types import *
-from testbrain.git2testbrain.utils import *
-from testbrain.git2testbrain.exceptions import *
+
+logger = logging.getLogger(__name__)
 
 
 class GitRepository(object):
@@ -13,6 +17,9 @@ class GitRepository(object):
         self.repo_dir = pathlib.Path(repo_dir).resolve()
         self.cmd = GitCommand(repo_dir=self.repo_dir)
         self.repo_name = repo_name or self.get_repo_name()
+        logger.debug(
+            f"Initialized repository for GIT: {self.repo_name}({self.repo_dir})"
+        )
 
     def get_repo_name(self) -> str:
         remote_url = self.cmd.execute_remote_url()
@@ -28,16 +35,23 @@ class GitRepository(object):
 
     def get_commits(
         self,
-        branch: Union[T_Branch, None],
+        branch: T_Branch,
         commit: T_SHA,
         number: int,
-        blame: Optional[bool] = False,
+        reverse: Optional[bool] = True,
+        numstat: Optional[bool] = True,
+        raw: Optional[bool] = True,
+        patch: Optional[bool] = True,
+        blame: Optional[bool] = True,
     ) -> List[Commit]:
-        if branch is None:
-            branch = self.get_current_branch()
-
         log_result = self.cmd.execute_log(
-            branch=branch, commit=commit, number=number, blame=blame
+            branch=branch,
+            commit=commit,
+            number=number,
+            reverse=reverse,
+            numstat=numstat,
+            raw=raw,
+            patch=patch,
         )
         # commits = [commit
         #            for commit in parse_commits_from_text_iter(log_result)]
@@ -73,7 +87,7 @@ class GitCommand(object):
         return out
 
     def execute_remote_url(self) -> str:
-        cmd = f"git config --get remote.origin.url"
+        cmd = "git config --get remote.origin.url"
         cmd_result = self._execute(command_line=cmd)
         return cmd_result
 
@@ -92,13 +106,10 @@ class GitCommand(object):
         number: int,
         reverse: Optional[bool] = True,
         numstat: Optional[bool] = True,
-        raw: Optional[bool] = False,
-        blame: Optional[bool] = False,
-        minimize: Optional[bool] = False,
+        raw: Optional[bool] = True,
+        patch: Optional[bool] = True,
     ) -> str:
         extra_params: list = [
-            "-p",
-            "-M",
             "--abbrev=40",
             "--first-parent",
             "--full-diff",
@@ -110,27 +121,32 @@ class GitCommand(object):
         if reverse:
             extra_params.append("--reverse")
 
-        if numstat:
-            extra_params.append("--numstat")
-
         if raw:
             extra_params.append("--raw")
 
+        if numstat:
+            extra_params.append("--numstat")
+
+        if patch:
+            extra_params.append("-p")
+
+        tab = "%x09"
         pretty_format = (
             "%n"
-            "COMMIT:\t%H%n"
-            "TREE:\t%T%n"
-            "DATE:\t%aI%n"
-            "AUTHOR:\t%an\t%ae\t%aI%n"
-            "COMMITTER:\t%cn\t%ce\t%cI%n"
-            "MESSAGE:\t%s%n"
-            "PARENTS:\t%P%n"
+            f"COMMIT:{tab}%H%n"
+            f"TREE:{tab}%T%n"
+            f"DATE:{tab}%aI%n"
+            f"AUTHOR:{tab}%an{tab}%ae{tab}%aI%n"
+            f"COMMITTER:{tab}%cn{tab}%ce{tab}%cI%n"
+            f"MESSAGE:{tab}%s%n"
+            f"PARENTS:{tab}%P%n"
         )
 
         cmd = (
-            f"git log {' '.join(extra_params)} "
-            f"--pretty=format:'{pretty_format}' "
+            f'git log {" ".join(extra_params)} '
+            f'--pretty=format:"{pretty_format}" '
             f"{commit}"
         )
+
         cmd_result = self._execute(command_line=cmd)
         return cmd_result

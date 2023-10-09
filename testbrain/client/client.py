@@ -1,12 +1,14 @@
-from typing import Optional, Union, List, Dict, Any, TypeVar
-
 import abc
+import logging
+from typing import Dict, List, Optional, TypeVar, Union
+
 import requests
 from requests.adapters import BaseAdapter
-from urllib3.util import Retry
 from testbrain.client.adapter import TCPKeepAliveAdapter
 from testbrain.client.auth import AuthBase, HTTPAPIAuth
-from testbrain.client.utils import default_headers
+from urllib3.util import Retry
+
+logger = logging.getLogger(__name__)
 
 
 T_TIMEOUT = TypeVar(
@@ -18,7 +20,7 @@ T_MAX_RETRIES = TypeVar("T_MAX_RETRIES", bound=Union[int, Retry])
 
 class APIClient(abc.ABC):
     default_adapter: BaseAdapter = TCPKeepAliveAdapter
-    default_headers: Dict[str, str] = default_headers()
+    default_headers: Dict[str, str] = {"Connection": "keep-alive"}
     default_timeout: T_TIMEOUT = (30.0, 120.0)
     default_max_retries: T_MAX_RETRIES = Retry(
         total=3,
@@ -28,8 +30,11 @@ class APIClient(abc.ABC):
         raise_on_status=False,
     )
 
+    default_user_agent: Optional[str] = None
+
     def __init__(self, *args, **kwargs):
-        ...
+        if self.default_user_agent is not None:
+            self.default_headers.update({"User-Agent": self.default_user_agent})
 
     def get_session(
         self,
@@ -57,7 +62,10 @@ class APIClient(abc.ABC):
         auth = kwargs.pop("auth", None)
         max_retries = kwargs.pop("max_retries", self.default_max_retries)
         session = self.get_session(max_retries=max_retries, auth=auth, **kwargs)
-        return session.request(method, url, headers=headers, timeout=timeout, **kwargs)
+        logger.debug(f"Requesting {method} {url} {session.headers}")
+        resp = session.request(method, url, headers=headers, timeout=timeout, **kwargs)
+        logger.debug(f"Response {resp.status_code} {resp.content}")
+        return resp
 
     def get(
         self, url: str, params: Optional[dict] = None, **kwargs

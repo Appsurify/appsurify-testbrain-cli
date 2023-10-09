@@ -37,8 +37,8 @@ include = ["CHANGELOG.md"]
 
 
 [tool.poetry.scripts]
-testbrain = "testbrain.__main__:app"
-git2testbrain = "testbrain.bin.git2testbrain:app"
+#testbrain = "testbrain.__main__:app"
+git2testbrain = "testbrain.bin.git2testbrain:cli"
 
 
 [tool.poetry.dependencies]
@@ -48,6 +48,7 @@ requests = "^2.31.0"
 requests-toolbelt = "^1.0.0"
 urllib3 = "<2.0.0"
 click = "^8.1.7"
+
 
 [tool.poetry.group.test.dependencies]
 pytest = "^7.4.2"
@@ -62,6 +63,10 @@ pytest-subprocess = "^1.5.0"
 requests-mock = "^1.11.0"
 pytest-cov = "^4.1.0"
 gitpython = "^3.1.37"
+#black = [{version = "^23.1.0", python = "^3.7"},{version = "^23.9.1", python = "^3.8"}]
+#flake8 = [{version = "5.0.4", python = "3.7"},{version = "^6.1.0", python = "^3.8.2"}]
+#flake8-pyproject = "^1.2.3"
+#isort = [{version = "5.11.5", python = "3.7"},{version = "^5.12.0", python = "^3.8"}]
 
 [build-system]
 requires = ["poetry-core"]
@@ -70,7 +75,16 @@ build-backend = "poetry.core.masonry.api"
 [tool.pytest.ini_options]
 pythonpath = "testbrain/"
 testpaths = "tests/"
-#python_classes = "test_*"
-#xfail_strict=true
-#addopts = "--strict-markers"
-#markers = ["sleepdeprived_patched_module", "masked_modules", "patched_environ", "patched_module", "flaky", "timeout"]
+
+[tool.black]
+line-length = 88
+target-version = ["py37", "py38", "py39", "py311"]
+
+[tool.isort]
+profile = "black"
+src_paths = ["isort", "test"]
+
+[tool.flake8]
+max-line-length = 88
+exclude = [".git", "__pycache__"]
+extend-ignore = ["E203", "W605", "F841"]

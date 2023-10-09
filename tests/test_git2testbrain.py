@@ -6,7 +6,6 @@ from urllib.parse import urljoin
 
 from testbrain.git2testbrain import Git2TestbrainController
 from testbrain.client.auth import HTTPAPIAuth
-from testbrain.client.utils import default_user_agent
 from testbrain.git2testbrain.repository import *
 from testbrain.git2testbrain.utils import *
 from testbrain.git2testbrain.models import *
@@ -125,10 +124,7 @@ class TestGit2TestBrainGitCommand:
 
     def test_git_command_execute_log(self, fp):
         fp.register(
-            "git log -p -M --abbrev=40 --first-parent --full-diff "
-            "--full-index -n 4 --remotes master --reverse --numstat "
-            "--pretty=format:'%nCOMMIT:\t%H%nTREE:\t%T%nDATE:\t%aI%nAUTHOR:\t%an\t%ae\t%aI%nCOMMITTER:\t%cn\t%ce\t%cI%nMESSAGE:\t%s%nPARENTS:\t%P%n' "
-            "HEAD",
+            'git log --abbrev=40 --first-parent --full-diff --full-index -n 4 --remotes main --reverse --numstat -p --pretty=format:"%nCOMMIT:%x09%H%nTREE:%x09%T%nDATE:%x09%aI%nAUTHOR:%x09%an%x09%ae%x09%aI%nCOMMITTER:%x09%cn%x09%ce%x09%cI%nMESSAGE:%x09%s%nPARENTS:%x09%P%n" HEAD',
             stdout=[
                 (
                     "COMMIT:\t5355a13f5ba44d23de9a3090ad976d63d1a60e3e\n"
@@ -200,8 +196,10 @@ class TestGit2TestBrainGitCommand:
         )
 
         cmd = GitCommand()
-        branch: T_Branch = "master"
-        commits_data = cmd.execute_log(branch=branch, commit="HEAD", number=4)
+        branch: T_Branch = "main"
+        commits_data = cmd.execute_log(
+            branch=branch, commit="HEAD", number=4, raw=False
+        )
 
         assert len(commits_data) == 2899
 
@@ -227,7 +225,8 @@ class TestGit2TestbrainGitRepository:
         assert repo_name == "demoRepo"
 
         fp.register(
-            "git config --get remote.origin.url", stdout=["C:/GitRepository/demo Repo"]
+            "git config --get remote.origin.url",
+            stdout=["C:/GitRepository/demo Repo"],
         )
         git = GitRepository("./GitRepository/demo Repo")
         repo_name = git.repo_name
@@ -258,10 +257,7 @@ class TestGit2TestbrainGitRepository:
             stdout=["https://github.com/Appsurify/appsurify-testbrain-cli.git"],
         )
         fp.register(
-            "git log -p -M --abbrev=40 --first-parent --full-diff "
-            "--full-index -n 4 --remotes master --reverse --numstat "
-            "--pretty=format:'%nCOMMIT:\t%H%nTREE:\t%T%nDATE:\t%aI%nAUTHOR:\t%an\t%ae\t%aI%nCOMMITTER:\t%cn\t%ce\t%cI%nMESSAGE:\t%s%nPARENTS:\t%P%n' "
-            "HEAD",
+            'git log --abbrev=40 --first-parent --full-diff --full-index -n 4 --remotes main --reverse --numstat -p --pretty=format:"%nCOMMIT:%x09%H%nTREE:%x09%T%nDATE:%x09%aI%nAUTHOR:%x09%an%x09%ae%x09%aI%nCOMMITTER:%x09%cn%x09%ce%x09%cI%nMESSAGE:%x09%s%nPARENTS:%x09%P%n" HEAD',
             stdout=[
                 (
                     "COMMIT:\t5355a13f5ba44d23de9a3090ad976d63d1a60e3e\n"
@@ -333,8 +329,8 @@ class TestGit2TestbrainGitRepository:
         )
 
         git = GitRepository(".")
-        branch: T_Branch = "master"
-        commits = git.get_commits(branch=branch, commit="HEAD", number=4)
+        branch: T_Branch = "main"
+        commits = git.get_commits(branch=branch, commit="HEAD", number=4, raw=False)
 
         assert len(commits) == 4
         assert isinstance(commits[0], Commit)

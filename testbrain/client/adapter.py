@@ -1,31 +1,19 @@
-import sys
 import socket
-from typing import Any
 
 from requests_toolbelt.adapters.socket_options import SocketOptionsAdapter
+from testbrain.core import platform
 
 
 class TCPKeepAliveAdapter(SocketOptionsAdapter):
-
-    def __init__(self, idle: int = 60, interval: int = 20,
-                 count: int = 5,**kwargs):
-
-        platform = sys.platform
-
-        # idle = kwargs.pop("idle", 60)
-        # interval = kwargs.pop("interval", 20)
-        # count = kwargs.pop("count", 5)
-
+    def __init__(self, idle: int = 60, interval: int = 20, count: int = 5, **kwargs):
         socket_options = kwargs.pop(
             "socket_options", SocketOptionsAdapter.default_options
         )
-        socket_options = socket_options + [
-            (socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
-        ]
+        socket_options = socket_options + [(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)]
 
         # TCP Keep Alive Probes for Linux
         if (
-            platform == "linux"
+            platform.IS_LINUX
             and hasattr(socket, "TCP_KEEPIDLE")
             and hasattr(socket, "TCP_KEEPINTVL")
             and hasattr(socket, "TCP_KEEPCNT")
@@ -37,7 +25,7 @@ class TCPKeepAliveAdapter(SocketOptionsAdapter):
             ]
 
         # TCP Keep Alive Probes for Windows OS
-        elif platform == "win32" and hasattr(socket, "TCP_KEEPIDLE"):
+        elif platform.IS_WINDOWS and hasattr(socket, "TCP_KEEPIDLE"):
             socket_options += [
                 (socket.SOL_TCP, socket.TCP_KEEPIDLE, idle),
                 (socket.SOL_TCP, socket.TCP_KEEPINTVL, interval),
@@ -45,7 +33,7 @@ class TCPKeepAliveAdapter(SocketOptionsAdapter):
             ]
 
         # TCP Keep Alive Probes for macOS
-        elif platform == "darwin":
+        elif platform.IS_MACOS:
             # On OSX, TCP_KEEPALIVE from netinet/tcp.h is not exported
             # by python's socket module
             tcp_keepalive = getattr(socket, "TCP_KEEPALIVE", 0x10)

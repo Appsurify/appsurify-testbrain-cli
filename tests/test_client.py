@@ -8,7 +8,6 @@ from urllib.parse import urljoin
 # from testbrain.client.client import APIClient, TestbrainAPIClient
 from testbrain.client import client
 from testbrain.client.auth import HTTPAPIAuth
-from testbrain.client.utils import default_user_agent
 
 
 class TestClient:
@@ -26,7 +25,9 @@ class TestClient:
 
     def test_client_session_configuration(self, requests_mock):
         requests_mock.get(
-            "http://demo.testbrain.cloud", status_code=200, json={"status": "ok"}
+            "http://demo.testbrain.cloud",
+            status_code=200,
+            json={"status": "ok"},
         )
         api_client = client.APIClient()
         api_response = api_client.get("http://demo.testbrain.cloud")
@@ -35,14 +36,16 @@ class TestClient:
 
     def test_header_ua(self, requests_mock):
         requests_mock.get(
-            "http://demo.testbrain.cloud", status_code=200, json={"status": "ok"}
+            "http://demo.testbrain.cloud",
+            status_code=200,
+            json={"status": "ok"},
         )
         api_client = client.APIClient()
         api_response = api_client.get("http://demo.testbrain.cloud")
         api_origin_req = api_response.request
-        assert api_origin_req.headers["User-Agent"] == default_user_agent()
+        assert api_origin_req.headers["User-Agent"] == "python-requests/2.31.0"
 
-        user_agent = default_user_agent("TestAgent/0")
+        user_agent = "python-requests/2.31.0"
         headers = {"User-Agent": user_agent}
         api_response = api_client.get("http://demo.testbrain.cloud", headers=headers)
         api_origin_req = api_response.request

@@ -1,7 +1,16 @@
 import datetime
+from enum import Enum
+from typing import Dict, List, Optional, Union
 
 from pydantic import BaseModel
-from testbrain.git2testbrain.types import *
+from testbrain.git2testbrain.types import (
+    T_SHA,
+    PathLike,
+    T_Blame,
+    T_Branch,
+    T_File,
+    T_Patch,
+)
 
 
 class Branch(BaseModel):
@@ -12,11 +21,6 @@ class Person(BaseModel):
     name: str
     email: Optional[str] = ""
     date: Optional[datetime.datetime] = None
-    #
-    # @classmethod
-    # def parse_str(cls, string: str) -> "Person":
-    #     person_dict = parse_person_from_text(string)
-    #     return Person(**person_dict)
 
 
 class FileStatusEnum(str, Enum):
@@ -70,14 +74,14 @@ class Commit(BaseModel):
     files: Optional[List[CommitFile]] = []
 
 
-class Events(BaseModel):
+class Payload(BaseModel):
     repo_name: str
     ref: T_Branch
     base_ref: T_Branch
     size: int
     ref_type: str = "commit"
-    before: Optional[Commit] = None
-    after: Optional[Commit] = None
+    before: Optional[T_SHA] = ""
+    after: Optional[T_SHA] = ""
     head_commit: Optional[Commit] = None
     commits: Optional[List[Commit]] = []
     file_tree: Optional[List[T_File]] = []

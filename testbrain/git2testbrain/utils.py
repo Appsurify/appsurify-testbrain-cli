@@ -1,22 +1,24 @@
-import re
 import binascii
+from typing import Dict, Iterator, List, Match, Optional, TypeVar, Union, cast
 
-# from testbrain.git2testbrain.models import (
-#     Person,
-#     Commit,
-#     CommitFile,
-#     CommitStat,
-#     Stats,
-#     FileStatusEnum,
-#     Diff,
-#     DiffIndex,
-# )
-from testbrain.git2testbrain.models import *
-from testbrain.git2testbrain.types import *
-from testbrain.git2testbrain.patterns import *
+from testbrain.git2testbrain.models import (
+    Commit,
+    CommitFile,
+    FileStatusEnum,
+    Person,
+    Stats,
+)
+from testbrain.git2testbrain.patterns import (
+    RE_COMMIT_DIFF,
+    RE_COMMIT_LIST,
+    RE_OCTAL_BYTE,
+)
+from testbrain.git2testbrain.types import T_SHA, Lit_change_type
+
+T_Diff = TypeVar("T_Diff", bound="Diff")
 
 
-def parse_stats_from_text(text: str) -> "Stats":
+def parse_stats_from_text(text: str) -> Stats:
     hsh = {
         "total": {
             "additions": 0,
@@ -77,30 +79,31 @@ def parse_stats_from_text(text: str) -> "Stats":
     return Stats(total=hsh["total"], files=hsh["files"])
 
 
-def parse_person_from_text(text: str) -> "Person":
+def parse_person_from_text(text: str) -> Person:
     name, email, date = text.split("\t")
     return Person(name=name, email=email, date=date)
 
 
-def parse_parent_from_text(text: Union[T_SHA, List[T_SHA]]) -> List["Commit"]:
+def parse_parent_from_text(text: Union[T_SHA, List[T_SHA]]) -> List[Commit]:
     if isinstance(text, str):
         return [Commit(sha=sha) for sha in text.split(" ")]
     return [Commit(sha=sha) for sha in text]
 
 
-def parse_commits_from_text(text: str) -> List["Commit"]:
+def parse_commits_from_text(text: str) -> List[Commit]:
     commits: List[Commit] = []
     for commit_match in RE_COMMIT_LIST.finditer(text):
-        commits.append(parse_single_commit(commit_match))
+        commit: Commit = parse_single_commit(commit_match)
+        commits.append(commit)
     return commits
 
 
-def parse_commits_from_text_iter(text: str) -> Iterator["Commit"]:
+def parse_commits_from_text_iter(text: str) -> Iterator[Commit]:
     for commit_match in RE_COMMIT_LIST.finditer(text):
         yield parse_single_commit(commit_match)
 
 
-def parse_single_commit(commit_match: Union[Match[str], dict]) -> "Commit":
+def parse_single_commit(commit_match: Union[Match[str], dict]) -> Commit:
     # stats = parse_stats_from_text(commit_dict['stats'])
     # patch = parse_diffs_from_patch(commit_dict['patch'] or '')
     if isinstance(commit_match, Match):
@@ -119,12 +122,18 @@ def parse_single_commit(commit_match: Union[Match[str], dict]) -> "Commit":
     )
 
     stats: Stats = Stats()
-    if commit_dict["stats"]:
-        stats = parse_stats_from_text(commit_dict["stats"])
+    if commit_dict["numstats"]:
+        stats = parse_stats_from_text(commit_dict["numstats"])
 
-    diffs: "DiffIndex" = DiffIndex()
+    raw_diffs: Optional[DiffIndex] = None
+    if commit_dict["raw"]:
+        raw_diffs = Diff.from_raw(commit_dict["raw"])
+
+    patch_diffs: Optional[DiffIndex] = None
     if commit_dict["patch"]:
-        diffs = Diff.from_patch(commit_dict["patch"])
+        patch_diffs = Diff.from_patch(commit_dict["patch"])
+
+    diffs = patch_diffs or raw_diffs
 
     commit_files = merge_files_and_diffs(files=stats.files, diffs=diffs)
     commit.files = commit_files
@@ -132,8 +141,12 @@ def parse_single_commit(commit_match: Union[Match[str], dict]) -> "Commit":
     return commit
 
 
-def merge_files_and_diffs(files: Dict[str, "CommitFile"], diffs: "DiffIndex"):
-    diffs_dict = diffs.as_dict()
+def merge_files_and_diffs(
+    files: Dict[str, CommitFile], diffs: Optional["DiffIndex"] = None
+):
+    diffs_dict = {}
+    if diffs is not None:
+        diffs_dict = diffs.as_dict()
 
     commit_files: List[CommitFile] = []
 
@@ -148,6 +161,7 @@ def merge_files_and_diffs(files: Dict[str, "CommitFile"], diffs: "DiffIndex"):
                 commit_file.status = FileStatusEnum.added
             elif file_diff.change_type == "D":
                 commit_file.status = FileStatusEnum.deleted
+                commit_file.sha = file_diff.NULL_HEX_SHA
             elif file_diff.change_type == "C":
                 commit_file.status = FileStatusEnum.copied
                 commit_file.previous_filename = file_diff.a_path
@@ -559,5 +573,95 @@ class Diff(object):
         return index
 
     @classmethod
+    def _index_from_raw_format(cls, text: str) -> DiffIndex:
+        """Create a new DiffIndex from the given stream which must be in raw format.
+        :return: git.DiffIndex"""
+        # handles
+        # :100644 100644 687099101... 37c5e30c8... M    .gitignore
+
+        index: "DiffIndex" = DiffIndex()
+
+        # Discard everything before the first colon, and the colon itself.
+        # _, _, lines = text.partition(":")
+        lines = text.splitlines()
+
+        for line in lines:
+            line = line.replace(":", "", 1)
+            if not line:
+                # The line data is empty, skip
+                continue
+            # Stage 1
+            info, _, path = line.partition("\t")
+            # Stage 2
+            meta, _, _ = info.partition("\x00")
+
+            path = path.rstrip("\x00")
+            a_blob_id: Optional[str]
+            b_blob_id: Optional[str]
+            old_mode, new_mode, a_blob_id, b_blob_id, _change_type = meta.split(None, 4)
+            # Change type can be R100
+            # R: status letter
+            # 100: score (in case of copy and rename)
+            # assert is_change_type(_change_type[0]), f"Unexpected value for change_type received: {_change_type[0]}"
+            change_type: Lit_change_type = cast(Lit_change_type, _change_type[0])
+            score_str = "".join(_change_type[1:])
+            score = int(score_str) if score_str.isdigit() else None
+            path = path.strip()
+            a_path = path
+            b_path = path
+            deleted_file = False
+            new_file = False
+            copied_file = False
+            rename_from = None
+            rename_to = None
+
+            # NOTE: We cannot conclude from the existence of a blob to change type
+            # as diffs with the working do not have blobs yet
+            if change_type == "D":
+                b_blob_id = None  # Optional[str]
+                deleted_file = True
+            elif change_type == "A":
+                a_blob_id = None
+                new_file = True
+            elif change_type == "C":
+                copied_file = True
+                a_path_str, b_path_str = path.split("\t", 1)
+                a_path = a_path_str
+                b_path = b_path_str
+            elif change_type == "R":
+                a_path_str, b_path_str = path.split("\t", 1)
+                a_path = a_path_str
+                b_path = b_path_str
+                rename_from, rename_to = a_path, b_path
+            elif change_type == "T":
+                # Nothing to do
+                pass
+            # END add/remove handling
+
+            diff = Diff(
+                a_path,
+                b_path,
+                a_blob_id,
+                b_blob_id,
+                old_mode,
+                new_mode,
+                new_file,
+                deleted_file,
+                copied_file,
+                rename_from,
+                rename_to,
+                "",
+                change_type,
+                score,
+            )
+            index.append(diff)
+
+        return index
+
+    @classmethod
     def from_patch(cls, text: str) -> DiffIndex:
         return cls._index_from_patch_format(text)
+
+    @classmethod
+    def from_raw(cls, text: str) -> DiffIndex:
+        return cls._index_from_raw_format(text)

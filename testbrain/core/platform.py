@@ -1,6 +1,5 @@
-import sys
 import platform as _platform
-
+import sys
 
 SYSTEM = _platform.system()
 IS_MACOS = SYSTEM == "Darwin"
