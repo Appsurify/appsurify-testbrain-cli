@@ -1,25 +1,20 @@
-from typing import Any
-
-import pytest
-import requests
-from requests_mock.mocker import Mocker
 from urllib.parse import urljoin
 
-# from testbrain.client.client import APIClient, TestbrainAPIClient
-from testbrain.client import client
-from testbrain.client.auth import HTTPAPIAuth
+# from testbrain.client.client import APIClient, TestbrainAPIv1Client
+from testbrain.core.api.client import APIClient, TestbrainAPIv1Client
+from testbrain.core.api.auth import HTTPAPIAuth
 
 
 class TestClient:
     def test_get_request(self, requests_mock):
         requests_mock.get("http://demo.testbrain.cloud", status_code=200)
-        api_client = client.APIClient()
+        api_client = APIClient()
         api_response = api_client.get("http://demo.testbrain.cloud")
         assert api_response.status_code == 200
 
     def test_post_request(self, requests_mock):
         requests_mock.post("http://demo.testbrain.cloud", status_code=201)
-        api_client = client.APIClient()
+        api_client = APIClient()
         api_response = api_client.post("http://demo.testbrain.cloud")
         assert api_response.status_code == 201
 
@@ -29,7 +24,7 @@ class TestClient:
             status_code=200,
             json={"status": "ok"},
         )
-        api_client = client.APIClient()
+        api_client = APIClient()
         api_response = api_client.get("http://demo.testbrain.cloud")
         api_origin_req = api_response.request
         assert api_origin_req
@@ -40,7 +35,7 @@ class TestClient:
             status_code=200,
             json={"status": "ok"},
         )
-        api_client = client.APIClient()
+        api_client = APIClient()
         api_response = api_client.get("http://demo.testbrain.cloud")
         api_origin_req = api_response.request
         assert api_origin_req.headers["User-Agent"] == "python-requests/2.31.0"
@@ -57,7 +52,7 @@ class TestClient:
             status_code=200,
             json={"status": "ok"},
         )
-        api_client = client.TestbrainAPIClient(
+        api_client = TestbrainAPIv1Client(
             server="demo.testbrain.cloud", token="<TOKEN>"
         )
         api_response = api_client.get("http://demo.testbrain.cloud/api/test")
@@ -77,7 +72,7 @@ class TestClient:
         )
 
         server = "http://demo.testbrain.cloud"
-        api_client = client.TestbrainAPIClient(server=server, token="<TOKEN>")
+        api_client = TestbrainAPIv1Client(server=server, token="<TOKEN>")
         api_response = api_client.get(urljoin(server, "/api/test"))
 
         assert api_response.url == "http://demo.testbrain.cloud/api/test"
@@ -89,7 +84,7 @@ class TestClient:
         )
 
         server = "http://demo.testbrain.cloud/"
-        api_client = client.TestbrainAPIClient(server=server, token="<TOKEN>")
+        api_client = TestbrainAPIv1Client(server=server, token="<TOKEN>")
         api_response = api_client.get(urljoin(server, "/api/test"))
 
         assert api_response.url == "http://demo.testbrain.cloud/api/test"
@@ -100,7 +95,7 @@ class TestClient:
     #         json={"project_id": "1"},
     #         status_code=200,
     #     )
-    #     api_client = Git2TestbrainAPIClient(
+    #     api_client = Git2TestbrainAPIv1Client(
     #         server="https://demo.testbrain.cloud", token="<TOKEN>"
     #     )
     #
@@ -114,7 +109,7 @@ class TestClient:
     #             json={},
     #             status_code=404,
     #         )
-    #         api_client = Git2TestbrainAPIClient(
+    #         api_client = Git2TestbrainAPIv1Client(
     #             server="https://demo.testbrain.cloud/", token="<TOKEN>"
     #         )
     #

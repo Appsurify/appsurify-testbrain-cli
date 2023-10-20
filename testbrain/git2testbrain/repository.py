@@ -1,12 +1,12 @@
+import logging
 import pathlib
 import subprocess
-import logging
 from typing import List, Optional
+
 from testbrain.git2testbrain.exceptions import GitCommandException
 from testbrain.git2testbrain.models import Commit
 from testbrain.git2testbrain.types import T_SHA, PathLike, T_Branch
 from testbrain.git2testbrain.utils import parse_commits_from_text
-
 
 logger = logging.getLogger(__name__)
 
@@ -30,7 +30,9 @@ class GitRepository(object):
         return repo_name
 
     def get_current_branch(self) -> T_Branch:
+        logger.debug("Get current active branch from repository")
         branch_str = self.cmd.execute_branches(show_current=True)
+        logger.debug(f"Current active branch '{branch_str}'")
         return branch_str
 
     def get_commits(
@@ -44,6 +46,7 @@ class GitRepository(object):
         patch: Optional[bool] = True,
         blame: Optional[bool] = True,
     ) -> List[Commit]:
+        logger.debug("Begin searching and processing commits")
         log_result = self.cmd.execute_log(
             branch=branch,
             commit=commit,
@@ -53,10 +56,23 @@ class GitRepository(object):
             raw=raw,
             patch=patch,
         )
-        # commits = [commit
-        #            for commit in parse_commits_from_text_iter(log_result)]
-        # self._commits = commits
         commits = parse_commits_from_text(log_result)
+        for commit in commits:
+            parent_commits = commit.parents.copy()
+            commit.parents = []
+            for parent in parent_commits:
+                parent_log_result = self.cmd.execute_log(
+                    branch=branch,
+                    commit=parent.sha,
+                    number=1,
+                    numstat=False,
+                    raw=False,
+                    patch=False,
+                )
+                parent_commit = parse_commits_from_text(parent_log_result)
+                commit.parents.extend(parent_commit)
+
+        logger.info(f"Finished searching and processing {len(commits)} commits")
         return commits
 
 
@@ -66,6 +82,7 @@ class GitCommand(object):
         self.repo_dir = pathlib.Path(repo_dir).resolve()
 
     def _execute(self, command_line: str) -> str:
+        logger.debug(f"Executing GIT command: {command_line}")
         process = subprocess.Popen(
             command_line,
             stdout=subprocess.PIPE,
@@ -76,13 +93,17 @@ class GitCommand(object):
 
         out = process.stdout.read()
         out = out.strip().decode("UTF-8", errors="ignore")
+        # logger.debug(f"Executing result (out) GIT command:\n{out}")
 
         error = process.stderr.read()
         error = error.strip().decode("UTF-8", errors="ignore")
+        # logger.debug(f"Executing result (error) GIT command:\n{error}")
 
         if error:
+            logger.error(f"Error executing: {command_line}")
             process.kill()
-            raise GitCommandException(cmd=command_line, error=error, out=out)
+            exc = GitCommandException(cmd=command_line, error=error, out=out)
+            raise exc
 
         return out
 
@@ -109,6 +130,16 @@ class GitCommand(object):
         raw: Optional[bool] = True,
         patch: Optional[bool] = True,
     ) -> str:
+        logger.debug(
+            f"Executing 'git log' with params: "
+            f"branch='{branch}' "
+            f"commit='{commit}' "
+            f"number='{number}' "
+            f"reverse='{reverse}' "
+            f"numstat='{numstat}' "
+            f"raw='{raw}' "
+            f"patch='{patch}' "
+        )
         extra_params: list = [
             "--abbrev=40",
             "--first-parent",
@@ -147,6 +178,9 @@ class GitCommand(object):
             f'--pretty=format:"{pretty_format}" '
             f"{commit}"
         )
-
         cmd_result = self._execute(command_line=cmd)
+        logger.debug(
+            f"Executing 'git log' result data size "
+            f"- {len(cmd_result.encode('utf-8', errors='ignore'))} bytes"
+        )
         return cmd_result

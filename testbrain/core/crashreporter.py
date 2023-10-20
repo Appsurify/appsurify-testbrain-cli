@@ -1,14 +1,13 @@
 import io
 import os
-import platform
 import pathlib
+import platform
 import pprint
 import sys
 import time
 import traceback
 from types import FrameType, TracebackType
 from typing import Any, Callable, Dict, Optional, Set, TextIO, Type, Union
-
 
 __all__ = ["dump_report_to_file", "dump_report", "format_report", "inject_excepthook"]
 
@@ -254,7 +253,7 @@ def dump_report_to_file(
         f"ARGV: '{argv}'\n"
         f"DATE: {time.strftime('%Y-%m-%dT%H:%M:%S%z')} "
         f"({time.strftime('%F %H:%M:%S %Z')})\n"
-        f"OS: {platform.system()} / {platform.platform()}\n"
+        f"OS: {platform.version()}\n"
         f"PYTHON: {python_version}\n"
     )
 
@@ -342,7 +341,7 @@ def dump_report(
     try:
         pathlib.Path(".crashdumps").mkdir(parents=True, exist_ok=True)
         report_dir = pathlib.Path(".crashdumps").resolve()
-    except:
+    except Exception:
         report_dir = pathlib.Path(".").resolve()
 
     filename = f"{_get_main_name()}-{time.strftime('%Y-%m-%d-%H-%M-%S')}.dump"

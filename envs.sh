@@ -16,3 +16,8 @@ poetry run pytest
 
 
 # --server https://demo.appsurify.com --token MTU6ZW9FZUxhcXpMZU9CdGZZVmZ4U3BFM3g5MmhVcDl5ZmQzampUWEM1SWRfNA --project 00TESTMULTI --repo-dir /Users/whenessel/Development/Git/demoRepo --branch main --start latest --number 4
+
+poetry run isort testbrain --profile black --check-only
+poetry run isort testbrain --profile black
+poetry run black testbrain --check
+poetry run flake8 testbrain

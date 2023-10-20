@@ -1,11 +1,10 @@
 import logging
-from typing import Optional, Union, Dict, Any
-from testbrain.core import TestbrainContext
+from typing import Optional, Union
+
 from testbrain.git2testbrain.client import Git2TestbrainAPIClient
+from testbrain.git2testbrain.models import Payload
 from testbrain.git2testbrain.repository import GitRepository
 from testbrain.git2testbrain.types import T_SHA, PathLike, T_Branch
-from testbrain.git2testbrain.models import Payload
-
 
 logger = logging.getLogger(__name__)
 
@@ -22,19 +21,28 @@ class Git2TestbrainController(object):
         repo_dir: Optional[PathLike] = None,
         repo_name: Optional[str] = None,
     ):
-        logger.debug("Initializing components: client and repository")
+        logger.debug("Initializing components - 'client' and 'repository'")
 
         self.repository = GitRepository(repo_dir=repo_dir, repo_name=repo_name)
         self.client = Git2TestbrainAPIClient(server=server, token=token)
 
         self.project = project
         # logger.warning("Git2TestbrainController Project_ID not converted...")
-        self.project_id = self.get_project_id()
 
     def get_project_id(self) -> int:
-        project_id = self.client.get_project_id(name=self.project)
-        if project_id is None:
-            logger.error(f"Can't continue without project id")
+        response = self.client.get_project_id(name=self.project)
+
+        if not response:
+            raise Exception("can not get project_ID")
+
+        json_data = response.json()
+        project_id = json_data.get("project_id")
+        if isinstance(project_id, str):
+            project_id = int(project_id)
+        # return project_id
+        # if project_id is None:
+        #     logger.error(f"Can't continue without project ID")
+        logger.info(f"Convert project name to id '{self.project}' -> '{project_id}'")
         return project_id
 
     def get_payload(
@@ -47,11 +55,13 @@ class Git2TestbrainController(object):
         raw: Optional[bool] = True,
         patch: Optional[bool] = True,
         blame: Optional[bool] = False,
+        file_tree: Optional[bool] = False,
     ) -> Payload:
         if branch is None:
             branch = self.repository.get_current_branch()
             logger.debug(f"branch is None. Use current active branch: {branch}")
 
+        logger.info("Looking at the changes in the repository")
         commits = self.repository.get_commits(
             branch=branch,
             commit=commit,
@@ -83,7 +93,23 @@ class Git2TestbrainController(object):
             file_tree=file_tree,
             commits=commits,
         )
+        logger.debug(f"Delivery payload: {payload.model_dump_json()}")
         return payload
 
-    def deliver_repository_changes(self, payload, timeout, max_retries):
-        ...
+    def deliver_repository_changes(
+        self,
+        payload: Payload,
+        timeout: Optional[int] = None,
+        max_retries: Optional[int] = None,
+    ):
+        project_id = self.get_project_id()
+
+        payload_json = payload.model_dump_json()
+
+        result = self.client.deliver_hook_payload(
+            project_id=project_id,
+            data=payload_json,
+            timeout=timeout,
+            max_retries=max_retries,
+        )
+        return result

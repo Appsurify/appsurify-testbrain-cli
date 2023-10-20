@@ -14,7 +14,10 @@ class TestGit2TestbrainBin:
         runner = CliRunner()
         result = runner.invoke(git2testbrain, ["--help"])
         assert result.exit_code == 0
-        assert "-h, --help          Show this message and exit." in result.output
+        assert (
+            "  -h, --help                      Show this message and exit."
+            in result.output
+        )
 
 
 #     def test_send_hook_simple(self, fp, tmp_path):

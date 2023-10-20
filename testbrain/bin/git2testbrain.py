@@ -1,27 +1,29 @@
-import os
-import sys
-import pathlib
 import logging
+import os
+import pathlib
+
 import click
-from testbrain.core import TestbrainContext, TestbrainCommand
-from testbrain.git2testbrain import TB_ART_LINES_STYLED
+from testbrain.core.command import TestbrainCommand
+from testbrain.core.context import TestbrainContext
 from testbrain.git2testbrain.controller import Git2TestbrainController
+from testbrain import VERSION, RUNTIME
+from testbrain.git2testbrain import TB_ART_LINES_STYLED
 
-
+# logger = logging.getLogger("testbrain.bin.git2testbrain")
 logger = logging.getLogger(__name__)
 
 
 def print_version(ctx, param, value):
     if not value or ctx.resilient_parsing:
         return
-    # TODO: MAKE BANNER LIKE CELERY
-    VERSION_BANNER = f"Version: 23021302032103021"
-    click.echo(VERSION_BANNER)
-    ctx.exit(0)
+    click.echo(TB_ART_LINES_STYLED)
+    click.echo(VERSION)
+    click.echo(RUNTIME)
+    # ctx.exit(0)
 
 
 def work_dir_callback(ctx, param, value):
-    logger.debug(f"set workdir to {value}")
+    logger.debug(f"Set workdir to {value}")
     os.chdir(value)
     return value
 
@@ -81,7 +83,7 @@ def work_dir_callback(ctx, param, value):
     "--repo-dir",
     metavar="<dir>",
     type=click.Path(dir_okay=True, resolve_path=True),
-    default=pathlib.Path("."),
+    default=pathlib.Path("../git2testbrain"),
     show_default=True,
     envvar="TESTBRAIN_REPO_DIR",
     show_envvar=True,
@@ -160,7 +162,6 @@ def cli(
     **kwargs,
 ):
     ctx.work_dir = work_dir
-
     logger.debug(
         f"Exec with params: "
         f"server='{server}' "
@@ -185,7 +186,7 @@ def cli(
     if commit == "latest":
         commit = "HEAD"
 
-    logger.debug(f"Initializing git2testbrain controller.")
+    logger.debug("Initializing git2testbrain controller")
     git2testbrain_controller = Git2TestbrainController(
         server=server,
         token=token,
@@ -194,20 +195,22 @@ def cli(
         repo_name=repo_name,
     )
 
-    logger.debug(f"Get GIT repository changes.")
+    logger.info("Preparing delivery payload")
     delivery_payload = git2testbrain_controller.get_payload(
         branch=branch, commit=commit, number=number, blame=blame
     )
+    logger.info("Prepared delivery payload")
 
-    logger.debug(f"Send GIT repository changes to server.")
-    # print(delivery_payload.model_dump_json(indent=4))
-    # delivery_status = git2testbrain_controller.deliver_repository_changes(
-    #     timeout=120, max_tries=3
-    # )
-    # a = 1 / 0
+    logger.info("Delivering payload to server")
+    delivery_status = git2testbrain_controller.deliver_repository_changes(
+        payload=delivery_payload, timeout=120, max_retries=3
+    )
+    logger.info("Delivered payload to server")
+
     logger.info("Done")
-    logger.debug(f"Shutdown...")
+    logger.debug("Shutdown...")
 
 
 if __name__ == "__main__":
+    logger.name = "testbrain.bin.git2testbrain"
     cli()

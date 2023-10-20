@@ -4,9 +4,11 @@ from typing import Dict, List, Optional, TypeVar, Union
 
 import requests
 from requests.adapters import BaseAdapter
-from testbrain.client.adapter import TCPKeepAliveAdapter
-from testbrain.client.auth import AuthBase, HTTPAPIAuth
+from testbrain.core.api.adapter import TCPKeepAliveAdapter
+from testbrain.core.api.auth import AuthBase, HTTPAPIAuth
 from urllib3.util import Retry
+from testbrain import __version__, __build__, __name__
+from testbrain.core import platform
 
 logger = logging.getLogger(__name__)
 
@@ -30,11 +32,25 @@ class APIClient(abc.ABC):
         raise_on_status=False,
     )
 
-    default_user_agent: Optional[str] = None
+    @property
+    @abc.abstractmethod
+    def name(self) -> str:
+        ...
 
     def __init__(self, *args, **kwargs):
-        if self.default_user_agent is not None:
-            self.default_headers.update({"User-Agent": self.default_user_agent})
+        ...
+
+    def get_user_agent(self) -> str:
+        client_name = self.name or self.__class__.__name__
+        app_name = __name__
+        app_version = __version__
+        app_build = __build__
+        ua = (
+            f"{client_name}/{app_version} ({platform.SYSTEM}/{platform.RELEASE}; "
+            f"{platform.PY_IMPLEMENTATION}/{platform.PY_VERSION}; {platform.MACHINE}) "
+            f"Build/{app_build} (included: {app_name}/{app_version})"
+        )
+        return ua
 
     def get_session(
         self,
@@ -52,20 +68,28 @@ class APIClient(abc.ABC):
             idle=60, interval=20, count=5, max_retries=max_retries
         )
 
-        session.mount("http://", adapter)
+        session.mount("api://", adapter)
         session.mount("https://", adapter)
+
+        session.headers["user-agent"] = self.get_user_agent()
         return session
 
     def request(self, method: str, url: str, **kwargs) -> requests.Response:
         headers = kwargs.pop("headers", self.default_headers)
-        timeout = kwargs.pop("timeout", self.default_timeout)
+        headers["user-agent"] = self.get_user_agent()
+
         auth = kwargs.pop("auth", None)
+        timeout = kwargs.pop("timeout", self.default_timeout)
         max_retries = kwargs.pop("max_retries", self.default_max_retries)
+
         session = self.get_session(max_retries=max_retries, auth=auth, **kwargs)
+
         logger.debug(f"Requesting {method} {url} {session.headers}")
-        resp = session.request(method, url, headers=headers, timeout=timeout, **kwargs)
-        logger.debug(f"Response {resp.status_code} {resp.content}")
-        return resp
+        response = session.request(
+            method, url, headers=headers, timeout=timeout, **kwargs
+        )
+        logger.debug(f"Response {response.status_code} {response.content}")
+        return response
 
     def get(
         self, url: str, params: Optional[dict] = None, **kwargs
@@ -78,16 +102,3 @@ class APIClient(abc.ABC):
     ) -> requests.Response:
         req = self.request("post", url, data=data, **kwargs)
         return req
-
-
-class TestbrainAPIClient(APIClient):
-    def __init__(self, server: str, token: str, **kwargs):
-        self.base_url = server
-        self.token = token
-        self.auth = HTTPAPIAuth(token=token)
-        super(TestbrainAPIClient, self).__init__(**kwargs)
-
-    def request(self, method: str, url: str, **kwargs) -> requests.Response:
-        return super(TestbrainAPIClient, self).request(
-            method, url, auth=self.auth, **kwargs
-        )
