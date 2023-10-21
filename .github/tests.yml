@@ -1,20 +1,17 @@
-name: Tests on Push
+name: Test
 
 on:
   push:
     branches:
       - main
       - development
-  pull_request:
-    branches:
-      - main
 
 concurrency:
-  group: Tests on ${{ github.head_ref || github.ref }}
+  group: PyTest on ${{ github.head_ref || github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
-  tests:
+  pytests:
     strategy:
       fail-fast: false
       matrix:
@@ -29,7 +26,7 @@ jobs:
           - os: macOS
             image: macos-12
     runs-on: ${{ matrix.image }}
-    name: Tests on ${{ matrix.os }} / ${{ matrix.python-version }}
+    name: PyTest on ${{ matrix.os }} / ${{ matrix.python-version }}
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python ${{ matrix.python-version }}

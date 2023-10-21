@@ -1,20 +1,16 @@
-name: QA on Push
+name: QA & Tests on Pull request
 
 on:
-  push:
-    branches:
-      - main
-      - development
   pull_request:
     branches:
       - main
 
 concurrency:
-  group: QA on ${{ github.head_ref || github.ref }}
+  group: ${{ github.head_ref || github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
-  checks:
+  code-style-checks:
     strategy:
       fail-fast: false
       matrix:
@@ -44,8 +40,9 @@ jobs:
         run: poetry run isort ./testbrain/ --check-only --profile black
       - name: Run flake8
         run: poetry run flake8 ./testbrain/
-  qodana:
+  qodana-analyze:
     runs-on: ubuntu-latest
+    name: Qodana Analyze Report
     permissions:
       contents: write
       pull-requests: write
