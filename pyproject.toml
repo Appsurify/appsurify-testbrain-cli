@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "appsurify-testbrain-cli"
-version = "2023.9.21"
+version = "2023.9.11"
 description = "Command Line Interface for Appsurify Testbrain."
 license = "MIT"
 authors = [
@@ -30,8 +30,7 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules"
 ]
 packages = [
-    {include = "testbrain"},
-
+    {include = "testbrain", from = "src"},
 ]
 include = ["CHANGELOG.md"]
 
@@ -58,11 +57,7 @@ pytest-cov = "^4.1.0"
 
 [tool.poetry.group.dev.dependencies]
 bump2version = "^1.0.1"
-pytest = "^7.4.2"
-pytest-subprocess = "^1.5.0"
-requests-mock = "^1.11.0"
-pytest-cov = "^4.1.0"
-gitpython = "^3.1.37"
+ruff = "^0.1.1"
 black = [{version = "^23.1.0", python = "^3.7"},{version = "^23.9.1", python = "^3.8"}]
 flake8 = [{version = "5.0.4", python = "3.7"},{version = "^6.1.0", python = "^3.8.2"}]
 flake8-pyproject = "^1.2.3"
@@ -88,3 +83,11 @@ src_paths = ["isort", "test"]
 max-line-length = 88
 exclude = [".git", "__pycache__"]
 extend-ignore = ["E203", "W605", "F841"]  # "F541",
+
+[tool.ruff]
+line-length = 88
+select = [
+    "F401",
+    "F403",
+]
+
