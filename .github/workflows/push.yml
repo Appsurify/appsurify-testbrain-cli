@@ -1,4 +1,4 @@
-name: Code verification on Push
+name: Code checks on Push
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   code-style-checks:
-    name: Python
+    name: Python / ${{ matrix.python-version }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -34,7 +34,7 @@ jobs:
       - name: Run flake8
         run: poetry run flake8 ./testbrain/
   qodana-analyze:
-    name: Qodana Analyze Report
+    name: Qodana Analyze
     runs-on: ubuntu-latest
     permissions:
       contents: write
