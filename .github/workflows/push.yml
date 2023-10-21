@@ -1,4 +1,4 @@
-name: QA on Push
+name: Code verification on Push
 
 on:
   push:
