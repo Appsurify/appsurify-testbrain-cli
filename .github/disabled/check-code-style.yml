@@ -1,0 +1,50 @@
+name: Check code style
+
+on:
+  push:
+
+jobs:
+  code-style-checks:
+    name: Python / ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
+        poetry-version: ["1.5.1"]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Set up Poetry ${{ matrix.poetry-version }}
+        uses: abatilo/actions-poetry@v2
+        with:
+          poetry-version: ${{ matrix.poetry-version }}
+      - name: Install dependencies
+        run: poetry install poetry --with dev
+      - name: Run black
+        run: poetry run black ./testbrain/ --check
+      - name: Run isort
+        run: poetry run isort ./testbrain/ --check-only --profile black
+      - name: Run flake8
+        run: poetry run flake8 ./testbrain/
+  qodana-analyze:
+    name: Qodana Analyze
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      checks: write
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - name: Qodana Scan
+        uses: JetBrains/qodana-action@v2023.2
+        with:
+          args: --baseline,qodana.sarif.json
+        env:
+          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
