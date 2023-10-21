@@ -1,9 +1,7 @@
-name: Quality Assurance on Pull request
+name: QA
 
 on:
   pull_request:
-    branches:
-      - main
 
 jobs:
   qodana-analyze:
@@ -25,7 +23,7 @@ jobs:
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
   code-style-checks:
-    name: Python / ${{ matrix.python-version }}
+    name: Check Python / ${{ matrix.python-version }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -43,7 +41,7 @@ jobs:
         with:
           poetry-version: ${{ matrix.poetry-version }}
       - name: Install dependencies
-        run: poetry install
+        run: poetry install --with dev
       - name: Run black
         run: poetry run black ./testbrain/ --check
       - name: Run isort
@@ -77,7 +75,7 @@ jobs:
         with:
           poetry-version: ${{ matrix.poetry-version }}
       - name: Install dependencies
-        run: poetry install
+        run: poetry install poetry --with test
       - name: Get full Python version
         id: full-python-version
         run: echo version=$(python -c "import sys; print('-'.join(str(v) for v in sys.version_info))") >> $GITHUB_OUTPUT
