@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "appsurify-testbrain-cli"
-version = "2023.9.22"
+version = "2023.9.20"
 description = "Command Line Interface for Appsurify Testbrain."
 license = "MIT"
 authors = [

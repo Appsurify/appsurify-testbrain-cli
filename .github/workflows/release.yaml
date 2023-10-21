@@ -1,7 +1,9 @@
-name: Release
+name: Build and Publish on Release
 
 on:
   push:
+    branches:
+      - main
     tags:
       - '*.*.*'
 
