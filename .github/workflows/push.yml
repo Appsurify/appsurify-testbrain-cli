@@ -8,7 +8,7 @@ on:
 
 jobs:
   code-style-checks:
-    name: Python / ${{ matrix.python-version }}
+    name: Python
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -36,7 +36,6 @@ jobs:
   qodana-analyze:
     name: Qodana Analyze Report
     runs-on: ubuntu-latest
-    needs: [code-style-checks]
     permissions:
       contents: write
       pull-requests: write
