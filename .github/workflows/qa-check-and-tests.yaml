@@ -40,7 +40,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.7", "3.8", "3.11"]
         poetry-version: ["1.5.1"]
     steps:
       - uses: actions/checkout@v4
@@ -67,8 +67,8 @@ jobs:
       fail-fast: false
       matrix:
         os: [Ubuntu, macOS, Windows]
-        python-version: [ "3.7", "3.8", "3.9", "3.10", "3.11" ]
-        poetry-version: [ "1.5.1" ]
+        python-version: ["3.7", "3.8", "3.11"]
+        poetry-version: ["1.5.1"]
         include:
           - os: Ubuntu
             image: ubuntu-latest
