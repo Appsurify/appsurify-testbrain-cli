@@ -6,13 +6,9 @@ on:
       - main
       - development
 
-concurrency:
-  group: Check code on ${{ github.head_ref || github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
-
 jobs:
   code-style-checks:
-    name: Check code on Python / ${{ matrix.python-version }}
+    name: Python / ${{ matrix.python-version }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
