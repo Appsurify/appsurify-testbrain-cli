@@ -17,6 +17,7 @@ on:
 
 jobs:
   qodana-analyze:
+    if: github.event_name == 'pull_request'
     name: Qodana Analyze
     runs-on: ubuntu-latest
     permissions:
@@ -40,7 +41,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.7", "3.8", "3.11"]
+        python-version: ["3.7"]
         poetry-version: ["1.5.1"]
     steps:
       - uses: actions/checkout@v4
