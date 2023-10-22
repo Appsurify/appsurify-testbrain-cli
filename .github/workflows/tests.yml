@@ -44,18 +44,6 @@ jobs:
     name: "Add comment to PR"
     runs-on: ubuntu-latest
     needs: [run-pytests]
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ Ubuntu, macOS, Windows ]
-        python-version: ["3.7", "3.8", "3.11"]
-        include:
-          - os: Ubuntu
-            image: ubuntu-latest
-          - os: Windows
-            image: windows-latest
-          - os: macOS
-            image: macos-latest
     steps:
       - name: "Checkout Repository"
         uses: actions/checkout@v3
@@ -64,13 +52,29 @@ jobs:
         with:
           name: reports
           path: ./reports/
-      - name: Pytest coverage comment
+      - name: Pytest coverage report
         uses: MishaKav/pytest-coverage-comment@main
         with:
-          pytest-xml-coverage-path: ./reports/coverage-pytest-${{ matrix.os }}-PY${{ matrix.python-version }}.xml
-          junitxml-path: ./reports/junit-pytest-${{ matrix.os }}-PY${{ matrix.python-version }}.xml
-          unique-id-for-comment: ${{ matrix.os }}-${{ matrix.python-version }}
+          title: Coverage Report
+          junitxml-title: PyTest Summary Title
           create-new-comment: false
+          multiple-files: |
+            Ubuntu-PY3.7, ./reports/coverage-pytest-Ubuntu-PY3.7.xml, ./reports/junit-pytest-Ubuntu-PY3.7.xml
+            Ubuntu-PY3.8, ./reports/coverage-pytest-Ubuntu-PY3.8.xml, ./reports/junit-pytest-Ubuntu-PY3.8.xml
+            Ubuntu-PY3.11, ./reports/coverage-pytest-Ubuntu-PY3.11.xml, ./reports/junit-pytest-Ubuntu-PY3.11.xml
+            macOS-PY3.7, ./reports/coverage-pytest-macOS-PY3.7.xml, ./reports/junit-pytest-macOS-PY3.7.xml
+            macOS-PY3.8, ./reports/coverage-pytest-macOS-PY3.8.xml, ./reports/junit-pytest-macOS-PY3.8.xml
+            macOS-PY3.11, ./reports/coverage-pytest-macOS-PY3.11.xml, ./reports/junit-pytest-macOS-PY3.11.xml
+            Windows-PY3.7, ./reports/coverage-pytest-Windows-PY3.7.xml, ./reports/junit-pytest-Windows-PY3.7.xml
+            Windows-PY3.8, ./reports/coverage-pytest-Windows-PY3.8.xml, ./reports/junit-pytest-Windows-PY3.8.xml
+            Windows-PY3.11, ./reports/coverage-pytest-Windows-PY3.11.xml, ./reports/junit-pytest-Windows-PY3.11.xml
+#      - name: "Pytest coverage comment"
+#        uses: MishaKav/pytest-coverage-comment@main
+#        with:
+#          pytest-xml-coverage-path: ./reports/coverage-pytest-${{ matrix.os }}-PY${{ matrix.python-version }}.xml
+#          junitxml-path: ./reports/junit-pytest-${{ matrix.os }}-PY${{ matrix.python-version }}.xml
+#          unique-id-for-comment: ${{ matrix.os }}-${{ matrix.python-version }}
+#          create-new-comment: false
 #      - name: Pytest coverage comment multiple-files mixed 2
 #        uses: MishaKav/pytest-coverage-comment@main
 #        with:
