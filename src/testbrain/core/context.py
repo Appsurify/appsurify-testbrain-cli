@@ -3,6 +3,7 @@ import pathlib
 from typing import Optional, Union
 
 import click
+
 from testbrain.core.crashreporter import inject_excepthook
 
 

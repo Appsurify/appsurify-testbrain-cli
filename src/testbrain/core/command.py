@@ -3,6 +3,7 @@ import typing as t
 
 import click
 from click import Context
+
 from testbrain.core.context import TestbrainContext
 from testbrain.core.log import LOG_LEVELS, configure_logging
 

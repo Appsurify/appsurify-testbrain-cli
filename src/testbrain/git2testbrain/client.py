@@ -3,6 +3,7 @@ from typing import Dict, Optional, Union
 from urllib.parse import urljoin
 
 import requests
+
 from testbrain.core.api.auth import HTTPAPIAuth
 from testbrain.core.api.client import APIClient
 

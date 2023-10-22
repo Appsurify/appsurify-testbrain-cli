@@ -81,12 +81,13 @@ src_paths = ["isort", "test", "src"]
 
 [tool.flake8]
 max-line-length = 88
-exclude = [".git", "__pycache__"]
-extend-ignore = ["F401", "F403"]
+exclude = [".git", "__pycache__", ".pytest_cache"]
+extend-ignore = ["E203" ,"F401", "F403"]
 
 [tool.ruff]
 line-length = 88
 select = [
+    "E203",
     "F401",
     "F403",
 ]

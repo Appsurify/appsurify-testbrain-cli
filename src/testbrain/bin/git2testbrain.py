@@ -3,6 +3,7 @@ import os
 import pathlib
 
 import click
+
 from testbrain import RUNTIME, VERSION
 from testbrain.core.command import TestbrainCommand
 from testbrain.core.context import TestbrainContext
@@ -202,7 +203,7 @@ def cli(
     logger.info("Prepared delivery payload")
 
     logger.info("Delivering payload to server")
-    delivery_status = git2testbrain_controller.deliver_repository_changes(
+    _ = git2testbrain_controller.deliver_repository_changes(
         payload=delivery_payload, timeout=120, max_retries=3
     )
     logger.info("Delivered payload to server")
