@@ -1,0 +1,106 @@
+name: QA
+
+on:
+  push:
+    paths-ignore:
+      - 'qodana.sarif.json'
+    branches:
+      - main
+      - development
+  pull_request:
+    paths-ignore:
+      - 'qodana.sarif.json'
+    branches:
+      - '*'
+      - '**'
+      - '*/*'
+
+jobs:
+  qodana-analyze:
+    if: github.event_name == 'pull_request'
+    name: Qodana Analyze
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      checks: write
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - name: Qodana Scan
+        uses: JetBrains/qodana-action@v2023.2
+        with:
+          args: --baseline,qodana.sarif.json
+        env:
+          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
+  check-code-style:
+    name: Check on Python / ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.7"]
+        poetry-version: ["1.5.1"]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Set up Poetry ${{ matrix.poetry-version }}
+        uses: abatilo/actions-poetry@v2
+        with:
+          poetry-version: ${{ matrix.poetry-version }}
+      - name: Install dependencies
+        run: poetry install --with dev
+      - name: Run black
+        run: poetry run black ./testbrain/ --check
+      - name: Run isort
+        run: poetry run isort ./testbrain/ --check-only --profile black
+      - name: Run flake8
+        run: poetry run flake8 ./testbrain/
+  pytest-unittest:
+    name: Test on ${{ matrix.os }} / Python ${{ matrix.python-version }}
+    runs-on: ${{ matrix.image }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [Ubuntu, macOS, Windows]
+        python-version: ["3.7", "3.8", "3.11"]
+        poetry-version: ["1.5.1"]
+        include:
+          - os: Ubuntu
+            image: ubuntu-latest
+          - os: Windows
+            image: windows-latest
+          - os: macOS
+            image: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Set up Poetry ${{ matrix.poetry-version }}
+        uses: abatilo/actions-poetry@v2
+        with:
+          poetry-version: ${{ matrix.poetry-version }}
+      - name: Install dependencies
+        run: poetry install --with test
+      - name: Get full Python version
+        id: full-python-version
+        run: echo version=$(python -c "import sys; print('-'.join(str(v) for v in sys.version_info))") >> $GITHUB_OUTPUT
+      - name: Check lock file
+        run: poetry lock --check
+      - name: Run tests
+        run: poetry run pytest --junit-xml=test-results.xml
+      - name: Surface failing tests
+        if: always()
+        uses: pmeier/pytest-results-action@main
+        with:
+          path: test-results.xml
+          summary: true
+          display-options: fEX
+          fail-on-empty: true
