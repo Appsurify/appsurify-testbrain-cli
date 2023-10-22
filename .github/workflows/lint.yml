@@ -18,7 +18,7 @@ jobs:
         with:
           poetry-version: "1.6.1"
       - name: "Install flake8"
-        run: poetry add flake8
+        run: poetry install --with dev
       - name: "Check"
         # Pinned to v2.0.0.
         uses: liskin/gh-problem-matcher-wrap@v2
@@ -40,7 +40,7 @@ jobs:
         with:
           poetry-version: "1.6.1"
       - name: "Install isort"
-        run: poetry add isort
+        run: poetry install --with dev
       - name: "Check"
         # Pinned to v2.0.0.
         uses: liskin/gh-problem-matcher-wrap@v2
@@ -62,6 +62,6 @@ jobs:
         with:
           poetry-version: "1.6.1"
       - name: "Install black"
-        run: poetry add black
+        run: poetry install --with dev
       - name: "Check"
         run: poetry run black ./testbrain/ --check
