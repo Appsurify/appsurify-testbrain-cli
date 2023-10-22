@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "appsurify-testbrain-cli"
-version = "2023.9.11"
+version = "2023.10.10"
 description = "Command Line Interface for Appsurify Testbrain."
 license = "MIT"
 authors = [
@@ -30,8 +30,7 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules"
 ]
 packages = [
-    {include = "testbrain"},
-
+    {include = "testbrain", from = "src"},
 ]
 include = ["CHANGELOG.md"]
 
@@ -58,6 +57,7 @@ pytest-cov = "^4.1.0"
 
 [tool.poetry.group.dev.dependencies]
 bump2version = "^1.0.1"
+ruff = "^0.1.1"
 black = [{version = "^23.1.0", python = "^3.7"},{version = "^23.9.1", python = "^3.8"}]
 flake8 = [{version = "5.0.4", python = "3.7"},{version = "^6.1.0", python = "^3.8.2"}]
 flake8-pyproject = "^1.2.3"
@@ -68,7 +68,7 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.pytest.ini_options]
-pythonpath = "testbrain/"
+pythonpath = "src/"
 testpaths = "tests/"
 
 [tool.black]
@@ -77,9 +77,18 @@ target-version = ["py37", "py38", "py39", "py311"]
 
 [tool.isort]
 profile = "black"
-src_paths = ["isort", "test"]
+src_paths = ["isort", "test", "src"]
 
 [tool.flake8]
 max-line-length = 88
-exclude = [".git", "__pycache__"]
-extend-ignore = ["E203", "W605", "F841"]  # "F541",
+exclude = [".git", "__pycache__", ".pytest_cache"]
+extend-ignore = ["E203" ,"F401", "F403"]
+
+[tool.ruff]
+line-length = 88
+select = [
+    "E203",
+    "F401",
+    "F403",
+]
+

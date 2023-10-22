@@ -1,7 +1,8 @@
 import logging
 
 import click
-from testbrain.bin.git2testbrain import cli as _git2testbrain
+
+from testbrain.bin.git2testbrain import cli as git2testbrain_cli
 from testbrain.core.command import TestbrainGroup
 
 logger = logging.getLogger(__name__)
@@ -13,7 +14,7 @@ def cli(ctx, *args, **kwargs):
     logger.info("INFO")
 
 
-cli.add_command(_git2testbrain)
+cli.add_command(git2testbrain_cli)
 
 
 if __name__ == "__main__":
