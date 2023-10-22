@@ -47,21 +47,32 @@ jobs:
         with:
           linters: isort
           run: poetry run isort ./testbrain/ --check --diff --profile black
+#  black:
+#    name: "black"
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: "Checkout Repository"
+#        uses: actions/checkout@v3
+#      - name: "Set up Python"
+#        uses: actions/setup-python@v4
+#        with:
+#          python-version: "3.11"
+#      - name: "Set up Poetry"
+#        uses: abatilo/actions-poetry@v2
+#        with:
+#          poetry-version: "1.6.1"
+#      - name: "Install black"
+#        run: poetry install --with dev
+#      - name: "Check"
+#        run: poetry run black ./testbrain/ --check
   black:
     name: "black"
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout Repository"
         uses: actions/checkout@v3
-      - name: "Set up Python"
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.11"
-      - name: "Set up Poetry"
-        uses: abatilo/actions-poetry@v2
-        with:
-          poetry-version: "1.6.1"
-      - name: "Install black"
-        run: poetry install --with dev
       - name: "Check"
-        run: poetry run black ./testbrain/ --check
+        uses: psf/black@stable
+        with:
+          options: "--config pyproject.toml --check"
+          src: "./testbrain/"
