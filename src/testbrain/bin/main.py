@@ -1,6 +1,7 @@
 import logging
 
 import click
+
 from testbrain.bin.git2testbrain import cli as git2testbrain_cli
 from testbrain.core.command import TestbrainGroup
 

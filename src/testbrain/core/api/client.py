@@ -4,11 +4,12 @@ from typing import Dict, List, Optional, TypeVar, Union
 
 import requests
 from requests.adapters import BaseAdapter
+from urllib3.util import Retry
+
 from testbrain import __build__, __name__, __version__
 from testbrain.core import platform
 from testbrain.core.api.adapter import TCPKeepAliveAdapter
 from testbrain.core.api.auth import AuthBase
-from urllib3.util import Retry
 
 logger = logging.getLogger(__name__)
 

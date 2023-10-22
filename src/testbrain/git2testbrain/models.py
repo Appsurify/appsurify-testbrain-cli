@@ -3,6 +3,7 @@ from enum import Enum
 from typing import Dict, List, Optional, Union
 
 from pydantic import BaseModel
+
 from testbrain.git2testbrain.types import (
     T_SHA,
     PathLike,
