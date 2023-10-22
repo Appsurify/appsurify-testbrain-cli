@@ -1,0 +1,42 @@
+name: "Test"
+
+on: [push, pull_request]
+
+
+jobs:
+  pytest:
+    name: Pytest on ${{ matrix.os }} / Python ${{ matrix.python-version }}
+    runs-on: ${{ matrix.image }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [Ubuntu, macOS, Windows]
+        python-version: ["3.7", "3.8", "3.10", "3.11"]
+        poetry-version: ["1.5.1"]
+        include:
+          - os: Ubuntu
+            image: ubuntu-latest
+          - os: Windows
+            image: windows-latest
+          - os: macOS
+            image: macos-latest
+    steps:
+      - name: "Checkout Repository"
+        uses: actions/checkout@v3
+      - name: "Set up Python"
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: "Set up Poetry"
+        uses: abatilo/actions-poetry@v2
+        with:
+          poetry-version: ${{ matrix.poetry-version }}
+      - name: "Install dependencies"
+        run: poetry install poetry --with test
+      - name: "Run tests"
+        run: poetry run pytest --exitfirst --verbose --failed-first --junitxml=reports/junit-pytest-${{ matrix.os }}-py${{ matrix.python-version }}.xml --cov=./testbrain/ --cov-report xml:reports/coverage-pytest-${{ matrix.os }}-py${{ matrix.python-version }}.xml
+      - name: Pytest coverage comment
+        uses: MishaKav/pytest-coverage-comment@main
+        with:
+          pytest-xml-coverage-path: ./reports/coverage-pytest-${{ matrix.os }}-py${{ matrix.python-version }}.xml
+          junitxml-path: ./reports/junit-pytest-${{ matrix.os }}-py${{ matrix.python-version }}.xml

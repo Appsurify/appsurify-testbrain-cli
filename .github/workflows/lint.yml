@@ -20,7 +20,6 @@ jobs:
       - name: "Install flake8"
         run: poetry install --with dev
       - name: "Check"
-        # Pinned to v2.0.0.
         uses: liskin/gh-problem-matcher-wrap@v2
         with:
           linters: flake8
@@ -42,11 +41,22 @@ jobs:
       - name: "Install isort"
         run: poetry install --with dev
       - name: "Check"
-        # Pinned to v2.0.0.
         uses: liskin/gh-problem-matcher-wrap@v2
         with:
           linters: isort
           run: poetry run isort ./testbrain/ --check --diff --profile black
+  black:
+    name: "black"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout Repository"
+        uses: actions/checkout@v3
+      - name: "Check"
+        uses: psf/black@stable
+        with:
+          options: "--config pyproject.toml --check"
+          src: "./testbrain/"
+# Currently use official black action and similar method disabled
 #  black:
 #    name: "black"
 #    runs-on: ubuntu-latest
@@ -65,14 +75,3 @@ jobs:
 #        run: poetry install --with dev
 #      - name: "Check"
 #        run: poetry run black ./testbrain/ --check
-  black:
-    name: "black"
-    runs-on: ubuntu-latest
-    steps:
-      - name: "Checkout Repository"
-        uses: actions/checkout@v3
-      - name: "Check"
-        uses: psf/black@stable
-        with:
-          options: "--config pyproject.toml --check"
-          src: "./testbrain/"
