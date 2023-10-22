@@ -35,8 +35,14 @@ jobs:
         run: poetry install --with test
       - name: "Run tests"
         run: poetry run pytest --exitfirst --verbose --failed-first --junitxml=reports/junit-pytest-${{ matrix.os }}-py${{ matrix.python-version }}.xml --cov=./testbrain/ --cov-report xml:reports/coverage-pytest-${{ matrix.os }}-py${{ matrix.python-version }}.xml
-      - name: Pytest coverage comment
+      - name: Pytest coverage comment multiple-files mixed 2
         uses: MishaKav/pytest-coverage-comment@main
         with:
-          pytest-xml-coverage-path: ./reports/coverage-pytest-${{ matrix.os }}-py${{ matrix.python-version }}.xml
-          junitxml-path: ./reports/junit-pytest-${{ matrix.os }}-py${{ matrix.python-version }}.xml
+          create-new-comment: false
+          multiple-files: |
+            ${{ matrix.os }}-py${{ matrix.python-version }}, ./reports/coverage-pytest-${{ matrix.os }}-py${{ matrix.python-version }}.xml, ./reports/junit-pytest-${{ matrix.os }}-py${{ matrix.python-version }}.xml
+#      - name: Pytest coverage comment
+#        uses: MishaKav/pytest-coverage-comment@main
+#        with:
+#          pytest-xml-coverage-path: ./reports/coverage-pytest-${{ matrix.os }}-py${{ matrix.python-version }}.xml
+#          junitxml-path: ./reports/junit-pytest-${{ matrix.os }}-py${{ matrix.python-version }}.xml
