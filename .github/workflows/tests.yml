@@ -32,7 +32,7 @@ jobs:
         with:
           poetry-version: ${{ matrix.poetry-version }}
       - name: "Install dependencies"
-        run: poetry install poetry --with test
+        run: poetry install --with test
       - name: "Run tests"
         run: poetry run pytest --exitfirst --verbose --failed-first --junitxml=reports/junit-pytest-${{ matrix.os }}-py${{ matrix.python-version }}.xml --cov=./testbrain/ --cov-report xml:reports/coverage-pytest-${{ matrix.os }}-py${{ matrix.python-version }}.xml
       - name: Pytest coverage comment
