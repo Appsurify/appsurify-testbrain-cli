@@ -58,6 +58,7 @@ jobs:
         with:
           title: Coverage Report
           junitxml-title: PyTest Summary Title
+          pytest-xml-coverage-path: ./reports/coverage-pytest-Ubuntu-PY3.11.xml
           create-new-comment: false
           multiple-files: |
             Ubuntu-PY3.7, ./reports/coverage-pytest-Ubuntu-PY3.7.xml, ./reports/junit-pytest-Ubuntu-PY3.7.xml
