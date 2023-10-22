@@ -11,7 +11,7 @@ permissions:
   contents: read
 
 jobs:
-  dependency-review:
+  review:
     name: "Review"
     runs-on: ubuntu-latest
     steps:
