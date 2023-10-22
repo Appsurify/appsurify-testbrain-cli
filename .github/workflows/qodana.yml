@@ -3,9 +3,7 @@ on:
   workflow_dispatch:
   pull_request:
   push:
-    branches:
-      - main
-      - development
+    branches: ["main", "development"]
 
 jobs:
   analyze:
