@@ -23,7 +23,7 @@ jobs:
         uses: liskin/gh-problem-matcher-wrap@v2
         with:
           linters: flake8
-          run: poetry run flake8 ./testbrain/
+          run: poetry run flake8 ./src/
   isort:
     name: "isort"
     runs-on: ubuntu-latest
@@ -44,7 +44,7 @@ jobs:
         uses: liskin/gh-problem-matcher-wrap@v2
         with:
           linters: isort
-          run: poetry run isort ./testbrain/ --check --diff --profile black
+          run: poetry run isort ./src/ --check --diff --profile black
   black:
     name: "black"
     runs-on: ubuntu-latest
@@ -54,8 +54,8 @@ jobs:
       - name: "Check"
         uses: psf/black@stable
         with:
-          options: "--config pyproject.toml --check"
-          src: "./testbrain/"
+          options: --config pyproject.toml --check
+          src: ./src/
 # Currently use official black action and similar method disabled
 #  black:
 #    name: "black"

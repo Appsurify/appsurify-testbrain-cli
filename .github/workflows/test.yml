@@ -34,7 +34,7 @@ jobs:
       - name: "Install dependencies"
         run: poetry install --with test
       - name: "Run tests"
-        run: poetry run pytest --exitfirst --verbose --failed-first --junitxml=reports/pytest-${{ matrix.os }}-PY${{ matrix.python-version }}.xml --cov=./testbrain/ --cov-report xml:reports/coverage-${{ matrix.os }}-PY${{ matrix.python-version }}.xml
+        run: poetry run pytest --exitfirst --verbose --failed-first --junitxml=reports/pytest-${{ matrix.os }}-PY${{ matrix.python-version }}.xml --cov=./src/ --cov-report xml:reports/coverage-${{ matrix.os }}-PY${{ matrix.python-version }}.xml
       - name: "Surface failing tests"
         if: always()
         uses: pmeier/pytest-results-action@main

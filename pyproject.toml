@@ -30,8 +30,7 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules"
 ]
 packages = [
-    {include = "testbrain"},
-
+    {include = "testbrain", from = "src"},
 ]
 include = ["CHANGELOG.md"]
 
