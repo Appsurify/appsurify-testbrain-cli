@@ -4,14 +4,14 @@ on: [push, pull_request]
 
 
 jobs:
-  pytest:
+  run-pytests:
     name: Pytest on ${{ matrix.os }} / Python ${{ matrix.python-version }}
     runs-on: ${{ matrix.image }}
     strategy:
       fail-fast: false
       matrix:
         os: [Ubuntu, macOS, Windows]
-        python-version: ["3.7", "3.8", "3.10", "3.11"]
+        python-version: ["3.7", "3.8", "3.11"]
         poetry-version: ["1.5.1"]
         include:
           - os: Ubuntu
@@ -35,14 +35,50 @@ jobs:
         run: poetry install --with test
       - name: "Run tests"
         run: poetry run pytest --exitfirst --verbose --failed-first --junitxml=reports/junit-pytest-${{ matrix.os }}-py${{ matrix.python-version }}.xml --cov=./testbrain/ --cov-report xml:reports/coverage-pytest-${{ matrix.os }}-py${{ matrix.python-version }}.xml
-      - name: Pytest coverage comment multiple-files mixed 2
-        uses: MishaKav/pytest-coverage-comment@main
+      - name: "Save reports"
+        uses: actions/upload-artifact@master
         with:
-          create-new-comment: false
-          multiple-files: |
-            ${{ matrix.os }}-py${{ matrix.python-version }}, ./reports/coverage-pytest-${{ matrix.os }}-py${{ matrix.python-version }}.xml, ./reports/junit-pytest-${{ matrix.os }}-py${{ matrix.python-version }}.xml
+          name: reports
+          path: ./reports/
+#      - name: Pytest coverage comment multiple-files mixed 2
+#        uses: MishaKav/pytest-coverage-comment@main
+#        with:
+#          create-new-comment: false
+#          multiple-files: |
+#            ${{ matrix.os }}-py${{ matrix.python-version }}, ./reports/coverage-pytest-${{ matrix.os }}-py${{ matrix.python-version }}.xml, ./reports/junit-pytest-${{ matrix.os }}-py${{ matrix.python-version }}.xml
 #      - name: Pytest coverage comment
 #        uses: MishaKav/pytest-coverage-comment@main
 #        with:
 #          pytest-xml-coverage-path: ./reports/coverage-pytest-${{ matrix.os }}-py${{ matrix.python-version }}.xml
 #          junitxml-path: ./reports/junit-pytest-${{ matrix.os }}-py${{ matrix.python-version }}.xml
+  publish-reports:
+    name: "Add comment to PR"
+    runs-on: ubuntu-latest
+    needs: [run-pytests]
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ Ubuntu, macOS, Windows ]
+        python-version: ["3.7", "3.8", "3.11"]
+        include:
+          - os: Ubuntu
+            image: ubuntu-latest
+          - os: Windows
+            image: windows-latest
+          - os: macOS
+            image: macos-latest
+    steps:
+      - name: "Checkout Repository"
+        uses: actions/checkout@v3
+      - name: "Load reports"
+        uses: actions/download-artifact@master
+        with:
+          name: reports
+          path: ./reports/
+      - name: Pytest coverage comment
+        uses: MishaKav/pytest-coverage-comment@main
+        with:
+          pytest-xml-coverage-path: ./reports/coverage-pytest-${{ matrix.os }}-py${{ matrix.python-version }}.xml
+          junitxml-path: ./reports/junit-pytest-${{ matrix.os }}-PY${{ matrix.python-version }}.xml
+          unique-id-for-comment: ${{ matrix.os }}-${{ matrix.python-version }}
+          create-new-comment: false
