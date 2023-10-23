@@ -44,13 +44,15 @@ class Git2TestbrainAPIClient(APIClient):
     def deliver_hook_payload(
         self,
         project_id: int,
-        data: Union[dict, str],
+        data: Union[dict, str, bytes],
         timeout: Optional[int] = None,
         max_retries: Optional[int] = None,
     ):
         endpoint = f"/api/ssh_v2/hook/{project_id}/"
         headers = self.default_headers
         headers.update({"X-Git-Event": "push"})
+
+        data = data.encode("utf-8")
         response = self.post(
             url=urljoin(self.base_url, endpoint),
             data=data,

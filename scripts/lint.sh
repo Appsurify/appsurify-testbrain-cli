@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-poetry run isort testbrain --profile black --check-only
-poetry run isort testbrain --profile black
-poetry run black testbrain --check
-poetry run flake8 testbrain
+poetry run isort src --profile black
+poetry run isort src --profile black --check-only
+poetry run black src --check
+poetry run flake8 src
