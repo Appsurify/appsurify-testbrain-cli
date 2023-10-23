@@ -36,7 +36,7 @@ class Git2TestbrainController(object):
         project_id = json_data.get("project_id")
         error = json_data.get("error")
         if not project_id:
-            logger.warning(f"Can't continue without project ID.")
+            logger.warning("Can't continue without project ID.")
             if error is not None:
                 logger.error(f"{error}")
             raise Exception("No project ID provided")
