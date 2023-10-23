@@ -5,7 +5,7 @@ from typing import List, Optional
 
 from testbrain.git2testbrain.exceptions import GitCommandException
 from testbrain.git2testbrain.models import Commit
-from testbrain.git2testbrain.types import T_SHA, PathLike, T_Branch
+from testbrain.git2testbrain.types import T_SHA, PathLike, T_Branch, T_File
 from testbrain.git2testbrain.utils import parse_commits_from_text
 
 logger = logging.getLogger(__name__)
@@ -44,7 +44,6 @@ class GitRepository(object):
         numstat: Optional[bool] = True,
         raw: Optional[bool] = True,
         patch: Optional[bool] = True,
-        blame: Optional[bool] = False,
     ) -> List[Commit]:
         logger.debug("Begin searching and processing commits")
         log_result = self.cmd.execute_log(
@@ -74,6 +73,12 @@ class GitRepository(object):
 
         logger.info(f"Finished searching and processing {len(commits)} commits")
         return commits
+
+    def get_file_tree(self, branch: T_Branch) -> Optional[List[T_File]]:
+        file_result = self.cmd.execute_ls_files(branch=branch)
+        file_tree = file_result.splitlines()
+        file_tree = [file.lstrip().rstrip() for file in file_tree]
+        return file_tree
 
 
 class GitCommand(object):
@@ -183,4 +188,13 @@ class GitCommand(object):
             f"Executing 'git log' result data size "
             f"- {len(cmd_result.encode('utf-8', errors='ignore'))} bytes"
         )
+        return cmd_result
+
+    def execute_ls_files(self, branch: T_Branch) -> str:
+        # git ls-tree --name-only -r master
+        extra_params: list = ["--name-only"]
+        if branch is not None:
+            extra_params.append(f"-r {branch}")
+        cmd = f'git ls-tree {" ".join(extra_params)}'
+        cmd_result = self._execute(command_line=cmd)
         return cmd_result
