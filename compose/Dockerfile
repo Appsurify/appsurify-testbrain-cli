@@ -1,12 +1,10 @@
-FROM python:3.11.6-slim-bullseye
+FROM python:3.11-slim-bullseye
 MAINTAINER Artem Demidenko <ar.demidenko@gmail.com>
 
-ARG RELEASE
-
 ENV PIP_DEFAULT_TIMEOUT=100 \
-    PYTHONUNBUFFERED=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
     PIP_NO_CACHE_DIR=1 \
+    PYTHONUNBUFFERED=1 \
     GIT_PYTHON_REFRESH='quiet' \
     GIT_DISCOVERY_ACROSS_FILESYSTEM=1
 
@@ -20,12 +18,13 @@ RUN set -ex \
     && apt-get install git -y \
     && apt-get autoremove -y \
     && apt-get clean -y \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && mkdir -p /data \
+    && git config --global --add safe.directory /data
 
-RUN mkdir -p /data  \
-    && chown -R testbrain:testbrain /data
+COPY dist/ /tmp
 
-RUN pip install --upgrade appsurify-testbrain-cli==$RELEASE
+RUN pip install /tmp/*.whl && rm -rf /tmp/*.whl
 
 WORKDIR /data
 ENTRYPOINT ["testbrain"]
