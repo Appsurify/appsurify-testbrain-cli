@@ -10,7 +10,6 @@ from testbrain.core.context import TestbrainContext
 from testbrain.git2testbrain import TB_ART_LINES_STYLED
 from testbrain.git2testbrain.controller import Git2TestbrainController
 
-
 logger = logging.getLogger(__name__)
 
 
