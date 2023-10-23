@@ -1,6 +1,6 @@
 from testbrain.core import platform
 
-__version__ = "2023.10.5"
+__version__ = "2023.10.6"
 __build__ = "undefined"
 __name__ = "appsurify-testbrain-cli"
 
