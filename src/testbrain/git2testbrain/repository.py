@@ -85,6 +85,21 @@ class GitCommand(object):
     def __init__(self, repo_dir: Optional[PathLike] = None):
         repo_dir = repo_dir or pathlib.Path(".")
         self.repo_dir = pathlib.Path(repo_dir).resolve()
+        self._fix_renames(limit=999999)
+
+    def _fix_renames(self, limit: int = 999999):
+        try:
+            self._execute(f"git config --global merge.renameLimit {limit}")
+            self._execute(f"git config --global diff.renameLimit {limit}")
+            self._execute("git config --global diff.renames 0")
+        except GitCommandException as e:
+            logger.warning("Cant fix rename limits GLOBAL")
+        try:
+            self._execute(f"git config merge.renameLimit {limit}")
+            self._execute(f"git config diff.renameLimit {limit}")
+            self._execute("git config diff.renames 0")
+        except GitCommandException as e:
+            logger.warning("Cant fix rename limits LOCAL")
 
     def _execute(self, command_line: str) -> str:
         logger.debug(f"Executing GIT command: {command_line}")
