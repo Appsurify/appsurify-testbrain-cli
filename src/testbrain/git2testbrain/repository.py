@@ -92,13 +92,13 @@ class GitCommand(object):
             self._execute(f"git config --global merge.renameLimit {limit}")
             self._execute(f"git config --global diff.renameLimit {limit}")
             self._execute("git config --global diff.renames 0")
-        except GitCommandException as e:
+        except GitCommandException:
             logger.warning("Cant fix rename limits GLOBAL")
         try:
             self._execute(f"git config merge.renameLimit {limit}")
             self._execute(f"git config diff.renameLimit {limit}")
             self._execute("git config diff.renames 0")
-        except GitCommandException as e:
+        except GitCommandException:
             logger.warning("Cant fix rename limits LOCAL")
 
     def _execute(self, command_line: str) -> str:
