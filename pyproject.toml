@@ -20,12 +20,6 @@ filename = "src/testbrain/__init__.py"
 
 [[tool.bumpversion.files]]
 filename = "pyproject.toml"
-#[tool.bumpversion:file:pyproject.toml]
-#search = version = "{current_version}"
-#replace = version = "{new_version}"
-#[tool.bumpversion:file:src/testbrain/__init__.py]
-#search = __version__ = "{current_version}"
-#replace = __version__ = "{new_version}"
 
 [tool.poetry]
 name = "appsurify-testbrain-cli"
