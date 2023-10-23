@@ -29,5 +29,5 @@ jobs:
         with:
           artifacts: "dist/*"
           token: ${{ secrets.GITHUB_TOKEN }}
-          draft: true
+          draft: false
           prerelease: true
