@@ -98,7 +98,7 @@ class APIClient(abc.ABC):
         return req
 
     def post(
-        self, url: str, data: Optional[dict] = None, **kwargs
+        self, url: str, data: Optional[Union[dict, str, bytes]] = None, **kwargs
     ) -> requests.Response:
         req = self.request("post", url, data=data, **kwargs)
         return req

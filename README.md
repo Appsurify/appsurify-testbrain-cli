@@ -56,6 +56,21 @@ poetry add appsurify-testbrain-cli
 > Note: Use **-U** or **--upgrade** for force upgrade to last version
 
 
+### Docker image "appsurify-testbrain-cli"
+
+**Latest version**
+```shell
+docker pull appsurifyinc/appsurify-testbrain-cli
+
+```
+**Specify version**
+```shell
+docker pull appsurifyinc/appsurify-testbrain-cli:2023.10.24
+
+```
+
+[Howto usage](#usage-examples)
+
 ## Git2Testbrain (git2appsurify)
 
 This module is used to push changes in the repository to the Testbrain
@@ -133,6 +148,17 @@ You can see this message
 ```text
 ERROR    2023-10-23 11:27:39,697 testbrain.git2testbrain.controller git2testbrain/controller.py:39 controller Git2TestbrainController.get_project_id: Project didn't exist, check project name and try again!
 Dumped crash report to <path_to_work_dir>/.crashdumps/git2testbrain-2023-10-23-11-27-39.dump
+
+```
+
+Docker version usage
+
+$(pwd) - git repository path
+
+```shell
+docker run --rm -it \
+-v $(pwd)/:/data \
+appsurifyinc/appsurify-testbrain-cli git2testbrain --server https://demo.appsurify.com --token ************************************************************** --project DEMO
 
 ```
 

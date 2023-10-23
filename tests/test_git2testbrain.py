@@ -109,12 +109,24 @@ class TestGit2TestbrainModels:
 
 class TestGit2TestBrainGitCommand:
     def test_git_command_execute_branches(self, fp):
+        fp.register("git config --global merge.renameLimit 999999", stdout=[""])
+        fp.register("git config --global diff.renameLimit 999999", stdout=[""])
+        fp.register("git config --global diff.renames 0", stdout=[""])
+        fp.register("git config merge.renameLimit 999999", stdout=[""])
+        fp.register("git config diff.renameLimit 999999", stdout=[""])
+        fp.register("git config diff.renames 0", stdout=[""])
         fp.register("git branch --show-current", stdout=["master"])
         cmd = GitCommand()
         branch = cmd.execute_branches(show_current=True)
         assert branch == "master"
 
     def test_git_command_execute_log(self, fp):
+        fp.register("git config --global merge.renameLimit 999999", stdout=[""])
+        fp.register("git config --global diff.renameLimit 999999", stdout=[""])
+        fp.register("git config --global diff.renames 0", stdout=[""])
+        fp.register("git config merge.renameLimit 999999", stdout=[""])
+        fp.register("git config diff.renameLimit 999999", stdout=[""])
+        fp.register("git config diff.renames 0", stdout=[""])
         fp.register(
             'git log --abbrev=40 --first-parent --full-diff --full-index -n 4 --remotes main --reverse --numstat -p --pretty=format:"%nCOMMIT:%x09%H%nTREE:%x09%T%nDATE:%x09%aI%nAUTHOR:%x09%an%x09%ae%x09%aI%nCOMMITTER:%x09%cn%x09%ce%x09%cI%nMESSAGE:%x09%s%nPARENTS:%x09%P%n" HEAD',
             stdout=[
@@ -198,6 +210,12 @@ class TestGit2TestBrainGitCommand:
 
 class TestGit2TestbrainGitRepository:
     def test_git_repo_name_defined(self, fp):
+        fp.register("git config --global merge.renameLimit 999999", stdout=[""])
+        fp.register("git config --global diff.renameLimit 999999", stdout=[""])
+        fp.register("git config --global diff.renames 0", stdout=[""])
+        fp.register("git config merge.renameLimit 999999", stdout=[""])
+        fp.register("git config diff.renameLimit 999999", stdout=[""])
+        fp.register("git config diff.renames 0", stdout=[""])
         fp.register(
             "git config --get remote.origin.url",
             stdout=["../../GitRepository/demoRepo"],
@@ -207,6 +225,12 @@ class TestGit2TestbrainGitRepository:
         assert repo_name == "demoRepo"
 
     def test_git_repo_name_options(self, fp):
+        fp.register("git config --global merge.renameLimit 999999", stdout=[""])
+        fp.register("git config --global diff.renameLimit 999999", stdout=[""])
+        fp.register("git config --global diff.renames 0", stdout=[""])
+        fp.register("git config merge.renameLimit 999999", stdout=[""])
+        fp.register("git config diff.renameLimit 999999", stdout=[""])
+        fp.register("git config diff.renames 0", stdout=[""])
         fp.register(
             "git config --get remote.origin.url",
             stdout=["../../GitRepository/demoRepo"],
@@ -216,6 +240,12 @@ class TestGit2TestbrainGitRepository:
         repo_name = git.repo_name
         assert repo_name == "demoRepo"
 
+        fp.register("git config --global merge.renameLimit 999999", stdout=[""])
+        fp.register("git config --global diff.renameLimit 999999", stdout=[""])
+        fp.register("git config --global diff.renames 0", stdout=[""])
+        fp.register("git config merge.renameLimit 999999", stdout=[""])
+        fp.register("git config diff.renameLimit 999999", stdout=[""])
+        fp.register("git config diff.renames 0", stdout=[""])
         fp.register(
             "git config --get remote.origin.url",
             stdout=["C:/GitRepository/demo Repo"],
@@ -224,6 +254,12 @@ class TestGit2TestbrainGitRepository:
         repo_name = git.repo_name
         assert repo_name == "demo Repo"
 
+        fp.register("git config --global merge.renameLimit 999999", stdout=[""])
+        fp.register("git config --global diff.renameLimit 999999", stdout=[""])
+        fp.register("git config --global diff.renames 0", stdout=[""])
+        fp.register("git config merge.renameLimit 999999", stdout=[""])
+        fp.register("git config diff.renameLimit 999999", stdout=[""])
+        fp.register("git config diff.renames 0", stdout=[""])
         fp.register(
             "git config --get remote.origin.url",
             stdout=["https://github.com/Appsurify/appsurify-testbrain-cli.git"],
@@ -233,6 +269,12 @@ class TestGit2TestbrainGitRepository:
         assert repo_name == "appsurify-testbrain-cli"
 
     def test_git_get_current_branch(self, fp):
+        fp.register("git config --global merge.renameLimit 999999", stdout=[""])
+        fp.register("git config --global diff.renameLimit 999999", stdout=[""])
+        fp.register("git config --global diff.renames 0", stdout=[""])
+        fp.register("git config merge.renameLimit 999999", stdout=[""])
+        fp.register("git config diff.renameLimit 999999", stdout=[""])
+        fp.register("git config diff.renames 0", stdout=[""])
         fp.register("git branch --show-current", stdout=["master"])
         fp.register(
             "git config --get remote.origin.url",
@@ -244,6 +286,12 @@ class TestGit2TestbrainGitRepository:
         assert current_branch == "master"
 
     def test_git_get_commits(self, fp):
+        fp.register("git config --global merge.renameLimit 999999", stdout=[""])
+        fp.register("git config --global diff.renameLimit 999999", stdout=[""])
+        fp.register("git config --global diff.renames 0", stdout=[""])
+        fp.register("git config merge.renameLimit 999999", stdout=[""])
+        fp.register("git config diff.renameLimit 999999", stdout=[""])
+        fp.register("git config diff.renames 0", stdout=[""])
         fp.register(
             "git config --get remote.origin.url",
             stdout=["https://github.com/Appsurify/appsurify-testbrain-cli.git"],
