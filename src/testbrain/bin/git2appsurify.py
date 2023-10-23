@@ -163,6 +163,13 @@ def cli(
     minimize: bool,
     **kwargs,
 ):
+    click.echo(
+        "\n"
+        "====================================================================\n"
+        "  WARNING!!! 'git2appsurify' is deprecated.                         \n"
+        "  Use the new version 'git2testbrain' or 'testbrain git2testbrain'  \n"
+        "====================================================================\n"
+    )
     ctx.work_dir = work_dir
     logger.debug(
         f"Exec with params: "

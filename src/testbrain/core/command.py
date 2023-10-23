@@ -21,7 +21,7 @@ class TestbrainCommand(click.Command):
             click.Option(
                 ["--loglevel", "-l"],
                 type=click.Choice(LOG_LEVELS, case_sensitive=False),
-                default="WARNING",
+                default="INFO",
                 show_default=True,
                 help="Logging level",
             )
@@ -42,7 +42,8 @@ class TestbrainCommand(click.Command):
 
     def invoke(self, ctx) -> t.Any:
         configure_logging(ctx.params.get("loglevel"), ctx.params.get("logfile"))
-        return super().invoke(ctx)
+        rv = super().invoke(ctx)
+        return rv
 
     def make_context(
         self,

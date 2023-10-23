@@ -57,7 +57,6 @@ class APIClient(abc.ABC):
         self,
         max_retries: T_MAX_RETRIES,
         auth: Optional[AuthBase] = None,
-        **kwargs,
     ) -> requests.Session:
         session = requests.Session()
         session.auth = auth
@@ -83,7 +82,7 @@ class APIClient(abc.ABC):
         timeout = kwargs.pop("timeout", self.default_timeout)
         max_retries = kwargs.pop("max_retries", self.default_max_retries)
 
-        session = self.get_session(max_retries=max_retries, auth=auth, **kwargs)
+        session = self.get_session(max_retries=max_retries, auth=auth)
 
         logger.debug(f"Requesting {method} {url} {session.headers}")
         response = session.request(

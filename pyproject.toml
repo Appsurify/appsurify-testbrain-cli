@@ -38,6 +38,7 @@ include = ["CHANGELOG.md"]
 [tool.poetry.scripts]
 testbrain = "testbrain.__main__:cli"
 git2testbrain = "testbrain.bin.git2testbrain:cli"
+git2appsurify = "testbrain.bin.git2appsurify:cli"
 
 
 [tool.poetry.dependencies]

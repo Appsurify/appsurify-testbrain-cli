@@ -12,6 +12,7 @@ logger = logging.getLogger(__name__)
 class Git2TestbrainController(object):
     client = None
     repository = None
+    payload: Optional[Payload] = None
 
     def __init__(
         self,
@@ -31,14 +32,18 @@ class Git2TestbrainController(object):
 
     def get_project_id(self) -> int:
         response = self.client.get_project_id(name=self.project)
-
-        if not response:
-            raise Exception("can not get project_ID")
-
         json_data = response.json()
         project_id = json_data.get("project_id")
+        error = json_data.get("error")
+        if not project_id:
+            logger.warning(f"Can't continue without project ID.")
+            if error is not None:
+                logger.error(f"{error}")
+            raise Exception("No project ID provided")
+
         if isinstance(project_id, str):
             project_id = int(project_id)
+
         # return project_id
         # if project_id is None:
         #     logger.error(f"Can't continue without project ID")
@@ -55,12 +60,16 @@ class Git2TestbrainController(object):
         raw: Optional[bool] = True,
         patch: Optional[bool] = True,
         blame: Optional[bool] = False,
-        file_tree: Optional[bool] = False,
+        file_tree: bool = False,
     ) -> Payload:
         if branch is None:
             branch = self.repository.get_current_branch()
             logger.debug(f"branch is None. Use current active branch: {branch}")
-
+        if blame:
+            logger.warning(
+                "In the current version, the "
+                "ability to collect blame information is disabled."
+            )
         logger.info("Looking at the changes in the repository")
         commits = self.repository.get_commits(
             branch=branch,
@@ -70,8 +79,13 @@ class Git2TestbrainController(object):
             numstat=numstat,
             raw=raw,
             patch=patch,
-            blame=blame,
         )
+
+        if file_tree:
+            commit_files = self.repository.get_file_tree(branch=branch)
+        else:
+            commit_files = []
+
         repo_name = self.repository.repo_name
         ref = branch
         base_ref = ""
@@ -80,7 +94,7 @@ class Git2TestbrainController(object):
         head_commit = commits[-1]
         size = len(commits)
         ref_type = "commit"
-        file_tree = []
+
         payload: Payload = Payload(
             repo_name=repo_name,
             ref=ref,
@@ -90,21 +104,24 @@ class Git2TestbrainController(object):
             head_commit=head_commit,
             size=size,
             ref_type=ref_type,
-            file_tree=file_tree,
+            file_tree=commit_files,
             commits=commits,
         )
         logger.debug(f"Delivery payload: {payload.model_dump_json()}")
+        self.payload = payload
         return payload
 
     def deliver_repository_changes(
         self,
-        payload: Payload,
         timeout: Optional[int] = None,
         max_retries: Optional[int] = None,
     ):
+        if self.payload is None:
+            raise Exception("No payload. Call .get_payload firstly.")
+
         project_id = self.get_project_id()
 
-        payload_json = payload.model_dump_json()
+        payload_json = self.payload.model_dump_json()
 
         result = self.client.deliver_hook_payload(
             project_id=project_id,
