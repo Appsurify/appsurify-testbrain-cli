@@ -38,6 +38,7 @@ include = ["CHANGELOG.md"]
 [tool.poetry.scripts]
 testbrain = "testbrain.__main__:cli"
 git2testbrain = "testbrain.bin.git2testbrain:cli"
+git2appsurify = "testbrain.bin.git2appsurify:cli"
 
 
 [tool.poetry.dependencies]
@@ -73,7 +74,7 @@ testpaths = "tests/"
 
 [tool.black]
 line-length = 88
-target-version = ["py37", "py38", "py39", "py311"]
+target-version = ["py37", "py38", "py311"]
 
 [tool.isort]
 profile = "black"
@@ -86,9 +87,4 @@ extend-ignore = ["E203" ,"F401", "F403"]
 
 [tool.ruff]
 line-length = 88
-select = [
-    "E203",
-    "F401",
-    "F403",
-]
-
+select = []

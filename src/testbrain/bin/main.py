@@ -3,12 +3,13 @@ import logging
 import click
 
 from testbrain.bin.git2testbrain import cli as git2testbrain_cli
-from testbrain.core.command import TestbrainGroup
+from testbrain.core.command import TestbrainCommand
 
 logger = logging.getLogger(__name__)
 
 
-@click.group(name="testbrain", cls=TestbrainGroup, invoke_without_command=True)
+# @click.group(name="testbrain", cls=TestbrainGroup)
+@click.command("git2testbrain", cls=TestbrainCommand)
 @click.pass_context
 def cli(ctx, *args, **kwargs):
     logger.info("INFO")

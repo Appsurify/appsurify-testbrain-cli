@@ -10,7 +10,6 @@ from testbrain.core.context import TestbrainContext
 from testbrain.git2testbrain import TB_ART_LINES_STYLED
 from testbrain.git2testbrain.controller import Git2TestbrainController
 
-# logger = logging.getLogger("testbrain.bin.git2testbrain")
 logger = logging.getLogger(__name__)
 
 
@@ -162,6 +161,13 @@ def cli(
     minimize: bool,
     **kwargs,
 ):
+    click.echo(
+        "\n"
+        "====================================================================\n"
+        "  WARNING!!! 'git2appsurify' is deprecated.                         \n"
+        "  Use the new version 'git2testbrain' or 'testbrain git2testbrain'  \n"
+        "====================================================================\n"
+    )
     ctx.work_dir = work_dir
     logger.debug(
         f"Exec with params: "
