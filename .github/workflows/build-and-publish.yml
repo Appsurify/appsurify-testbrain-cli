@@ -1,4 +1,4 @@
-name: "Release and Publish to PyPi/Docker"
+name: "Publish release to PyPi/Docker"
 
 on:
   release:
@@ -60,8 +60,8 @@ jobs:
           context: .
           file: compose/Dockerfile
           platforms: linux/amd64, linux/arm64
-          tags: docker.io/appsurifyinc/appsurify-testbrain-cli:${GITHUB_REF}
+          tags: docker.io/appsurifyinc/appsurify-testbrain-cli:${{ github.event.release.name }}
           push: true
-          cache-from: type=registry,ref=docker.io/appsurifyinc/appsurify-testbrain-cli:${GITHUB_REF}
+          cache-from: type=registry,ref=docker.io/appsurifyinc/appsurify-testbrain-cli:${{ github.event.release.name }}
       - name: "Tag latest"
-        run: docker buildx imagetools create --tag appsurifyinc/appsurify-testbrain-cli:latest appsurifyinc/appsurify-testbrain-cli:${GITHUB_REF}
+        run: docker buildx imagetools create --tag appsurifyinc/appsurify-testbrain-cli:latest appsurifyinc/appsurify-testbrain-cli:${{ github.event.release.name }}
