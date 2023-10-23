@@ -9,9 +9,6 @@ ENV PIP_DEFAULT_TIMEOUT=100 \
     GIT_DISCOVERY_ACROSS_FILESYSTEM=1
 
 RUN set -ex \
-    # Create a non-root user
-    && addgroup --system --gid 1001 testbrain \
-    && adduser --system --uid 1001 --gid 1001 --no-create-home testbrain \
     # Upgrade the package index and install security upgrades
     && apt-get update \
     && apt-get upgrade -y \
@@ -20,7 +17,10 @@ RUN set -ex \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/* \
     && mkdir -p /data \
-    && git config --global --add safe.directory /data
+    && git config --global --add safe.directory /data \
+    && git config --global merge.renameLimit 999999 \
+    && git config --global diff.renameLimit 999999 \
+    && git config --global diff.renames 0
 
 COPY dist/ /tmp
 
