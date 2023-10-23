@@ -1,0 +1,33 @@
+name: "Create Pre Release"
+
+on:
+  push:
+    tags:
+      - "*.*.*"
+
+jobs:
+  build:
+    name: "Create Pre Release"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout Repository"
+        uses: actions/checkout@v4
+      - name: "Set up Python"
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: "Set up Poetry"
+        uses: abatilo/actions-poetry@v2
+        with:
+          poetry-version: "1.6.1"
+      - name: "Install dependencies"
+        run: poetry install --without dev,test
+      - name: "Build project for distribution"
+        run: poetry build
+      - name: "Create Release"
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "dist/*"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          draft: false
+          prerelease: true
