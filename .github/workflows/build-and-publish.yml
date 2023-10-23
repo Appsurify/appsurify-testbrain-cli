@@ -60,8 +60,8 @@ jobs:
           context: .
           file: compose/Dockerfile
           platforms: linux/amd64, linux/arm64
-          tags: docker.io/appsurifyci/appsurify-testbrain-cli:${{ github.event.release.name }}
+          tags: docker.io/appsurifyinc/appsurify-testbrain-cli:${{ github.event.release.name }}
           push: true
-          cache-from: type=registry,ref=docker.io/appsurifyci/appsurify-testbrain-cli:${{ github.event.release.name }}
+          cache-from: type=registry,ref=docker.io/appsurifyinc/appsurify-testbrain-cli:${{ github.event.release.name }}
       - name: "Mark as latest"
-        run: docker buildx imagetools create --tag appsurifyci/appsurify-testbrain-cli:latest appsurifyci/appsurify-testbrain-cli:${{ github.event.release.name }}
+        run: docker buildx imagetools create --tag appsurifyinc/appsurify-testbrain-cli:latest appsurifyinc/appsurify-testbrain-cli:${{ github.event.release.name }}
