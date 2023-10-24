@@ -3,10 +3,10 @@ import pathlib
 import subprocess
 from typing import List, Optional
 
-from testbrain.git2testbrain.exceptions import GitCommandException
-from testbrain.git2testbrain.models import Commit
-from testbrain.git2testbrain.types import T_SHA, PathLike, T_Branch, T_File
-from testbrain.git2testbrain.utils import parse_commits_from_text
+from git2testbrain.exceptions import GitCommandException
+from git2testbrain.models import Commit
+from git2testbrain.types import T_SHA, PathLike, T_Branch, T_File
+from git2testbrain.utils import parse_commits_from_text
 
 logger = logging.getLogger(__name__)
 

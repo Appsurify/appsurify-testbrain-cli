@@ -9,7 +9,7 @@ import pyclbr
 import sys
 from typing import Optional
 
-from testbrain.core.structures import CaseInsensitiveDict
+from testbrain.structures import CaseInsensitiveDict
 
 logger = logging.getLogger(__name__)
 

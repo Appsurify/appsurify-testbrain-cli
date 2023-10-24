@@ -8,8 +8,8 @@ from urllib3.util import Retry
 
 from testbrain import __build__, __name__, __version__
 from testbrain.core import platform
-from testbrain.core.api.adapter import TCPKeepAliveAdapter
-from testbrain.core.api.auth import AuthBase
+from testbrain.api.adapter import TCPKeepAliveAdapter
+from testbrain.api.auth import AuthBase
 
 logger = logging.getLogger(__name__)
 

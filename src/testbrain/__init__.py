@@ -1,4 +1,5 @@
-from testbrain.core import platform
+from testbrain import platform
+from testbrain import command
 
 __version__ = "2023.10.25"
 __build__ = "undefined"

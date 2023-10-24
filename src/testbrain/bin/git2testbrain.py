@@ -5,12 +5,11 @@ import pathlib
 import click
 
 from testbrain import RUNTIME, VERSION
-from testbrain.core.command import TestbrainCommand
-from testbrain.core.context import TestbrainContext
-from testbrain.git2testbrain import TB_ART_LINES_STYLED
-from testbrain.git2testbrain.controller import Git2TestbrainController
+from testbrain.command import TestbrainCommand
+from testbrain.context import TestbrainContext
+from git2testbrain import TB_ART_LINES_STYLED
+from git2testbrain.controller import Git2TestbrainController
 
-# logger = logging.getLogger("testbrain.bin.git2testbrain")
 logger = logging.getLogger(__name__)
 
 
@@ -216,6 +215,6 @@ def cli(
     logger.debug("Shutdown...")
 
 
-if __name__ == "__main__":
-    logger.name = "testbrain.bin.git2testbrain"
-    cli()
+# if __name__ == "__main__":
+#     logger.name = "testbrain.bin.git2testbrain"
+#     cli()

@@ -4,7 +4,7 @@ from typing import Optional, Union
 
 import click
 
-from testbrain.core.crashreporter import inject_excepthook
+from testbrain.crashreporter import inject_excepthook
 
 
 class TestbrainContext(click.Context):

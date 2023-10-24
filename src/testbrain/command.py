@@ -4,8 +4,8 @@ import typing as t
 import click
 from click import Context
 
-from testbrain.core.context import TestbrainContext
-from testbrain.core.log import LOG_LEVELS, configure_logging
+from testbrain.context import TestbrainContext
+from testbrain.log import LOG_LEVELS, configure_logging
 
 
 class TestbrainCommand(click.Command):
@@ -56,7 +56,14 @@ class TestbrainCommand(click.Command):
 
 
 class TestbrainGroup(click.Group):
+    context_class = TestbrainContext
+    default_context_settings = {"help_option_names": ["-h", "--help"]}
     command_class = TestbrainCommand
+
+    def invoke(self, ctx) -> t.Any:
+        configure_logging(ctx.params.get("loglevel"), ctx.params.get("logfile"))
+        rv = super().invoke(ctx)
+        return rv
 
     def command(self, *args, **kwargs):
         """A shortcut decorator for declaring and attaching a command to

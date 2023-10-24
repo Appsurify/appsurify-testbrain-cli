@@ -1,10 +1,10 @@
 import logging
 from typing import Optional, Union
 
-from testbrain.git2testbrain.client import Git2TestbrainAPIClient
-from testbrain.git2testbrain.models import Payload
-from testbrain.git2testbrain.repository import GitRepository
-from testbrain.git2testbrain.types import T_SHA, PathLike, T_Branch
+from git2testbrain.client import Git2TestbrainAPIClient
+from git2testbrain.models import Payload
+from git2testbrain.repository import GitRepository
+from git2testbrain.types import T_SHA, PathLike, T_Branch
 
 logger = logging.getLogger(__name__)
 
