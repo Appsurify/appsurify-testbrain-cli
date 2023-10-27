@@ -1,6 +1,7 @@
 import logging
 import os
 import pathlib
+import sys
 
 import click
 
@@ -11,6 +12,20 @@ from git2testbrain import TB_ART_LINES_STYLED
 from git2testbrain.controller import Git2TestbrainController
 
 logger = logging.getLogger(__name__)
+
+
+@click.group(
+    name="git2testbrain",
+    invoke_without_command=True,
+    context_settings={
+        "ignore_unknown_options": True,
+        "allow_interspersed_args": True,
+    },
+)
+@click.pass_context
+def cli(ctx: click.Context):
+    if ctx.invoked_subcommand is None:
+        ctx.invoke(push, *ctx.args)
 
 
 def print_version(ctx, param, value):
@@ -28,7 +43,7 @@ def work_dir_callback(ctx, param, value):
     return value
 
 
-@click.command("git2testbrain", cls=TestbrainCommand)
+@cli.command("push", cls=TestbrainCommand)
 @click.option(
     "--server",
     metavar="<url>",
@@ -146,7 +161,7 @@ def work_dir_callback(ctx, param, value):
     help="Show version.",
 )
 @click.pass_context
-def cli(
+def push(
     ctx: "TestbrainContext",
     server,
     token,
@@ -215,6 +230,6 @@ def cli(
     logger.debug("Shutdown...")
 
 
-# if __name__ == "__main__":
-#     logger.name = "testbrain.bin.git2testbrain"
-#     cli()
+if __name__ == "__main__":
+    logger.name = "testbrain.bin.git2testbrain"
+    cli()

@@ -59,13 +59,16 @@ classifiers = [
 ]
 packages = [
     {include = "testbrain", from = "src"},
+    {include = "git2testbrain", from = "src"},
 ]
 include = ["CHANGELOG.md"]
 
 [tool.poetry.scripts]
-testbrain = "testbrain.__main__:cli"
-git2testbrain = "testbrain.bin.git2testbrain:cli"
-git2appsurify = "testbrain.bin.git2appsurify:cli"
+#testbrain = "testbrain.cli:cli"
+#git2testbrain = "git2testbrain.cli:cli"
+#testbrain = "testbrain.__main__:cli"
+#git2testbrain = "testbrain.bin.git2testbrain:cli"
+#git2appsurify = "testbrain.bin.git2appsurify:cli"
 
 [tool.poetry.dependencies]
 python = ">=3.7,<4"

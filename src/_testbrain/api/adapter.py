@@ -2,7 +2,7 @@ import socket
 
 from requests_toolbelt.adapters.socket_options import SocketOptionsAdapter
 
-from testbrain.core import platform
+# from testbrain import platform
 
 
 class TCPKeepAliveAdapter(SocketOptionsAdapter):

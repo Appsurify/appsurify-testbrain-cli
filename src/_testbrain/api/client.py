@@ -6,8 +6,9 @@ import requests
 from requests.adapters import BaseAdapter
 from urllib3.util import Retry
 
-from testbrain import __build__, __name__, __version__
-from testbrain.core import platform
+import testbrain
+
+# from testbrain import platform
 from testbrain.api.adapter import TCPKeepAliveAdapter
 from testbrain.api.auth import AuthBase
 
@@ -43,14 +44,15 @@ class APIClient(abc.ABC):
 
     def get_user_agent(self) -> str:
         client_name = self.name or self.__class__.__name__
-        app_name = __name__
-        app_version = __version__
-        app_build = __build__
-        ua = (
-            f"{client_name}/{app_version} ({platform.SYSTEM}/{platform.RELEASE}; "
-            f"{platform.PY_IMPLEMENTATION}/{platform.PY_VERSION}; {platform.MACHINE}) "
-            f"Build/{app_build} (included: {app_name}/{app_version})"
-        )
+        app_name = str(__name__)
+        # app_version = str(__version__)
+        # app_build = str(__build__)
+        # ua = (
+        #     f"{client_name}/{app_version} ({platform_info.SYSTEM}/{platform_info.RELEASE}; "
+        #     f"{platform_info.PY_IMPLEMENTATION}/{platform_info.PY_VERSION}; {platform_info.MACHINE}) "
+        #     f"Build/{app_build} (included: {app_name}/{app_version})"
+        # )
+        ua = ""
         return ua
 
     def get_session(

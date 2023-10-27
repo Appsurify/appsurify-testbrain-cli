@@ -1,9 +1,2 @@
-from testbrain import platform
-from testbrain import command
-
-__version__ = "2023.10.25"
-__build__ = "undefined"
-__name__ = "appsurify-testbrain-cli"
-
-VERSION = f"{__name__.capitalize()} ({__version__}) [{__build__}]"
-RUNTIME = f"{platform.PY_IMPLEMENTATION} {platform.PY_VERSION} on {platform.VERSION}"
+from . import _platform as platform
+from .__version__ import __version__ as version
