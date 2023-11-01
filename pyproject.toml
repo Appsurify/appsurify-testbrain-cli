@@ -16,9 +16,6 @@ search = "{current_version}"
 replace = "{new_version}"
 
 [[tool.bumpversion.files]]
-filename = "src/testbrain/__init__.py"
-
-[[tool.bumpversion.files]]
 filename = "pyproject.toml"
 
 [tool.poetry]
@@ -59,11 +56,11 @@ classifiers = [
 ]
 packages = [
     {include = "testbrain", from = "src"},
-    {include = "git2testbrain", from = "src"},
 ]
 include = ["CHANGELOG.md"]
 
 [tool.poetry.scripts]
+#testbrain = "bin.testbrain:application"
 #testbrain = "testbrain.cli:cli"
 #git2testbrain = "git2testbrain.cli:cli"
 #testbrain = "testbrain.__main__:cli"
@@ -74,7 +71,6 @@ include = ["CHANGELOG.md"]
 python = ">=3.7,<4"
 pydantic = "^2.4.2"
 requests = "^2.31.0"
-requests-toolbelt = "^1.0.0"
 urllib3 = "<2.0.0"
 click = "^8.1.7"
 
