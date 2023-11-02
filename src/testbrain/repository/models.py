@@ -4,7 +4,7 @@ from enum import Enum
 
 from pydantic import BaseModel
 
-from git2testbrain.types import T_SHA, PathLike, T_Blame, T_Branch, T_File, T_Patch
+from .types import T_SHA, PathLike, T_Blame, T_Branch, T_File, T_Patch
 
 
 class Branch(BaseModel):
