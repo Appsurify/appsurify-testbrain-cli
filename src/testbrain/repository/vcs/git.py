@@ -1,17 +1,17 @@
+import abc
 import logging
 import os
+import pathlib
 import re
 import subprocess
-import abc
 import typing as t
-import pathlib
 
 from testbrain.terminal import Process, ProcessExecutionError
-from ..types import T_SHA, T_Branch, T_File, PathLike
+
 from ..models import Commit
+from ..types import T_SHA, PathLike, T_Branch, T_File
 from ..utils import parse_commits_from_text
 from .base import BaseVCS
-
 
 logger = logging.getLogger(__name__)
 

@@ -19,24 +19,24 @@ LOG_LEVELS = {
     "CRITICAL": logging.CRITICAL,
 }
 
-LOG_LEVELS.setdefault("WARNING", logging.WARNING)
+LOG_LEVELS.setdefault("INFO", logging.INFO)
 
-LOG_FORMAT_BASE = "%(asctime)-8s | %(levelname)-8s"
+LOG_FORMAT_BASE = "%(asctime)-8s %(levelname)-8s"
 LOG_FORMAT_MSG = "%(message)s"
+LOG_FORMAT_DATE = "%Y-%m-%d %H:%M:%S"
+
 
 LOG_FORMATS = {
     "DEBUG": (
-        f"{LOG_FORMAT_BASE} | "
-        f"%(module)s %(funcName)s [%(relativePath)s:%(lineno)d] | "
+        f"{LOG_FORMAT_BASE} %(name)-8s "
+        f"%(module)s %(funcName)s [%(relativePath)s:%(lineno)d] "
         f"{LOG_FORMAT_MSG}"
     ),
-    "INFO": f"{LOG_FORMAT_BASE} | {LOG_FORMAT_MSG}",
+    "INFO": f"{LOG_FORMAT_BASE} {LOG_FORMAT_MSG}",
     "WARNING": f"{LOG_FORMAT_BASE}: {LOG_FORMAT_MSG}",
     "ERROR": f"{LOG_FORMAT_BASE}: {LOG_FORMAT_MSG}",
     "CRITICAL": f"{LOG_FORMAT_BASE}: {LOG_FORMAT_MSG}",
 }
-
-LOG_LEVELS.setdefault("WARNING", logging.WARNING)
 
 
 logging.basicConfig(
@@ -46,7 +46,7 @@ logging.basicConfig(
 
 
 def configure_logging(
-    level: t.Optional[str] = "WARNING",
+    level: t.Optional[str] = "INFO",
     file: t.Optional[pathlib.Path] = None,
 ):
     # LogLevel
@@ -56,7 +56,7 @@ def configure_logging(
     log_fmt = LOG_FORMATS[level]
 
     # Create a formatter
-    formatter = logging.Formatter(log_fmt)
+    formatter = logging.Formatter(log_fmt, datefmt=LOG_FORMAT_DATE)
 
     # Set up 'root' logger
     root_logger = logging.getLogger()

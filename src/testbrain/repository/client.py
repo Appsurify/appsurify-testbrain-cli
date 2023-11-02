@@ -1,8 +1,10 @@
 import logging
 import typing as t
-import requests
 from urllib.parse import urljoin
-from testbrain.client import HttpClient, HTTPAPIAuth
+
+import requests
+
+from testbrain.client import HTTPAPIAuth, HttpClient
 
 logger = logging.getLogger(__name__)
 

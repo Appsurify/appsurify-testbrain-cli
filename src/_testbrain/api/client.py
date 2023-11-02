@@ -43,13 +43,15 @@ class APIClient(abc.ABC):
         ...
 
     def get_user_agent(self) -> str:
-        client_name = self.name or self.__class__.__name__
-        app_name = str(__name__)
+        # client_name = self.name or self.__class__.__name__
+        # app_name = str(__name__)
         # app_version = str(__version__)
         # app_build = str(__build__)
         # ua = (
-        #     f"{client_name}/{app_version} ({platform_info.SYSTEM}/{platform_info.RELEASE}; "
-        #     f"{platform_info.PY_IMPLEMENTATION}/{platform_info.PY_VERSION}; {platform_info.MACHINE}) "
+        #     f"{client_name}/{app_version}
+        #     ({platform_info.SYSTEM}/{platform_info.RELEASE}; "
+        #     f"{platform_info.PY_IMPLEMENTATION}/{platform_info.PY_VERSION};
+        #     {platform_info.MACHINE}) "
         #     f"Build/{app_build} (included: {app_name}/{app_version})"
         # )
         ua = ""

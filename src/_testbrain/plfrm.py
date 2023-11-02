@@ -1,5 +1,5 @@
-import sys
 import platform as _platform
+import sys
 
 RELEASE = _platform.release()
 MACHINE = _platform.machine()

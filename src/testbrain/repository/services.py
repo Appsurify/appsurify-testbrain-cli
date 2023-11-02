@@ -1,11 +1,11 @@
 import abc
 import logging
 import typing as t
-from .types import T_SHA, PathLike, T_Branch
-from .models import Payload
-from .client import RepositoryClient
-from .vcs.git import GitVCS
 
+from .client import RepositoryClient
+from .models import Payload
+from .types import T_SHA, PathLike, T_Branch
+from .vcs.git import GitVCS
 
 logger = logging.getLogger(__name__)
 
@@ -134,7 +134,7 @@ class PushService(abc.ABC):
         project_id = self._get_project_id()
 
         payload_json = payload.model_dump_json()
-
+        payload_json = payload_json.encode("utf-8")
         result = self.client.send_changes_payload(
             project_id=project_id,
             data=payload_json,

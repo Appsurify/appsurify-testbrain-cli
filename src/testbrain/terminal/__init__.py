@@ -1,2 +1,2 @@
-from .process import Process
 from .exceptions import ProcessExecutionError
+from .process import Process

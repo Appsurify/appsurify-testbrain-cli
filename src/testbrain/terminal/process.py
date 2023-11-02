@@ -1,12 +1,12 @@
+import abc
 import logging
 import os
+import pathlib
 import re
 import subprocess
-import abc
 import typing as t
-import pathlib
-from .exceptions import ProcessExecutionError
 
+from .exceptions import ProcessExecutionError
 
 logger = logging.getLogger(__name__)
 

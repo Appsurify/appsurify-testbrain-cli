@@ -5,5 +5,5 @@
 # __name__ = "appsurify-testbrain-cli"
 #
 # VERSION = f"{__name__.capitalize()} ({__version__}) [{__build__}]"
-# # RUNTIME = f"{platform.PY_IMPLEMENTATION} {platform.PY_VERSION} on {platform.VERSION}"
+# RUNTIME = f"{platform.PY_IMPLEMENTATION} {platform.PY_VERSION} on {platform.VERSION}"
 # RUNTIME = ""

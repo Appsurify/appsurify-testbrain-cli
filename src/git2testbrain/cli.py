@@ -5,11 +5,11 @@ import sys
 
 import click
 
+from git2testbrain import TB_ART_LINES_STYLED
+from git2testbrain.controller import Git2TestbrainController
 from testbrain import RUNTIME, VERSION
 from testbrain.command import TestbrainCommand
 from testbrain.context import TestbrainContext
-from git2testbrain import TB_ART_LINES_STYLED
-from git2testbrain.controller import Git2TestbrainController
 
 logger = logging.getLogger(__name__)
 

@@ -1,9 +1,7 @@
 import abc
 
-from testbrain import platform, __name__, __version__
-
+from testbrain import __name__, __version__, platform
 from testbrain.client import HttpClient
-
 
 print(
     f"{__name__}/{__version__} "

@@ -4,8 +4,10 @@ import pathlib
 import sys
 
 import click
-from testbrain.core import TestbrainContext, TestbrainCommand, TestbrainGroup
 
+from testbrain.core import TestbrainCommand, TestbrainContext, TestbrainGroup
+
+from .services import PushService
 
 logger = logging.getLogger(__name__)
 
@@ -24,7 +26,7 @@ logger = logging.getLogger(__name__)
     add_help_option=False,
 )
 @click.pass_context
-def repository(ctx: click.Context):
+def app(ctx: click.Context):
     click.echo("CLI -> REPOSITORY")
     if ctx.invoked_subcommand is None:
         click.echo("CLI -> REPOSITORY -> CALL PUSH")
@@ -37,7 +39,7 @@ def work_dir_callback(ctx, param, value):
     return value
 
 
-@repository.command("push", cls=TestbrainCommand)
+@click.command("push", cls=TestbrainCommand)
 @click.option(
     "--server",
     metavar="<url>",
@@ -187,35 +189,40 @@ def push(
     if commit == "latest":
         commit = "HEAD"
 
+    logger.warning("WARNUP")
     logger.debug("Initializing git2testbrain controller")
-    # git2testbrain_controller = Git2TestbrainController(
-    #     server=server,
-    #     token=token,
-    #     project=project,
-    #     repo_dir=repo_dir,
-    #     repo_name=repo_name,
-    # )
-    #
-    # logger.info("Preparing delivery payload")
-    # payload_kwargs = {
-    #     "raw": not minimize,
-    #     "patch": not minimize,
-    #     "blame": not minimize,
-    #     "file_tree": not minimize,
-    # }
-    # _ = git2testbrain_controller.get_payload(
-    #     branch=branch, commit=commit, number=number, **payload_kwargs
-    # )
-    # logger.info("Prepared delivery payload")
-    #
-    # logger.info("Delivering payload to server")
-    # _ = git2testbrain_controller.deliver_repository_changes(timeout=120, max_retries=3)
-    # logger.info("Delivered payload to server")
+    service = PushService(
+        server=server,
+        token=token,
+        project=project,
+        repo_dir=repo_dir,
+        repo_name=repo_name,
+    )
+
+    logger.info("Preparing delivery payload")
+    payload_kwargs = {
+        "raw": not minimize,
+        "patch": not minimize,
+        "blame": not minimize,
+        "file_tree": not minimize,
+    }
+    payload = service.get_changes_payload(
+        branch=branch, commit=commit, number=number, **payload_kwargs
+    )
+    logger.info("Prepared delivery payload")
+
+    logger.info("Delivering payload to server")
+    response = service.send_changes_payload(payload=payload)
+    logger.debug(f"Send result: [{response.status_code}] {response.content}")
+    logger.info("Delivered payload to server")
 
     logger.info("Done")
     logger.debug("Shutdown...")
 
 
+app.add_command(push)
+
+
 if __name__ == "__main__":
-    logger.name = "testbrain.repository"
-    repository(prog_name="repository")
+    logger.name = "testbrain.repository.cli"
+    app(prog_name="repository")

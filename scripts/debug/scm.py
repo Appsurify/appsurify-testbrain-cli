@@ -1,7 +1,7 @@
 import pathlib
-from testbrain.repository.vcs.git import GitVCS
-from testbrain.repository.services import PushService
 
+from testbrain.repository.services import PushService
+from testbrain.repository.vcs.git import GitVCS
 
 scm = GitVCS("/Users/whenessel/Development/PycharmProjects/appsurify-testbrain-cli")
 print(scm.repo_dir)

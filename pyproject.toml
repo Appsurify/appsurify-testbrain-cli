@@ -60,9 +60,9 @@ packages = [
 include = ["CHANGELOG.md"]
 
 [tool.poetry.scripts]
+repository = "testbrain.repository.cli:app"
 #testbrain = "bin.testbrain:application"
 #testbrain = "testbrain.cli:cli"
-#git2testbrain = "git2testbrain.cli:cli"
 #testbrain = "testbrain.__main__:cli"
 #git2testbrain = "testbrain.bin.git2testbrain:cli"
 #git2appsurify = "testbrain.bin.git2appsurify:cli"

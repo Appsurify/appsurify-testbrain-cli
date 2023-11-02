@@ -1,18 +1,8 @@
 import binascii
 from typing import Dict, Iterator, List, Match, Optional, TypeVar, Union, cast
 
-from git2testbrain.models import (
-    Commit,
-    CommitFile,
-    FileStatusEnum,
-    Person,
-    Stats,
-)
-from git2testbrain.patterns import (
-    RE_COMMIT_DIFF,
-    RE_COMMIT_LIST,
-    RE_OCTAL_BYTE,
-)
+from git2testbrain.models import Commit, CommitFile, FileStatusEnum, Person, Stats
+from git2testbrain.patterns import RE_COMMIT_DIFF, RE_COMMIT_LIST, RE_OCTAL_BYTE
 from git2testbrain.types import T_SHA, Lit_change_type
 
 T_Diff = TypeVar("T_Diff", bound="Diff")

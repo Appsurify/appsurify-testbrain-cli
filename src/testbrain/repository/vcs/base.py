@@ -1,9 +1,10 @@
-import logging
 import abc
-import typing as t
+import logging
 import pathlib
-from ..types import T_SHA, T_Branch, T_File, PathLike
+import typing as t
+
 from ..models import Commit
+from ..types import T_SHA, PathLike, T_Branch, T_File
 
 if t.TYPE_CHECKING:
     from testbrain.terminal import Process
