@@ -6,7 +6,7 @@ import abc
 import typing as t
 import pathlib
 
-from testbrain.terminal import Process
+from testbrain.terminal import Process, ProcessExecutionError
 from ..types import T_SHA, T_Branch, T_File, PathLike
 from ..models import Commit
 from ..utils import parse_commits_from_text
@@ -26,13 +26,27 @@ class GitVCS(BaseVCS):
         return self._process
 
     def _get_repo_name(self) -> str:
-        ...
+        result = self.process.remote_url()
+        remote_url = result.replace(".git", "")
+        if not remote_url:
+            remote_url = str(self.repo_dir)
+        repo_name = remote_url.split("/")[-1]
+        return repo_name
 
     def _get_current_branch(self) -> T_Branch:
-        ...
+        logger.debug("Get current active branch from repository")
+        result = self.process.branch(show_current=True)
+        logger.debug(f"Current active branch '{result}'")
+        return result
 
     def branches(self) -> t.List[T_Branch]:
-        ...
+        def clean_branch(name: str) -> str:
+            return name.replace("*", "").lstrip().rstrip()
+
+        result = self.process.branch()
+        branches = result.splitlines()
+        branches = [clean_branch(branch) for branch in branches]
+        return branches
 
     def commits(
         self,
@@ -44,7 +58,7 @@ class GitVCS(BaseVCS):
         raw: t.Optional[bool] = True,
         patch: t.Optional[bool] = True,
     ) -> t.List[Commit]:
-        log_result = self.process.log(
+        result = self.process.log(
             branch=branch,
             commit=commit,
             number=number,
@@ -53,12 +67,12 @@ class GitVCS(BaseVCS):
             raw=raw,
             patch=patch,
         )
-        commits = parse_commits_from_text(log_result)
+        commits = parse_commits_from_text(result)
         for commit in commits:
             parent_commits = commit.parents.copy()
             commit.parents = []
             for parent in parent_commits:
-                parent_log_result = self.process.log(
+                parent_result = self.process.log(
                     branch=branch,
                     commit=parent.sha,
                     number=1,
@@ -66,17 +80,55 @@ class GitVCS(BaseVCS):
                     raw=False,
                     patch=False,
                 )
-                parent_commit = parse_commits_from_text(parent_log_result)
+                parent_commit = parse_commits_from_text(parent_result)
                 commit.parents.extend(parent_commit)
 
         logger.info(f"Finished searching and processing {len(commits)} commits")
         return commits
 
-    def file_tree(self, branch: T_Branch) -> t.Optional[t.List[T_File]]:
-        ...
+    def file_tree(
+        self, branch: t.Optional[T_Branch] = None
+    ) -> t.Optional[t.List[T_File]]:
+        if branch is None:
+            branch = self.current_branch
+        result = self.process.ls_files(branch=branch)
+        file_tree = result.splitlines()
+        file_tree = [file.lstrip().rstrip() for file in file_tree]
+        return file_tree
 
 
 class GitProcess(Process):
+    def __init__(self, work_dir: t.Optional[pathlib.Path] = None):
+        super().__init__(work_dir)
+        self._fix_renames(limit=999999)
+
+    def _fix_renames(self, limit: t.Optional[int] = 999999):
+        try:
+            self.execute(["git", "config", "--global", "merge.renameLimit", str(limit)])
+            self.execute(["git", "config", "--global", "diff.renameLimit", str(limit)])
+            self.execute(["git", "config", "--global", "diff.renames", "0"])
+        except ProcessExecutionError:
+            logger.warning("Cant fix rename limits GLOBAL")
+        try:
+            self.execute(["git", "config", "merge.renameLimit", str(limit)])
+            self.execute(["git", "config", "diff.renameLimit", str(limit)])
+            self.execute(["git", "config", "diff.renames", "0"])
+        except ProcessExecutionError:
+            logger.warning("Cant fix rename limits LOCAL")
+
+    def remote_url(self) -> str:
+        command = ["git", "config", "--get", "remote.origin.url"]
+        result = self.execute(command=command)
+        return result
+
+    def branch(self, show_current: bool = False) -> str:
+        extra_params: list = []
+        if show_current:
+            extra_params.append("--show-current")
+        command = ["git", "branch", *extra_params]
+        result = self.execute(command=command)
+        return result
+
     def log(
         self,
         branch: T_Branch,
@@ -128,5 +180,14 @@ class GitProcess(Process):
             str(commit),
         ]
 
+        result = self.execute(command=command)
+        return result
+
+    def ls_files(self, branch: t.Optional[T_Branch] = None) -> str:
+        extra_params: list = ["--name-only"]
+        if branch is not None:
+            extra_params.append(f"-r {branch}")
+
+        command = ["git", "ls-tree", *extra_params]
         result = self.execute(command=command)
         return result

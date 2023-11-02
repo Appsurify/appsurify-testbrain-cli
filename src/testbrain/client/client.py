@@ -24,7 +24,10 @@ DEFAULT_MAX_RETRIES: T_MAX_RETRIES = Retry(
 
 DEFAULT_TIMEOUT: float = 120.0
 
-DEFAULT_HEADERS: t.Dict[str, t.Any] = {"Connection": "keep-alive"}
+DEFAULT_HEADERS: t.Dict[str, t.Any] = {
+    "Connection": "keep-alive",
+    "Content-Type": "application/json",
+}
 
 
 DEFAULT_USER_AGENT: t.Optional[str] = get_user_agent()
@@ -78,6 +81,7 @@ class HttpClient(abc.ABC):
             headers = {}
 
         headers["user-agent"] = self.user_agent
+        headers.update(DEFAULT_HEADERS)
 
         if isinstance(max_retries, int):
             DEFAULT_MAX_RETRIES.total = max_retries
@@ -124,7 +128,7 @@ class HttpClient(abc.ABC):
     def post(
         self,
         url: str,
-        data: t.Optional[dict] = None,
+        data: t.Optional[t.Union[dict, str, bytes]] = None,
         json: t.Optional[dict] = None,
         **kwargs,
     ) -> requests.Response:

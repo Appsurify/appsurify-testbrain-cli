@@ -1,5 +1,7 @@
 from .utils import logging, platform
 from . import terminal
+from . import core
+
 
 __name__ = "appsurify-testbrain-cli"
 __version__ = "2023.10.25"

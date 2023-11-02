@@ -21,16 +21,16 @@ LOG_LEVELS = {
 
 LOG_LEVELS.setdefault("WARNING", logging.WARNING)
 
-LOG_FORMAT_BASE = "%(levelname)-8s %(asctime)-8s %(name)-4s"
+LOG_FORMAT_BASE = "%(asctime)-8s | %(levelname)-8s"
 LOG_FORMAT_MSG = "%(message)s"
 
 LOG_FORMATS = {
     "DEBUG": (
-        f"{LOG_FORMAT_BASE} "
-        f"%(relativePath)s:%(lineno)d %(module)s %(funcName)s: "
+        f"{LOG_FORMAT_BASE} | "
+        f"%(module)s %(funcName)s [%(relativePath)s:%(lineno)d] | "
         f"{LOG_FORMAT_MSG}"
     ),
-    "INFO": f"{LOG_FORMAT_BASE}: {LOG_FORMAT_MSG}",
+    "INFO": f"{LOG_FORMAT_BASE} | {LOG_FORMAT_MSG}",
     "WARNING": f"{LOG_FORMAT_BASE}: {LOG_FORMAT_MSG}",
     "ERROR": f"{LOG_FORMAT_BASE}: {LOG_FORMAT_MSG}",
     "CRITICAL": f"{LOG_FORMAT_BASE}: {LOG_FORMAT_MSG}",
