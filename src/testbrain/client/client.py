@@ -40,14 +40,9 @@ class HttpClient(abc.ABC):
     def __new__(cls, *args, **kwargs):
         new = object.__new__(cls)
         parent = None
-        for klass in cls.__mro__:
-            if klass == new.__class__:
-                continue
-            parent = object.__new__(klass)
-            break
-
-        if new.__parent is None:
-            cls.__parent = parent
+        if new.__parent is None and not isinstance(cls, HttpClient):
+            parent = object.__new__(HttpClient)
+        new.__parent = parent
         return new
 
     @property
@@ -56,7 +51,6 @@ class HttpClient(abc.ABC):
 
     @property
     def name(self) -> str:
-        # return from_camel_case(self.__class__.__name__).capitalize()
         return self.__class__.__name__
 
     @property

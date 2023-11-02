@@ -1,4 +1,8 @@
+import logging
 from testbrain.client import HttpClient
+
+
+logger = logging.getLogger(__name__)
 
 
 class RepositoryClient(HttpClient):

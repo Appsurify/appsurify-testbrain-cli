@@ -32,8 +32,8 @@ print(
     f"PROCESSOR: {platform.processor()}\n"
 )
 
-# c = HttpClient()
-# print(c.user_agent)
+c = HttpClient()
+print(c.user_agent)
 
 from testbrain.repository.client import RepositoryClient
 
