@@ -1,5 +1,6 @@
-import click
 import logging
+
+import click
 
 # from testbrain import TestbrainContext, TestbrainCommand
 # from testbrain.client import HTTPClient

@@ -1,6 +1,6 @@
 import logging
-from testbrain.client import HttpClient
 
+from testbrain.client import HttpClient
 
 logger = logging.getLogger(__name__)
 

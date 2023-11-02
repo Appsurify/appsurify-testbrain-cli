@@ -1,4 +1,4 @@
-from .utils import platform, logging
+from .utils import logging, platform
 
 __name__ = "appsurify-testbrain-cli"
 __version__ = "2023.10.25"

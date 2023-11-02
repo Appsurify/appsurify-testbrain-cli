@@ -1,7 +1,7 @@
 import typing as t
 from re import split
-from testbrain import platform, pkg_name, pkg_version
 
+from testbrain import pkg_name, pkg_version, platform
 
 pkg_platform = (
     f"({platform.os()}/{platform.version()}; "

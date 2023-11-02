@@ -1,12 +1,11 @@
 import logging
 import os
 import re
-import typing as t
 import subprocess
+import typing as t
 from dataclasses import dataclass
 from pathlib import Path
 from tempfile import NamedTemporaryFile
-
 
 logger = logging.getLogger(__name__)
 

@@ -1,6 +1,7 @@
-import click
 import pathlib
 import typing as t
+
+import click
 
 
 class TestbrainContext(click.Context):

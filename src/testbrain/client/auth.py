@@ -1,6 +1,6 @@
 import logging
-from requests.auth import AuthBase
 
+from requests.auth import AuthBase
 
 logger = logging.getLogger(__name__)
 

@@ -1,14 +1,16 @@
 import logging
 import socket
-import warnings
 import sys
 import typing as t
+import warnings
+
 import requests
 from requests import adapters
 
+from testbrain import platform
+
 from ._compat import connection, poolmanager
 from .exceptions import RequestsVersionTooOld
-
 
 logger = logging.getLogger(__name__)
 
@@ -46,7 +48,9 @@ class SocketOptionsAdapter(adapters.HTTPAdapter):
     else:
         default_options = []
         warnings.warn(
-            "This version of Requests is only compatible with a version of urllib3 which is too old to support setting options on a socket. This adapter is functionally useless.",
+            "This version of Requests is only compatible with a "
+            "version of urllib3 which is too old to support setting options "
+            "on a socket. This adapter is functionally useless.",
             RequestsVersionTooOld,
         )
 

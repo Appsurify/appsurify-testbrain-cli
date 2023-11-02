@@ -1,14 +1,13 @@
+import bisect
+import importlib
 import logging
 import logging.config
 import logging.handlers
-import importlib
-import sys
 import os
 import pathlib
 import pyclbr
-import bisect
+import sys
 import typing as t
-
 
 MODULE_DIR = importlib.import_module(__package__).__path__[0]
 
