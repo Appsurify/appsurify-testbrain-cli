@@ -1,3 +1,4 @@
-from testbrain.__cli__ import application
+from testbrain.cli import app
 
-application()
+if __name__ == "__main__":
+    app(prog_name="testbrain")

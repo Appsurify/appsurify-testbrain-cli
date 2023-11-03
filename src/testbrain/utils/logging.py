@@ -9,7 +9,10 @@ import pyclbr
 import sys
 import typing as t
 
-MODULE_DIR = importlib.import_module(__package__).__path__[0]
+logger = logging.getLogger("testbrain")
+
+MODULE_DIR = pathlib.Path(__file__).parent.parent
+
 
 LOG_LEVELS = {
     "DEBUG": logging.DEBUG,
@@ -90,11 +93,11 @@ def _log_record_factory(module, *args, **kwargs):
     if module == "__main__":
         module = record.module
     try:
-        record.className = ClassSearcher(module).lookup_class(
-            record.funcName, record.lineno
-        )
-    except (AttributeError, TypeError, IndexError):
+        class_searcher = ClassSearcher(module)
+        record.className = class_searcher.lookup_class(record.funcName, record.lineno)
+    except (AttributeError, TypeError, IndexError) as exc:
         # logger.exception(exc, exc_info=False)
+        print(exc)
         ...
 
     if record.className:
@@ -106,7 +109,11 @@ def _log_record_factory(module, *args, **kwargs):
         cwd = os.getcwd()
         record.pathname = str(pathlib.Path(cwd).joinpath(record.pathname))
 
-    if record.pathname.startswith(MODULE_DIR):
+    mod_dir = MODULE_DIR
+    if isinstance(mod_dir, pathlib.Path):
+        mod_dir = str(mod_dir)
+
+    if record.pathname.startswith(mod_dir):
         relative_path = os.path.relpath(record.pathname, MODULE_DIR)
 
     if relative_path is None:

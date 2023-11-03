@@ -19,7 +19,7 @@ service = PushService(
     repo_dir="/Users/whenessel/Development/PycharmProjects/appsurify-testbrain-cli",
 )
 
-p = service.get_changes_payload(branch="development", commit="HEAD", number=2)
+p = service.fetch_changes_payload(branch="development", commit="HEAD", number=2)
 print(p)
 r = service.send_changes_payload(payload=p)
 print(r)

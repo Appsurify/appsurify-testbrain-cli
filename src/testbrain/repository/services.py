@@ -2,15 +2,15 @@ import abc
 import logging
 import typing as t
 
-from .client import RepositoryClient
-from .models import Payload
-from .types import T_SHA, PathLike, T_Branch
-from .vcs.git import GitVCS
+from testbrain.repository.client import RepositoryClient
+from testbrain.repository.models import Payload
+from testbrain.repository.types import T_SHA, PathLike, T_Branch
+from testbrain.repository.vcs.git import GitVCS
 
 logger = logging.getLogger(__name__)
 
 
-class PushService(abc.ABC):
+class PushService(object):
     _client: t.Optional[RepositoryClient] = None
     _vcs: t.Optional[GitVCS] = None
     _payload: t.Optional[Payload] = None
@@ -62,7 +62,7 @@ class PushService(abc.ABC):
             self._vcs = GitVCS(repo_dir=self.repo_dir, repo_name=self.repo_name)
         return self._vcs
 
-    def get_changes_payload(
+    def fetch_changes_payload(
         self,
         branch: t.Union[T_Branch, None],
         commit: T_SHA,
@@ -122,7 +122,7 @@ class PushService(abc.ABC):
             file_tree=commit_files,
             commits=commits,
         )
-        logger.debug(f"Delivery payload: {payload.model_dump_json()}")
+        # logger.debug(f"Changes payload: {payload.model_dump_json()}")
         return payload
 
     def send_changes_payload(
@@ -157,7 +157,7 @@ class PushService(abc.ABC):
         timeout: t.Optional[int] = None,
         max_retries: t.Optional[int] = None,
     ) -> t.Any:
-        payload = self.get_changes_payload(
+        payload = self.fetch_changes_payload(
             branch=branch,
             commit=commit,
             number=number,

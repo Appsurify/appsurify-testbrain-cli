@@ -67,7 +67,9 @@ class GitVCS(BaseVCS):
             raw=raw,
             patch=patch,
         )
+
         commits = parse_commits_from_text(result)
+
         for commit in commits:
             parent_commits = commit.parents.copy()
             commit.parents = []
@@ -83,7 +85,6 @@ class GitVCS(BaseVCS):
                 parent_commit = parse_commits_from_text(parent_result)
                 commit.parents.extend(parent_commit)
 
-        logger.info(f"Finished searching and processing {len(commits)} commits")
         return commits
 
     def file_tree(

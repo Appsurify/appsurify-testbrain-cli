@@ -1,6 +1,3 @@
-from . import core, terminal
-from .utils import logging, platform
-
 __name__ = "appsurify-testbrain-cli"
 __version__ = "2023.10.25"
 __build__ = "undefined"

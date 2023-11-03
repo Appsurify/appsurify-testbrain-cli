@@ -7,7 +7,7 @@ import warnings
 import requests
 from requests import adapters
 
-from testbrain import platform
+from testbrain.utils import platform
 
 from ._compat import connection, poolmanager
 from .exceptions import RequestsVersionTooOld

@@ -60,8 +60,8 @@ packages = [
 include = ["CHANGELOG.md"]
 
 [tool.poetry.scripts]
-testbrain = "testbrain.cli:app"
-tbcli = "testbrain.cli:app"
+testbrain = "testbrain.__main__:app"
+tbcli = "testbrain.__main__:app"
 # Backward capabilities
 # testbrain vcs - aliases
 git2testbrain = "testbrain.repository.cli:git2testbrain"

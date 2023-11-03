@@ -163,10 +163,12 @@ def push(
     **kwargs,
 ):
     ctx.work_dir = work_dir
+    logger.info("Running...")
+
     logger.debug(
         f"Exec with params: "
         f"server='{server}' "
-        f"token='{token}' "
+        f"token='{'*' * len(token)}' "
         f"project='{project}' "
         f"work_dir='{work_dir}' "
         f"repo_name='{repo_name}' "
@@ -187,8 +189,7 @@ def push(
     if commit == "latest":
         commit = "HEAD"
 
-    logger.warning("WARNUP")
-    logger.debug("Initializing git2testbrain controller")
+    logger.debug("Configuring PushService")
     service = PushService(
         server=server,
         token=token,
@@ -197,25 +198,29 @@ def push(
         repo_name=repo_name,
     )
 
-    logger.info("Preparing delivery payload")
     payload_kwargs = {
         "raw": not minimize,
         "patch": not minimize,
-        "blame": not minimize,
+        "blame": blame,  # not minimize,
         "file_tree": not minimize,
     }
-    payload = service.get_changes_payload(
+
+    logger.debug(
+        f"Payload fetching for "
+        f"{branch}:{commit} {number} with params {payload_kwargs}"
+    )
+
+    logger.info("Fetching changes payload")
+    payload = service.fetch_changes_payload(
         branch=branch, commit=commit, number=number, **payload_kwargs
     )
-    logger.info("Prepared delivery payload")
+    logger.info("Fetched changes payload")
 
-    logger.info("Delivering payload to server")
-    response = service.send_changes_payload(payload=payload)
-    logger.debug(f"Send result: [{response.status_code}] {response.content}")
-    logger.info("Delivered payload to server")
+    logger.info("Sending changes payload to server")
+    _ = service.send_changes_payload(payload=payload)
+    logger.info("Sent changes payload to server")
 
     logger.info("Done")
-    logger.debug("Shutdown...")
 
 
 git2testbrain = app
