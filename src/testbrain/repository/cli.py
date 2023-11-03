@@ -7,30 +7,18 @@ import click
 
 from testbrain.core import TestbrainCommand, TestbrainContext, TestbrainGroup
 
-from .services import PushService
+from testbrain.repository.services import PushService
 
 logger = logging.getLogger(__name__)
 
 
 @click.group(
-    name="repository",
-    cls=TestbrainGroup,
-    invoke_without_command=True,
-    no_args_is_help=False,
-    context_settings={
-        "help_option_names": ["-h", "--help"],
-        "allow_extra_args": True,
-        "allow_interspersed_args": True,
-        "ignore_unknown_options": True,
-    },
-    add_help_option=False,
+    name="repo", cls=TestbrainGroup, default_if_no_args=True, no_args_is_help=True
 )
+@click.version_option("unknown")
 @click.pass_context
-def app(ctx: click.Context):
-    click.echo("CLI -> REPOSITORY")
-    if ctx.invoked_subcommand is None:
-        click.echo("CLI -> REPOSITORY -> CALL PUSH")
-        ctx.invoke(push, **ctx.params)
+def app(ctx: TestbrainContext, **kwargs):
+    ...
 
 
 def work_dir_callback(ctx, param, value):
@@ -39,7 +27,7 @@ def work_dir_callback(ctx, param, value):
     return value
 
 
-@click.command("push", cls=TestbrainCommand)
+@app.command("push", cls=TestbrainCommand, default=True)
 @click.option(
     "--server",
     metavar="<url>",
@@ -220,7 +208,8 @@ def push(
     logger.debug("Shutdown...")
 
 
-app.add_command(push)
+git2testbrain = app
+git2appsurify = app
 
 
 if __name__ == "__main__":

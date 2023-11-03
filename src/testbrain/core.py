@@ -1,9 +1,11 @@
 import logging
 import os
 import pathlib
+import sys
 import typing as t
 
 import click
+from click import Context, Command
 
 from .utils.crasher import inject_excepthook
 from .utils.logging import LOG_LEVELS, configure_logging
@@ -15,9 +17,9 @@ class TestbrainContext(click.Context):
     _work_dir: t.Optional[t.Union[pathlib.Path, str]] = pathlib.Path(".").resolve()
 
     def __init__(self, *args, **kwargs):
-        inject_excepthook(
-            lambda etype, value, tb, dest: print("Dumped crash report to", dest)
-        )
+        # inject_excepthook(
+        #     lambda etype, value, tb, dest: print("Dumped crash report to", dest)
+        # )
         super().__init__(*args, **kwargs)
 
     @property
@@ -59,9 +61,6 @@ class TestbrainCommand(click.Command):
             )
         )
 
-    def __call__(self, *args, **kwargs):
-        super().__call__(*args, **kwargs)
-
     def invoke(self, ctx) -> t.Any:
         configure_logging(
             level=ctx.params.get("loglevel"), file=ctx.params.get("logfile")
@@ -80,7 +79,9 @@ class TestbrainCommand(click.Command):
 
 
 class TestbrainGroup(click.Group):
-    default_command = None
+    command_class = TestbrainCommand
+    context_class = TestbrainContext
+    default_context_settings = {"help_option_names": ["-h", "--help"]}
 
     def __init__(
         self,
@@ -90,62 +91,90 @@ class TestbrainGroup(click.Group):
         ] = None,
         **attrs: t.Any,
     ) -> None:
-        self.default_command = attrs.pop("default_command", None)
+        self.ignore_unknown_options = attrs.pop("ignore_unknown_options", True)
+        self.default_cmd_name = attrs.pop("default", None)
+        self.default_if_no_args = attrs.pop("default_if_no_args", False)
+
+        context_settings = attrs.pop("context_settings", {})
+        context_settings.update(self.default_context_settings)
+        attrs["context_settings"] = context_settings
+
         super().__init__(name, **attrs)
 
-    def parse_args(self, ctx: click.Context, args: t.List[str]) -> t.List[str]:
-        help_options = ctx.help_option_names
-        parent = ctx.parent
-        parent_cmd = None
-        if parent:
-            parent_cmd = parent.command
-        if not args and self.no_args_is_help and not ctx.resilient_parsing:
-            if self.get_command(ctx, self.default_command) is not None:
-                cmd = self.get_command(ctx, self.default_command)
-                if hasattr(cmd, "default_command"):
-                    sub = cmd.get_command(ctx, cmd.default_command)
-                    click.echo(sub.get_help(ctx), color=ctx.color)
-                    ctx.exit()
-                else:
-                    click.echo(cmd.get_help(ctx), color=ctx.color)
-                    ctx.exit()
+    def set_default_command(self, command):
+        """Sets a command function as the default command."""
+        cmd_name = command.name
+        self.add_command(command)
+        self.default_cmd_name = cmd_name
+
+    def parse_args(self, ctx, args):
+        if not args and self.default_if_no_args and self.default_cmd_name is not None:
+            args.insert(0, self.default_cmd_name)
+        return super().parse_args(ctx, args)
+
+    def get_command(self, ctx, cmd_name):
+        if cmd_name not in self.commands:
+            # No command name matched.
+            ctx.arg0 = cmd_name
+            cmd_name = self.default_cmd_name
+        return super().get_command(ctx, cmd_name)
+
+    def resolve_command(self, ctx, args):
+        base = super()
+        cmd_name, cmd, args = base.resolve_command(ctx, args)
+        if hasattr(ctx, "arg0"):
+            args.insert(0, ctx.arg0)
+            cmd_name = cmd.name
+        return cmd_name, cmd, args
+
+    def format_commands(self, ctx, formatter):
+        formatter = TestbrainCommandFormatter(self, formatter, mark="*")
+        return super().format_commands(ctx, formatter)
+
+    def command(self, *args, **kwargs):
+        default = kwargs.pop("default", False)
+        decorator = super().command(*args, **kwargs)
+        if not default:
+            return decorator
+
+        def _decorator(f):
+            cmd = decorator(f)
+            # if self.default_cmd_name is not None:
+            self.set_default_command(cmd)
+            return cmd
+
+        return _decorator
+
+    # def add_command(self, cmd: Command, name: t.Optional[str] = None, **kwargs) -> None:
+    #     # default = kwargs.pop("default", False)
+    #     # if default:
+    #     #     self.set_default_command(cmd)
+    #     # else:
+    #     #     super().add_command(cmd, name)
+    #     super().add_command(cmd, name)
+    #     print(self.commands)
+    #     print(self.default_cmd_name)
+
+
+class TestbrainCommandFormatter(click.formatting.HelpFormatter):
+    """Wraps a formatter to mark a default command."""
+
+    def __init__(self, group, formatter, mark="*"):
+        self.group = group
+        self.formatter = formatter
+        self.mark = mark
+        super().__init__()
+
+    def __getattr__(self, attr):
+        return getattr(self.formatter, attr)
+
+    def write_dl(self, rows, *args, **kwargs):
+        rows_ = []
+        for cmd_name, help in rows:
+            if cmd_name == self.group.default_cmd_name:
+                rows_.insert(0, (cmd_name + " " + self.mark, help))
             else:
-                click.echo(ctx.get_help(), color=ctx.color)
-                ctx.exit()
+                rows_.append((cmd_name, help))
 
-        elif set(help_options).intersection(args):
-            if parent_cmd:
-                current_cmd = ctx.command
-                cmd = current_cmd
-                if self.get_command(ctx, self.default_command) is not None:
-                    cmd = self.get_command(ctx, self.default_command)
-
-                if hasattr(cmd, "default_command"):
-                    sub = cmd.get_command(ctx, cmd.default_command)
-                    click.echo(sub.get_help(ctx), color=ctx.color)
-                    ctx.exit()
-                    # formatter = ctx.make_formatter()
-                    # msg = sub.format_options(ctx, formatter)
-                    # msg = formatter.getvalue().rstrip("\n")
-                    # click.echo(msg, color=ctx.color)
-                else:
-                    # click.echo(cmd.get_help(ctx), color=ctx.color)
-                    formatter = ctx.make_formatter()
-                    cmd.format_usage(ctx, formatter)
-                    cmd.format_options(ctx, formatter)
-                    cmd.format_epilog(ctx, formatter)
-
-                    msg = formatter.getvalue().rstrip("\n")
-                    click.echo(msg, color=ctx.color)
-
-                formatter = ctx.make_formatter()
-                current_cmd.format_commands(ctx, formatter)
-                msg = formatter.getvalue().rstrip("\n")
-                click.echo(msg, color=ctx.color)
-
-                ctx.exit()
-            # pa0 = super().parse_args(ctx, args)
-            # click.echo(ctx.get_help(), color=ctx.color)
-            # ctx.exit()
-        pa = super().parse_args(ctx, args)
-        return pa
+        rows_.insert(0, ("Commands:", ""))
+        return self.formatter.write_dl(rows_, *args, **kwargs)
