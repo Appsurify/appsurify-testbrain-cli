@@ -5,7 +5,7 @@ import sys
 import typing as t
 
 import click
-from click import Context, Command
+from click import Command, Context
 
 from .utils.crasher import inject_excepthook
 from .utils.logging import LOG_LEVELS, configure_logging
@@ -17,9 +17,9 @@ class TestbrainContext(click.Context):
     _work_dir: t.Optional[t.Union[pathlib.Path, str]] = pathlib.Path(".").resolve()
 
     def __init__(self, *args, **kwargs):
-        # inject_excepthook(
-        #     lambda etype, value, tb, dest: print("Dumped crash report to", dest)
-        # )
+        inject_excepthook(
+            lambda etype, value, tb, dest: print("Dumped crash report to", dest)
+        )
         super().__init__(*args, **kwargs)
 
     @property
@@ -145,15 +145,17 @@ class TestbrainGroup(click.Group):
 
         return _decorator
 
-    # def add_command(self, cmd: Command, name: t.Optional[str] = None, **kwargs) -> None:
-    #     # default = kwargs.pop("default", False)
-    #     # if default:
-    #     #     self.set_default_command(cmd)
-    #     # else:
-    #     #     super().add_command(cmd, name)
-    #     super().add_command(cmd, name)
-    #     print(self.commands)
-    #     print(self.default_cmd_name)
+    def add_command(
+        self,
+        cmd: t.Union[t.Callable, Command],
+        name: t.Optional[str] = None,
+        **kwargs: t.Any,
+    ) -> None:
+        default = kwargs.pop("default", False)
+        if default:
+            self.set_default_command(cmd)
+        else:
+            super().add_command(cmd, name)
 
 
 class TestbrainCommandFormatter(click.formatting.HelpFormatter):

@@ -5,17 +5,27 @@ import sys
 
 import click
 
+import testbrain
 from testbrain.core import TestbrainCommand, TestbrainContext, TestbrainGroup
-
+from testbrain.repository import __version__
 from testbrain.repository.services import PushService
 
 logger = logging.getLogger(__name__)
 
 
 @click.group(
-    name="repo", cls=TestbrainGroup, default_if_no_args=True, no_args_is_help=True
+    name="repository",
+    cls=TestbrainGroup,
+    default_if_no_args=True,
+    no_args_is_help=True,
+    default=True,
 )
-@click.version_option("unknown")
+@click.version_option(
+    version=__version__,
+    package_name=testbrain.pkg_name,
+    prog_name="repository",
+    message="%(package)s, %(prog)s/%(version)s",
+)
 @click.pass_context
 def app(ctx: TestbrainContext, **kwargs):
     ...
