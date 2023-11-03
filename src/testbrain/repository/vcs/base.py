@@ -3,8 +3,8 @@ import logging
 import pathlib
 import typing as t
 
-from ..models import Commit
-from ..types import T_SHA, PathLike, T_Branch, T_File
+from testbrain.repository.models import Commit
+from testbrain.repository.types import T_SHA, PathLike, T_Branch, T_File
 
 if t.TYPE_CHECKING:
     from testbrain.terminal import Process

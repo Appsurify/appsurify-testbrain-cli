@@ -7,8 +7,8 @@ import typing as t
 import click
 from click import Command, Context
 
-from .utils.crasher import inject_excepthook
-from .utils.logging import LOG_LEVELS, configure_logging
+from testbrain.utils.crasher import inject_excepthook
+from testbrain.utils.logging import LOG_LEVELS, configure_logging
 
 logger = logging.getLogger(__name__)
 

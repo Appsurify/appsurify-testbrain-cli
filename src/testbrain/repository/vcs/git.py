@@ -6,12 +6,11 @@ import re
 import subprocess
 import typing as t
 
+from testbrain.repository.models import Commit
+from testbrain.repository.types import T_SHA, PathLike, T_Branch, T_File
+from testbrain.repository.utils import parse_commits_from_text
+from testbrain.repository.vcs.base import BaseVCS
 from testbrain.terminal import Process, ProcessExecutionError
-
-from ..models import Commit
-from ..types import T_SHA, PathLike, T_Branch, T_File
-from ..utils import parse_commits_from_text
-from .base import BaseVCS
 
 logger = logging.getLogger(__name__)
 

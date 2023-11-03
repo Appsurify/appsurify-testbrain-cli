@@ -24,22 +24,21 @@ LOG_LEVELS = {
 
 LOG_LEVELS.setdefault("INFO", logging.INFO)
 
-LOG_FORMAT_BASE = "%(asctime)-8s %(levelname)-8s"
-LOG_FORMAT_MSG = "%(message)s"
 LOG_FORMAT_DATE = "%Y-%m-%d %H:%M:%S"
 
 
 LOG_FORMATS = {
     "DEBUG": (
-        f"{LOG_FORMAT_BASE} %(name)-8s "
-        f"%(module)s %(funcName)s [%(relativePath)s:%(lineno)d] "
-        f"{LOG_FORMAT_MSG}"
+        "%(asctime)-8s %(levelname)-8s %(name)s %(funcName)s "
+        "[%(relativePath)s:%(lineno)d] %(message)s"
     ),
-    "INFO": f"{LOG_FORMAT_BASE} {LOG_FORMAT_MSG}",
-    "WARNING": f"{LOG_FORMAT_BASE}: {LOG_FORMAT_MSG}",
-    "ERROR": f"{LOG_FORMAT_BASE}: {LOG_FORMAT_MSG}",
-    "CRITICAL": f"{LOG_FORMAT_BASE}: {LOG_FORMAT_MSG}",
+    # "INFO": f"{LOG_FORMAT_BASE} {LOG_FORMAT_MSG}",
+    "INFO": "%(asctime)-8s %(levelname)-8s %(message)s",
+    "WARNING": "%(asctime)-8s %(levelname)-8s %(message)s",
+    "ERROR": "%(asctime)-8s %(levelname)-8s %(message)s",
 }
+
+LOG_FORMATS.setdefault("INFO", "%(levelname)-8s %(message)s")
 
 
 logging.basicConfig(

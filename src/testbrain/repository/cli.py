@@ -162,34 +162,16 @@ def push(
     minimize: bool,
     **kwargs,
 ):
-    ctx.work_dir = work_dir
-    logger.info("Running...")
+    logger.debug(f"Start push with params {ctx.params}")
 
-    logger.debug(
-        f"Exec with params: "
-        f"server='{server}' "
-        f"token='{'*' * len(token)}' "
-        f"project='{project}' "
-        f"work_dir='{work_dir}' "
-        f"repo_name='{repo_name}' "
-        f"repo_dir='{repo_dir}' "
-        f"branch='{branch}' "
-        f"number='{number}' "
-        f"start='{start}' "
-        f"blame='{blame}' "
-        f"minimize='{minimize}'"
-    )
-    logger.debug(
-        f"Exec with extra params: "
-        f"loglevel={ctx.params.get('loglevel')} "
-        f"logfile={ctx.params.get('logfile')}"
-    )
+    ctx.work_dir = work_dir
+
+    logger.info("Start push changes to server")
 
     commit = start
     if commit == "latest":
         commit = "HEAD"
 
-    logger.debug("Configuring PushService")
     service = PushService(
         server=server,
         token=token,
@@ -205,11 +187,6 @@ def push(
         "file_tree": not minimize,
     }
 
-    logger.debug(
-        f"Payload fetching for "
-        f"{branch}:{commit} {number} with params {payload_kwargs}"
-    )
-
     logger.info("Fetching changes payload")
     payload = service.fetch_changes_payload(
         branch=branch, commit=commit, number=number, **payload_kwargs
@@ -219,7 +196,6 @@ def push(
     logger.info("Sending changes payload to server")
     _ = service.send_changes_payload(payload=payload)
     logger.info("Sent changes payload to server")
-
     logger.info("Done")
 
 

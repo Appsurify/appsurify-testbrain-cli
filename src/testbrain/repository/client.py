@@ -4,7 +4,8 @@ from urllib.parse import urljoin
 
 import requests
 
-from testbrain.client import HTTPAPIAuth, HttpClient
+from testbrain.client.auth import HTTPAPIAuth
+from testbrain.client.client import HttpClient
 
 logger = logging.getLogger(__name__)
 

@@ -6,7 +6,7 @@ import re
 import subprocess
 import typing as t
 
-from .exceptions import ProcessExecutionError
+from testbrain.terminal.exceptions import ProcessExecutionError
 
 logger = logging.getLogger(__name__)
 
