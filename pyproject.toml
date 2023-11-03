@@ -60,12 +60,16 @@ packages = [
 include = ["CHANGELOG.md"]
 
 [tool.poetry.scripts]
-repository = "testbrain.repository.cli:app"
-#testbrain = "bin.testbrain:application"
-#testbrain = "testbrain.cli:cli"
-#testbrain = "testbrain.__main__:cli"
-#git2testbrain = "testbrain.bin.git2testbrain:cli"
-#git2appsurify = "testbrain.bin.git2appsurify:cli"
+testbrain = "testbrain.cli:app"
+tbcli = "testbrain.cli:app"
+# Backward capabilities
+# testbrain vcs - aliases
+git2testbrain = "testbrain.repository.cli:git2testbrain"
+git2appsurify = "testbrain.repository.cli:git2appsurify"
+# testbrain tests - aliases
+runtestswithappsurify = "testbrain.tests.cli:runtestswithappsurify"
+testimportappsurify = "testbrain.tests.cli:testimportappsurify"
+
 
 [tool.poetry.dependencies]
 python = ">=3.7,<4"
