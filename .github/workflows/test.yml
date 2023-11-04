@@ -43,7 +43,7 @@ jobs:
         if: always()
         uses: pmeier/pytest-results-action@main
         with:
-          path: reports/pytest-junit-report-${{ matrix.os }}-PY${{ matrix.python-version }}.xml
+          path: test-reports/pytest-junit-report-${{ matrix.os }}-PY${{ matrix.python-version }}.xml
           summary: true
           display-options: fEX
           fail-on-empty: true
