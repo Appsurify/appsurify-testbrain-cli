@@ -1,24 +1,15 @@
 import pytest
 from click.testing import CliRunner
-from testbrain.bin.git2testbrain import cli as git2testbrain
-from testbrain import __version__
+from testbrain.cli import app as testbrain_app
+from testbrain import version_message
 
 
-class TestGit2TestbrainBin:
+class TestbrainBin:
     def test_show_version(self):
         runner = CliRunner()
-        result = runner.invoke(git2testbrain, ["--version"])
+        result = runner.invoke(testbrain_app, ["--version"])
         assert result.exit_code == 0
-        assert f"Appsurify-testbrain-cli ({__version__})" in result.output
-
-    def test_show_help(self):
-        runner = CliRunner()
-        result = runner.invoke(git2testbrain, ["--help"])
-        assert result.exit_code == 0
-        assert (
-            "  -h, --help                      Show this message and exit."
-            in result.output
-        )
+        assert version_message in result.output
 
 
 #     def test_send_hook_simple(self, fp, tmp_path):

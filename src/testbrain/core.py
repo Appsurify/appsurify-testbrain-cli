@@ -7,6 +7,7 @@ import typing as t
 import click
 from click import Command, Context
 
+from testbrain import pkg_name, pkg_version
 from testbrain.utils.crasher import inject_excepthook
 from testbrain.utils.logging import LOG_LEVELS, configure_logging
 

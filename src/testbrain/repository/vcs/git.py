@@ -11,7 +11,8 @@ from testbrain.repository.models import Commit
 from testbrain.repository.types import T_SHA, PathLike, T_Branch, T_File
 from testbrain.repository.utils import parse_commits_from_text
 from testbrain.repository.vcs.base import BaseVCS
-from testbrain.terminal import Process, ProcessExecutionError
+from testbrain.terminal.exceptions import ProcessExecutionError
+from testbrain.terminal.process import Process
 
 logger = logging.getLogger(__name__)
 
@@ -177,7 +178,7 @@ class GitProcess(Process):
             "git",
             "log",
             *extra_params,
-            f"--pretty=format:{pretty_format}",
+            f'--pretty=format:"{pretty_format}"',
             str(commit),
         ]
         try:

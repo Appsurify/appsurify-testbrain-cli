@@ -2,14 +2,15 @@ import logging
 import os
 import pathlib
 import sys
+import typing as t
 
 import click
 
-import testbrain
+from testbrain import version_message
 from testbrain.core import TestbrainCommand, TestbrainContext, TestbrainGroup
-from testbrain.repository import __version__
 from testbrain.repository.exceptions import ProjectNotFound, VCSError
 from testbrain.repository.services import PushService
+from testbrain.repository.types import T_File
 
 logger = logging.getLogger(__name__)
 
@@ -22,10 +23,9 @@ logger = logging.getLogger(__name__)
     default=True,
 )
 @click.version_option(
-    version=__version__,
-    package_name=testbrain.pkg_name,
+    package_name="appsurify-testbrain-cli",
     prog_name="repository",
-    message="%(package)s, %(prog)s/%(version)s",
+    message=version_message,
 )
 @click.pass_context
 def app(ctx: TestbrainContext, **kwargs):
@@ -201,7 +201,9 @@ def push(
         logger.info(f"Finished get commits from repository - {len(commits)} commits(s)")
 
         logger.info(f"Stating get file_tree from repository - {service.repo_name}")
-        file_tree = service.get_repository_file_tree(branch=branch, minimize=minimize)
+        file_tree: t.List[T_File] = service.get_repository_file_tree(
+            branch=branch, minimize=minimize
+        )
         logger.info(
             f"Finished get file_tree from repository - {len(file_tree)} file(s)"
         )
