@@ -80,12 +80,16 @@ server for further analysis and testing optimization.
 > This module can be used as an independent command in the OS or as
 > a subcommand of the main CLI application "testbrain"
 
+```shell
+testbrain repository push --help
+```
 
 ```shell
-git2testbrain --help
+git2testbrain push --help
 ```
+
 ```shell
-testbrain git2testbrain --help
+testbrain git2testbrain push --help
 ```
 
 ### Possible params
@@ -112,6 +116,12 @@ Push to Testbrain server only one last commit from current branch
 
 ```shell
 git2testbrain --server https://demo.appsurify.com --token ************************************************************** --project DEMO
+
+```
+or
+
+```shell
+git2testbrain push --server https://demo.appsurify.com --token ************************************************************** --project DEMO
 
 ```
 

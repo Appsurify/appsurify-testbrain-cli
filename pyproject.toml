@@ -7,7 +7,7 @@ tag = false
 sign_tags = false
 tag_name = "{new_version}"
 tag_message = "Bump version: {current_version} → {new_version}"
-current_version = "2023.10.25"
+current_version = "2023.11.4"
 parse = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)"
 serialize = [
     "{major}.{minor}.{patch}"
@@ -16,14 +16,14 @@ search = "{current_version}"
 replace = "{new_version}"
 
 [[tool.bumpversion.files]]
-filename = "src/testbrain/__init__.py"
+filename = "pyproject.toml"
 
 [[tool.bumpversion.files]]
-filename = "pyproject.toml"
+filename = "src/testbrain/__init__.py"
 
 [tool.poetry]
 name = "appsurify-testbrain-cli"
-version = "2023.10.25"
+version = "2023.11.4"
 description = "Command Line Interface for Appsurify Testbrain."
 license = "MIT"
 authors = [
@@ -63,15 +63,21 @@ packages = [
 include = ["CHANGELOG.md"]
 
 [tool.poetry.scripts]
-testbrain = "testbrain.__main__:cli"
-git2testbrain = "testbrain.bin.git2testbrain:cli"
-git2appsurify = "testbrain.bin.git2appsurify:cli"
+testbrain = "testbrain.__main__:app"
+tbcli = "testbrain.__main__:app"
+# Backward capabilities
+# testbrain repository - aliases
+git2testbrain = "testbrain.repository.cli:git2testbrain"
+git2appsurify = "testbrain.repository.cli:git2appsurify"
+# testbrain tests - aliases
+#runtestswithappsurify = "testbrain.tests.cli:runtestswithappsurify"
+#testimportappsurify = "testbrain.tests.cli:testimportappsurify"
+
 
 [tool.poetry.dependencies]
 python = ">=3.7,<4"
 pydantic = "^2.4.2"
 requests = "^2.31.0"
-requests-toolbelt = "^1.0.0"
 urllib3 = "<2.0.0"
 click = "^8.1.7"
 
@@ -88,6 +94,8 @@ black = [{version = "^23.1.0", python = "^3.7"},{version = "^23.9.1", python = "
 flake8 = [{version = "5.0.4", python = "3.7"},{version = "^6.1.0", python = "^3.8.2"}]
 flake8-pyproject = "^1.2.3"
 isort = [{version = "5.11.5", python = "3.7"},{version = "^5.12.0", python = "^3.8"}]
+mypy = [{version = "1.4.1", python = "3.7"},{version = "^1.6.1", python = "^3.8"}]
+
 
 [build-system]
 requires = ["poetry-core"]
@@ -112,5 +120,14 @@ extend-ignore = ["E203" ,"F401", "F403"]
 
 [tool.ruff]
 line-length = 88
-select = []
+indent-width = 4
 
+[tool.ruff.lint]
+select = ["E", "F"]
+ignore = ["E203" ,"F401", "F403"]
+
+[tool.ruff.format]
+# Like Black, use double quotes for strings.
+quote-style = "double"
+# Like Black, indent with spaces, rather than tabs.
+indent-style = "space"

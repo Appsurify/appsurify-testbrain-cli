@@ -1,6 +1,4 @@
-import sys
-
-from testbrain.bin.main import cli
+from testbrain.cli import app
 
 if __name__ == "__main__":
-    sys.exit(cli())
+    app(prog_name="testbrain")
