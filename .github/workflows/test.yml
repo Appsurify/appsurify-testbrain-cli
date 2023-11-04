@@ -38,12 +38,24 @@ jobs:
       - name: "Install dependencies"
         run: poetry install --with test
       - name: "Run tests"
-        run: poetry run pytest --exitfirst --verbose --failed-first --junitxml=reports/pytest-${{ matrix.os }}-PY${{ matrix.python-version }}.xml --cov=./src/ --cov-report xml:reports/coverage-${{ matrix.os }}-PY${{ matrix.python-version }}.xml
+        run: poetry run pytest --exitfirst --verbose --failed-first --junitxml=test-reports/pytest-junit-report-${{ matrix.os }}-PY${{ matrix.python-version }}.xml --cov=./src/ --cov-report xml:cov-reports/pytest-coverage-report-${{ matrix.os }}-PY${{ matrix.python-version }}.xml
       - name: "Surface failing tests"
         if: always()
         uses: pmeier/pytest-results-action@main
         with:
-          path: reports/pytest-${{ matrix.os }}-PY${{ matrix.python-version }}.xml
+          path: test-reports/pytest-junit-report-${{ matrix.os }}-PY${{ matrix.python-version }}.xml
           summary: true
           display-options: fEX
           fail-on-empty: true
+      - name: "Upload Test Reports"
+        uses: actions/upload-artifact@v3
+        with:
+            name: "test-reports"
+            path: ./test-reports/
+            retention-days: 1
+      - name: "Upload Coverage Reports"
+        uses: actions/upload-artifact@v3
+        with:
+            name: "cov-reports"
+            path: ./cov-reports/
+            retention-days: 1

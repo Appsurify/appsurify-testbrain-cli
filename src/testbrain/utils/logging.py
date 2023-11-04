@@ -7,64 +7,78 @@ import os
 import pathlib
 import pyclbr
 import sys
-from typing import Optional
+import typing as t
 
-from testbrain.core.structures import CaseInsensitiveDict
+logger = logging.getLogger("testbrain")
 
-logger = logging.getLogger(__name__)
+MODULE_DIR = pathlib.Path(__file__).parent.parent
 
 
-MODULE_DIR = importlib.import_module("testbrain").__path__[0]
+LOG_LEVELS = {
+    "DEBUG": logging.DEBUG,
+    "INFO": logging.INFO,
+    "WARNING": logging.WARNING,
+    "ERROR": logging.ERROR,
+    "CRITICAL": logging.CRITICAL,
+}
 
-# LOG_FORMAT = "%(asctime)-8s %(levelname)-8s %(name)s.%(funcName)s: %(message)s"
-LOG_FORMAT = (
-    "%(levelname)-8s %(asctime)-8s %(name)-4s "
-    "%(relativePath)s:%(lineno)d "
-    "%(module)s %(funcName)s"
-)
-LOG_FORMAT_MSG = "%(message)s"
+LOG_LEVELS.setdefault("INFO", logging.INFO)
 
-LOG_LEVELS: CaseInsensitiveDict = CaseInsensitiveDict(
-    {
-        "DEBUG": logging.DEBUG,
-        "INFO": logging.INFO,
-        "WARNING": logging.WARNING,
-        "ERROR": logging.ERROR,
-    }
-)
+LOG_FORMAT_DATE = "%Y-%m-%d %H:%M:%S"
+
+
+LOG_FORMATS = {
+    "DEBUG": (
+        "%(asctime)-8s %(levelname)-8s %(name)s %(funcName)s "
+        "[%(relativePath)s:%(lineno)d] %(message)s"
+    ),
+    # "INFO": f"{LOG_FORMAT_BASE} {LOG_FORMAT_MSG}",
+    "INFO": "%(asctime)-8s %(levelname)-8s %(message)s",
+    "WARNING": "%(asctime)-8s %(levelname)-8s %(message)s",
+    "ERROR": "%(asctime)-8s %(levelname)-8s %(message)s",
+}
+
+LOG_FORMATS.setdefault("INFO", "%(levelname)-8s %(message)s")
+
 
 logging.basicConfig(
     level=logging.WARNING,
-    format=f"{LOG_FORMAT}: {LOG_FORMAT_MSG}",
+    format=LOG_FORMATS["WARNING"],
 )
 
 
 def configure_logging(
-    loglevel: Optional[str] = "WARNING", logfile: Optional[pathlib.Path] = None
+    level: t.Optional[str] = "INFO",
+    file: t.Optional[pathlib.Path] = None,
 ):
-    _logger = logging.getLogger()
-    _logger.handlers.clear()
+    # LogLevel
+    log_level = LOG_LEVELS[level]
 
-    level = LOG_LEVELS.get(loglevel, "WARNING")
+    # LogFormat
+    log_fmt = LOG_FORMATS[level]
 
-    # Configure the logger level
-    _logger.setLevel(level)
-
-    fmt = f"{LOG_FORMAT}: {LOG_FORMAT_MSG}"
     # Create a formatter
-    formatter = logging.Formatter(fmt)
+    formatter = logging.Formatter(log_fmt, datefmt=LOG_FORMAT_DATE)
+
+    # Set up 'root' logger
+    root_logger = logging.getLogger()
+    root_logger.setLevel(log_level)
+
+    # Remove all attached handlers, in case there was
+    # a logger with using the name 'root'
+    del root_logger.handlers[:]
+
+    if file:
+        file_handler = logging.handlers.WatchedFileHandler(file)
+        file_handler.setLevel(log_level)
+        file_handler.setFormatter(formatter)
+        root_logger.addHandler(file_handler)
 
     # Create a handler for console output
     console_handler = logging.StreamHandler(stream=sys.stderr)
-    console_handler.setLevel(level)
+    console_handler.setLevel(log_level)
     console_handler.setFormatter(formatter)
-    _logger.addHandler(console_handler)
-
-    if logfile:
-        file_handler = logging.handlers.WatchedFileHandler(logfile)
-        file_handler.setLevel(level)
-        file_handler.setFormatter(formatter)
-        _logger.addHandler(file_handler)
+    root_logger.addHandler(console_handler)
 
 
 _original_log_record_factory = logging.getLogRecordFactory()
@@ -78,11 +92,11 @@ def _log_record_factory(module, *args, **kwargs):
     if module == "__main__":
         module = record.module
     try:
-        record.className = ClassSearcher(module).lookup_class(
-            record.funcName, record.lineno
-        )
-    except (AttributeError, TypeError, IndexError):
+        class_searcher = ClassSearcher(module)
+        record.className = class_searcher.lookup_class(record.funcName, record.lineno)
+    except (AttributeError, TypeError, IndexError) as exc:
         # logger.exception(exc, exc_info=False)
+        print(exc)
         ...
 
     if record.className:
@@ -94,7 +108,11 @@ def _log_record_factory(module, *args, **kwargs):
         cwd = os.getcwd()
         record.pathname = str(pathlib.Path(cwd).joinpath(record.pathname))
 
-    if record.pathname.startswith(MODULE_DIR):
+    mod_dir = MODULE_DIR
+    if isinstance(mod_dir, pathlib.Path):
+        mod_dir = str(mod_dir)
+
+    if record.pathname.startswith(mod_dir):
         relative_path = os.path.relpath(record.pathname, MODULE_DIR)
 
     if relative_path is None:

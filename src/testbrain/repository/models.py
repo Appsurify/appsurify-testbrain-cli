@@ -1,10 +1,10 @@
 import datetime
+import typing as t
 from enum import Enum
-from typing import Dict, List, Optional, Union
 
 from pydantic import BaseModel
 
-from testbrain.git2testbrain.types import (
+from testbrain.repository.types import (
     T_SHA,
     PathLike,
     T_Blame,
@@ -20,8 +20,8 @@ class Branch(BaseModel):
 
 class Person(BaseModel):
     name: str
-    email: Optional[str] = ""
-    date: Optional[datetime.datetime] = None
+    email: t.Optional[str] = ""
+    date: t.Optional[datetime.datetime] = None
 
 
 class FileStatusEnum(str, Enum):
@@ -35,17 +35,17 @@ class FileStatusEnum(str, Enum):
 
 
 class CommitFile(BaseModel):
-    filename: Union[T_File, PathLike]
-    sha: Optional[T_SHA] = ""
+    filename: t.Union[T_File, PathLike]
+    sha: t.Optional[T_SHA] = ""
     additions: int = 0
     insertions: int = 0
     deletions: int = 0
     changes: int = 0
     lines: int = 0
-    status: Optional[FileStatusEnum] = FileStatusEnum.unknown
-    previous_filename: Optional[T_File] = ""
-    patch: Optional[T_Patch] = ""
-    blame: Optional[T_Blame] = ""
+    status: t.Optional[FileStatusEnum] = FileStatusEnum.unknown
+    previous_filename: t.Optional[T_File] = ""
+    patch: t.Optional[T_Patch] = ""
+    blame: t.Optional[T_Blame] = ""
 
 
 class CommitStat(BaseModel):
@@ -60,19 +60,19 @@ class CommitStat(BaseModel):
 
 class Stats(BaseModel):
     total: CommitStat = CommitStat()
-    files: Dict[str, CommitFile] = {}
+    files: t.Dict[str, CommitFile] = {}
 
 
 class Commit(BaseModel):
     sha: T_SHA
-    tree: Optional[T_SHA] = ""
-    date: Optional[datetime.datetime] = None
-    author: Optional[Person] = None
-    committer: Optional[Person] = None
-    message: Optional[str] = ""
-    parents: Optional[List["Commit"]] = []
-    stats: Optional[CommitStat] = CommitStat()
-    files: Optional[List[CommitFile]] = []
+    tree: t.Optional[T_SHA] = ""
+    date: t.Optional[datetime.datetime] = None
+    author: t.Optional[Person] = None
+    committer: t.Optional[Person] = None
+    message: t.Optional[str] = ""
+    parents: t.Optional[t.List["Commit"]] = []
+    stats: t.Optional[CommitStat] = CommitStat()
+    files: t.Optional[t.List[CommitFile]] = []
 
 
 class Payload(BaseModel):
@@ -81,8 +81,8 @@ class Payload(BaseModel):
     base_ref: T_Branch
     size: int
     ref_type: str = "commit"
-    before: Optional[T_SHA] = ""
-    after: Optional[T_SHA] = ""
-    head_commit: Optional[Commit] = None
-    commits: Optional[List[Commit]] = []
-    file_tree: Optional[List[T_File]] = []
+    before: t.Optional[T_SHA] = ""
+    after: t.Optional[T_SHA] = ""
+    head_commit: t.Optional[Commit] = None
+    commits: t.Optional[t.List[Commit]] = []
+    file_tree: t.Optional[t.List[T_File]] = []

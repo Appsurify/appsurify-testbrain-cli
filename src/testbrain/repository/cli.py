@@ -1,25 +1,35 @@
 import logging
 import os
 import pathlib
+import sys
+import typing as t
 
 import click
 
-from testbrain import RUNTIME, VERSION
-from testbrain.core.command import TestbrainCommand
-from testbrain.core.context import TestbrainContext
-from testbrain.git2testbrain import TB_ART_LINES_STYLED
-from testbrain.git2testbrain.controller import Git2TestbrainController
+from testbrain import version_message
+from testbrain.core import TestbrainCommand, TestbrainContext, TestbrainGroup
+from testbrain.repository.exceptions import ProjectNotFound, VCSError
+from testbrain.repository.services import PushService
+from testbrain.repository.types import T_File
 
 logger = logging.getLogger(__name__)
 
 
-def print_version(ctx, param, value):
-    if not value or ctx.resilient_parsing:
-        return
-    click.echo(TB_ART_LINES_STYLED)
-    click.echo(VERSION)
-    click.echo(RUNTIME)
-    ctx.exit(0)
+@click.group(
+    name="repository",
+    cls=TestbrainGroup,
+    default_if_no_args=True,
+    no_args_is_help=True,
+    default=True,
+)
+@click.version_option(
+    package_name="appsurify-testbrain-cli",
+    prog_name="repository",
+    message=version_message,
+)
+@click.pass_context
+def app(ctx: TestbrainContext, **kwargs):
+    ...
 
 
 def work_dir_callback(ctx, param, value):
@@ -28,7 +38,7 @@ def work_dir_callback(ctx, param, value):
     return value
 
 
-@click.command("git2testbrain", cls=TestbrainCommand)
+@app.command("push", cls=TestbrainCommand, default=True)
 @click.option(
     "--server",
     metavar="<url>",
@@ -137,16 +147,8 @@ def work_dir_callback(ctx, param, value):
     is_flag=True,
     help="Suppress commit changes information.",
 )
-@click.option(
-    "--version",
-    is_flag=True,
-    callback=print_version,
-    expose_value=False,
-    is_eager=True,
-    help="Show version.",
-)
 @click.pass_context
-def cli(
+def push(
     ctx: "TestbrainContext",
     server,
     token,
@@ -161,40 +163,19 @@ def cli(
     minimize: bool,
     **kwargs,
 ):
-    click.echo(
-        "\n"
-        "====================================================================\n"
-        "  WARNING!!! 'git2appsurify' is deprecated.                         \n"
-        "  Use the new version 'git2testbrain' or 'testbrain git2testbrain'  \n"
-        "====================================================================\n"
-    )
+    _params = ctx.params.copy()
+    _params["token"] = "*" * len(_params["token"])
+    logger.debug(f"Start push with params {_params}")
+
     ctx.work_dir = work_dir
-    logger.debug(
-        f"Exec with params: "
-        f"server='{server}' "
-        f"token='{token}' "
-        f"project='{project}' "
-        f"work_dir='{work_dir}' "
-        f"repo_name='{repo_name}' "
-        f"repo_dir='{repo_dir}' "
-        f"branch='{branch}' "
-        f"number='{number}' "
-        f"start='{start}' "
-        f"blame='{blame}' "
-        f"minimize='{minimize}'"
-    )
-    logger.debug(
-        f"Exec with extra params: "
-        f"loglevel={ctx.params.get('loglevel')} "
-        f"logfile={ctx.params.get('logfile')}"
-    )
+
+    logger.info("Running...")
 
     commit = start
     if commit == "latest":
         commit = "HEAD"
 
-    logger.debug("Initializing git2testbrain controller")
-    git2testbrain_controller = Git2TestbrainController(
+    service = PushService(
         server=server,
         token=token,
         project=project,
@@ -202,26 +183,51 @@ def cli(
         repo_name=repo_name,
     )
 
-    logger.info("Preparing delivery payload")
-    payload_kwargs = {
+    if branch is None:
+        branch = service.get_current_branch()
+        logger.debug(f"Branch was not specified. Use current active branch: {branch}")
+
+    kwargs = {
         "raw": not minimize,
         "patch": not minimize,
-        "blame": not minimize,
-        "file_tree": not minimize,
+        "blame": blame,  # not minimize,
     }
-    _ = git2testbrain_controller.get_payload(
-        branch=branch, commit=commit, number=number, **payload_kwargs
-    )
-    logger.info("Prepared delivery payload")
 
-    logger.info("Delivering payload to server")
-    _ = git2testbrain_controller.deliver_repository_changes(timeout=120, max_retries=3)
-    logger.info("Delivered payload to server")
+    try:
+        logger.info(f"Stating get commits from repository - {service.repo_name}")
+        commits = service.get_repository_commits(
+            branch=branch, commit=commit, number=number, **kwargs
+        )
+        logger.info(f"Finished get commits from repository - {len(commits)} commits(s)")
+
+        logger.info(f"Stating get file_tree from repository - {service.repo_name}")
+        file_tree: t.List[T_File] = service.get_repository_file_tree(
+            branch=branch, minimize=minimize
+        )
+        logger.info(
+            f"Finished get file_tree from repository - {len(file_tree)} file(s)"
+        )
+    except VCSError:
+        ctx.exit(127)
+
+    payload = service.make_changes_payload(
+        branch=branch, commits=commits, file_tree=file_tree
+    )
+
+    try:
+        logger.info(f"Sending changes payload to server - {server}")
+        _ = service.send_changes_payload(payload=payload)
+        logger.info(f"Sent changes payload to server - {server}")
+    except ProjectNotFound:
+        ctx.exit(127)
 
     logger.info("Done")
-    logger.debug("Shutdown...")
+
+
+git2testbrain = app
+git2appsurify = app
 
 
 if __name__ == "__main__":
-    logger.name = "testbrain.bin.git2testbrain"
-    cli()
+    logger.name = "testbrain.repository.cli"
+    app(prog_name="repository")

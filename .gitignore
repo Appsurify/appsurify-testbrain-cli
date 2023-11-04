@@ -162,3 +162,11 @@ cython_debug/
 /.crashdumps/
 /.envlocal/
 /envlocal/
+/.idea/inspectionProfiles/profiles_settings.xml
+/.idea/inspectionProfiles/Project_Default.xml
+/.idea/.gitignore
+/.idea/appsurify-testbrain-cli.iml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/vcs.xml
+/poetry.lock
