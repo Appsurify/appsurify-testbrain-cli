@@ -18,6 +18,9 @@ replace = "{new_version}"
 [[tool.bumpversion.files]]
 filename = "pyproject.toml"
 
+[[tool.bumpversion.files]]
+filename = "src/testbrain/__init__.py"
+
 [tool.poetry]
 name = "appsurify-testbrain-cli"
 version = "2023.10.25"
@@ -63,7 +66,7 @@ include = ["CHANGELOG.md"]
 testbrain = "testbrain.__main__:app"
 tbcli = "testbrain.__main__:app"
 # Backward capabilities
-# testbrain vcs - aliases
+# testbrain repository - aliases
 git2testbrain = "testbrain.repository.cli:git2testbrain"
 git2appsurify = "testbrain.repository.cli:git2appsurify"
 # testbrain tests - aliases

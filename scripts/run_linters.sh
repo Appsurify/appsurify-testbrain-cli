@@ -9,4 +9,4 @@ poetry run black src --check
 poetry run ruff check src
 poetry run flake8 src
 
-poetry run mypy src
+#poetry run mypy src

@@ -38,7 +38,7 @@ LOG_FORMATS = {
     "ERROR": "%(asctime)-8s %(levelname)-8s %(message)s",
 }
 
-LOG_FORMATS.setdefault("INFO", "%(levelname)-8s %(message)s")
+LOG_FORMATS.setdefault("INFO", "%(asctime)-8s %(levelname)-8s %(message)s")
 
 
 logging.basicConfig(
