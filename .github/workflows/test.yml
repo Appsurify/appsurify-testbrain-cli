@@ -52,13 +52,13 @@ jobs:
         with:
             name: "test-reports"
             path: ./test-reports/
-            retention-days: 5
+            retention-days: 1
       - name: "Upload Coverage Reports"
         uses: actions/upload-artifact@v3
         with:
             name: "cov-reports"
             path: ./cov-reports/
-            retention-days: 5
+            retention-days: 1
 
   coverage:
     name: "Coverage"
@@ -81,7 +81,7 @@ jobs:
         uses: py-cov-action/python-coverage-comment-action@v3
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          COVERAGE_PATH: ./src/
+          COVERAGE_PATH: ./cov-reports/
           MERGE_COVERAGE_FILES: true
       - name: "Store Pull Request comment to be posted"
         uses: actions/upload-artifact@v3
