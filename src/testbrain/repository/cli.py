@@ -10,6 +10,7 @@ from testbrain import version_message
 from testbrain.core import TestbrainCommand, TestbrainContext, TestbrainGroup
 from testbrain.repository.exceptions import ProjectNotFound, VCSError
 from testbrain.repository.services import PushService
+from testbrain.repository.models import Commit
 from testbrain.repository.types import T_File
 
 logger = logging.getLogger(__name__)
@@ -195,7 +196,7 @@ def push(
 
     try:
         logger.info(f"Stating get commits from repository - {service.repo_name}")
-        commits = service.get_repository_commits(
+        commits: t.List[Commit] = service.get_repository_commits(
             branch=branch, commit=commit, number=number, **kwargs
         )
         logger.info(f"Finished get commits from repository - {len(commits)} commits(s)")
@@ -207,18 +208,15 @@ def push(
         logger.info(
             f"Finished get file_tree from repository - {len(file_tree)} file(s)"
         )
-    except VCSError:
-        ctx.exit(127)
 
-    payload = service.make_changes_payload(
-        branch=branch, commits=commits, file_tree=file_tree
-    )
+        payload = service.make_changes_payload(
+            branch=branch, commits=commits, file_tree=file_tree
+        )
 
-    try:
         logger.info(f"Sending changes payload to server - {server}")
         _ = service.send_changes_payload(payload=payload)
         logger.info(f"Sent changes payload to server - {server}")
-    except ProjectNotFound:
+    except (ProjectNotFound, VCSError):
         ctx.exit(127)
 
     logger.info("Done")

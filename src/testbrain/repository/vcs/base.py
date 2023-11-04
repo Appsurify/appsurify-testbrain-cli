@@ -32,7 +32,7 @@ class BaseVCS(abc.ABC):
     @property
     @abc.abstractmethod
     def process(self) -> "Process":
-        ...
+        raise NotImplementedError()
 
     @property
     def repo_dir(self) -> PathLike:

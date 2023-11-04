@@ -27,6 +27,8 @@ def app(ctx: TestbrainContext, **kwargs):
 
 # app.add_command(repository_app, default=True)
 app.add_command(repository_app, name="repository")
+app.add_command(repository_app, name="git2testbrain")
+app.add_command(repository_app, name="git2appsurify")
 
 
 if __name__ == "__main__":
