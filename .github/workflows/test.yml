@@ -59,33 +59,3 @@ jobs:
             name: "cov-reports"
             path: ./cov-reports/
             retention-days: 1
-
-  coverage:
-    name: "Coverage"
-    runs-on: ubuntu-latest
-    needs: run-pytests
-    permissions:
-      pull-requests: write
-      contents: write
-      checks: write
-      actions: read
-    steps:
-      - name: "Checkout Repository"
-        uses: actions/checkout@v4
-      - name: "Download Artifact"
-        uses: actions/download-artifact@v3
-        with:
-          name: "cov-reports"
-      - name: "Coverage comment"
-        id: coverage_comment
-        uses: py-cov-action/python-coverage-comment-action@v3
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          COVERAGE_PATH: ./cov-reports/
-          MERGE_COVERAGE_FILES: true
-      - name: "Store Pull Request comment to be posted"
-        uses: actions/upload-artifact@v3
-        if: steps.coverage_comment.outputs.COMMENT_FILE_WRITTEN == 'true'
-        with:
-          name: python-coverage-comment-action
-          path: python-coverage-comment-action.txt
