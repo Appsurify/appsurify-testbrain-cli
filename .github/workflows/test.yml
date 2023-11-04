@@ -38,7 +38,7 @@ jobs:
       - name: "Install dependencies"
         run: poetry install --with test
       - name: "Run tests"
-        run: poetry run pytest --exitfirst --verbose --failed-first --junitxml=reports/pytest-junit-report-${{ matrix.os }}-PY${{ matrix.python-version }}.xml --cov=./src/ --cov-report xml:reports/pytest-coverage-report-${{ matrix.os }}-PY${{ matrix.python-version }}.xml
+        run: poetry run pytest --exitfirst --verbose --failed-first --junitxml=test-reports/pytest-junit-report-${{ matrix.os }}-PY${{ matrix.python-version }}.xml --cov=./src/ --cov-report xml:cov-reports/pytest-coverage-report-${{ matrix.os }}-PY${{ matrix.python-version }}.xml
       - name: "Surface failing tests"
         if: always()
         uses: pmeier/pytest-results-action@main
@@ -47,11 +47,17 @@ jobs:
           summary: true
           display-options: fEX
           fail-on-empty: true
-      - name: "Upload Artifact"
+      - name: "Upload Test Reports"
         uses: actions/upload-artifact@v3
         with:
-            name: "reports"
-            path: ./reports/
+            name: "test-reports"
+            path: ./test-reports/
+            retention-days: 5
+      - name: "Upload Coverage Reports"
+        uses: actions/upload-artifact@v3
+        with:
+            name: "cov-reports"
+            path: ./cov-reports/
             retention-days: 5
 
   coverage:
@@ -69,7 +75,7 @@ jobs:
       - name: "Download Artifact"
         uses: actions/download-artifact@v3
         with:
-          name: "reports"
+          name: "cov-reports"
       - name: "Coverage comment"
         id: coverage_comment
         uses: py-cov-action/python-coverage-comment-action@v3
