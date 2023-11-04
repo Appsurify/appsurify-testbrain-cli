@@ -43,7 +43,7 @@ jobs:
         if: always()
         uses: pmeier/pytest-results-action@main
         with:
-          path: reports/pytest-${{ matrix.os }}-PY${{ matrix.python-version }}.xml
+          path: reports/pytest-junit-report-${{ matrix.os }}-PY${{ matrix.python-version }}.xml
           summary: true
           display-options: fEX
           fail-on-empty: true
@@ -61,6 +61,8 @@ jobs:
     permissions:
       pull-requests: write
       contents: write
+      checks: write
+      actions: read
     steps:
       - name: "Checkout Repository"
         uses: actions/checkout@v4
