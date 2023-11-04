@@ -177,7 +177,7 @@ def _norm_version(version, build=""):
     """Normalize the version and build strings and return a single
     version string using the format major.minor.build (or patchlevel).
     """
-    l: list = version.split(".")
+    l: list = version.split(".")  # noqa: E741
     if build:
         l.append(build)
     try:
@@ -464,7 +464,7 @@ def system_alias(system, release, version):
             # These releases use the old name SunOS
             return system, release, version
         # Modify release (marketing release = SunOS release - 3)
-        l: list = release.split(".")
+        l: list = release.split(".")  # noqa: E741
         if l:
             try:
                 major = int(l[0])
@@ -1065,7 +1065,7 @@ def _sys_version(sys_version=None):
         revision = ""
 
     # Add the patch level version if missing
-    l: list = version.split(".")
+    l: list = version.split(".")  # noqa: E741
     if len(l) == 2:
         l.append("0")
         version = ".".join(l)

@@ -25,7 +25,7 @@ DEFAULT_MAX_RETRIES: T_MAX_RETRIES = Retry(
 
 DEFAULT_TIMEOUT: float = 120.0
 
-DEFAULT_HEADERS: t.Dict[str, t.Any] = {
+DEFAULT_HEADERS: t.Dict[t.AnyStr, t.Any] = {
     "Connection": "keep-alive",
     "Content-Type": "application/json",
 }
@@ -78,6 +78,7 @@ class HttpClient(abc.ABC):
         headers: t.Optional[t.Dict[str, str]] = None,
         max_retries: t.Optional[T_MAX_RETRIES] = None,
     ) -> requests.Session:
+        logger.debug(f"Session configuring with: {str(auth)} {headers} {max_retries}")
         if headers is None:
             headers = {}
 
@@ -94,6 +95,10 @@ class HttpClient(abc.ABC):
         self._session.auth = auth
         self._session.headers = headers
 
+        logger.debug(
+            "Session set up HTTP adapter with socket options "
+            "(TCPKeepAlive: idle=60, interval=20, count=5)"
+        )
         self._session.mount(
             "http://",
             TCPKeepAliveAdapter(idle=60, interval=20, count=5, max_retries=max_retries),
@@ -102,9 +107,11 @@ class HttpClient(abc.ABC):
             "https://",
             TCPKeepAliveAdapter(idle=60, interval=20, count=5, max_retries=max_retries),
         )
+        logger.debug("Session prepared")
         return self._session
 
     def request(self, method: str, url: str, **kwargs) -> requests.Response:
+        logger.debug("Request configuring")
         auth: HTTPTokenAuth = kwargs.pop("auth", None)
         headers: t.Optional[dict] = kwargs.pop("headers", DEFAULT_HEADERS)
         max_retries: t.Optional[T_MAX_RETRIES] = kwargs.pop(
@@ -115,9 +122,12 @@ class HttpClient(abc.ABC):
         if isinstance(timeout, int) or isinstance(timeout, float):
             timeout = (timeout, timeout)
 
+        logger.debug("Request get connection session")
         session = self.get_session(auth=auth, headers=headers, max_retries=max_retries)
+        logger.debug(f"Request settings: {timeout} {max_retries}")
+        logger.debug(f"Request starting: [{method}] {url} {session.headers}")
         response = session.request(method, url, timeout=timeout, **kwargs)
-
+        logger.debug(f"Request finished: [{response.status_code}] {response.content}")
         return response
 
     def get(

@@ -8,6 +8,7 @@ import click
 import testbrain
 from testbrain.core import TestbrainCommand, TestbrainContext, TestbrainGroup
 from testbrain.repository import __version__
+from testbrain.repository.exceptions import ProjectNotFound, VCSError
 from testbrain.repository.services import PushService
 
 logger = logging.getLogger(__name__)
@@ -162,11 +163,13 @@ def push(
     minimize: bool,
     **kwargs,
 ):
-    logger.debug(f"Start push with params {ctx.params}")
+    _params = ctx.params.copy()
+    _params["token"] = "*" * len(_params["token"])
+    logger.debug(f"Start push with params {_params}")
 
     ctx.work_dir = work_dir
 
-    logger.info("Start push changes to server")
+    logger.info("Running...")
 
     commit = start
     if commit == "latest":
@@ -180,22 +183,42 @@ def push(
         repo_name=repo_name,
     )
 
-    payload_kwargs = {
+    if branch is None:
+        branch = service.get_current_branch()
+        logger.debug(f"Branch was not specified. Use current active branch: {branch}")
+
+    kwargs = {
         "raw": not minimize,
         "patch": not minimize,
         "blame": blame,  # not minimize,
-        "file_tree": not minimize,
     }
 
-    logger.info("Fetching changes payload")
-    payload = service.fetch_changes_payload(
-        branch=branch, commit=commit, number=number, **payload_kwargs
-    )
-    logger.info("Fetched changes payload")
+    try:
+        logger.info(f"Stating get commits from repository - {service.repo_name}")
+        commits = service.get_repository_commits(
+            branch=branch, commit=commit, number=number, **kwargs
+        )
+        logger.info(f"Finished get commits from repository - {len(commits)} commits(s)")
 
-    logger.info("Sending changes payload to server")
-    _ = service.send_changes_payload(payload=payload)
-    logger.info("Sent changes payload to server")
+        logger.info(f"Stating get file_tree from repository - {service.repo_name}")
+        file_tree = service.get_repository_file_tree(branch=branch, minimize=minimize)
+        logger.info(
+            f"Finished get file_tree from repository - {len(file_tree)} file(s)"
+        )
+    except VCSError:
+        ctx.exit(127)
+
+    payload = service.make_changes_payload(
+        branch=branch, commits=commits, file_tree=file_tree
+    )
+
+    try:
+        logger.info(f"Sending changes payload to server - {server}")
+        _ = service.send_changes_payload(payload=payload)
+        logger.info(f"Sent changes payload to server - {server}")
+    except ProjectNotFound:
+        ctx.exit(127)
+
     logger.info("Done")
 
 

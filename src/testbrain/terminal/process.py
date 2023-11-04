@@ -19,6 +19,7 @@ class Process(abc.ABC):
             work_dir = pathlib.Path(".").resolve()
 
         self._work_dir = work_dir
+        logger.debug(f"Set up execution working dir - {self._work_dir}")
 
     @property
     def work_dir(self) -> pathlib.Path:
@@ -28,6 +29,7 @@ class Process(abc.ABC):
         if isinstance(command, list):
             command = " ".join(command)
         try:
+            logger.debug(f"Exec process {command}")
             result = subprocess.run(
                 command,
                 text=True,
@@ -38,17 +40,27 @@ class Process(abc.ABC):
             )
             return result.stdout.strip()
         except FileNotFoundError as exc:
-            err_msg = f"Failed change PWD to {self.work_dir}: Directory not found"
+            err_msg = (
+                f"Failed change working dir to {self.work_dir}: Directory not found"
+            )
+            logger.debug(err_msg)
+            logger.critical(f"Process execution failed: {err_msg}")
             raise ProcessExecutionError(
                 returncode=127, cmd=command, stderr=err_msg
             ) from exc
         except NotADirectoryError as exc:
-            err_msg = f"Failed change PWD to {self.work_dir}: This is not a directory"
+            err_msg = (
+                f"Failed change working dir to {self.work_dir}: This is not a directory"
+            )
+            logger.debug(err_msg)
+            logger.critical(f"Process execution failed: {err_msg}")
             raise ProcessExecutionError(
                 returncode=127, cmd=command, stderr=err_msg
             ) from exc
         except PermissionError as exc:
             err_msg = f"Failed to run {command}: Permission error"
+            logger.debug(err_msg)
+            logger.critical(f"Process execution failed: {err_msg}")
             raise ProcessExecutionError(
                 returncode=127, cmd=command, stderr=err_msg
             ) from exc
@@ -58,6 +70,9 @@ class Process(abc.ABC):
                 f"return code {exc.returncode}, "
                 f"output: {exc.stdout}, error: {exc.stderr}"
             )
+            logger.debug(err_msg)
+            # _stderr = exc.stderr.split("\n")[0]
+            # logger.critical(f"Process execution failed: {_stderr}")
             raise ProcessExecutionError(
                 returncode=exc.returncode,
                 cmd=exc.cmd,

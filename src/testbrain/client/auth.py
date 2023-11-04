@@ -23,6 +23,9 @@ class HTTPTokenAuth(AuthBase):
         r.headers["Authorization"] = f"{self.keyword} {self.token}"
         return r
 
+    def __str__(self):
+        return f"{self.__class__.__name__}:{self.keyword}"
+
 
 class HTTPUserTokenAuth(HTTPTokenAuth):
     """Attaches HTTP Token Authentication to the given Request object."""

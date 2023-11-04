@@ -1,13 +1,15 @@
 import io
 import os
 import pathlib
-import platform
 import pprint
 import sys
 import time
 import traceback
 from types import FrameType, TracebackType
 from typing import Any, Callable, Dict, Optional, Set, TextIO, Type, Union
+
+from testbrain import pkg_name, pkg_version
+from testbrain.utils import platform
 
 __all__ = ["dump_report_to_file", "dump_report", "format_report", "inject_excepthook"]
 
@@ -241,12 +243,24 @@ def dump_report_to_file(
     python_version = sys.version.replace("\n", "")
 
     file.write(
-        f"PROG: '{__main__.__file__}'\n"
-        f"ARGV: '{argv}'\n"
+        f"PKG: {pkg_name} ({pkg_version})\n"
+        f"BIN LOCATE: '{__main__.__file__}'\n"
+        f"BIN ARGV: '{argv}'\n"
         f"DATE: {time.strftime('%Y-%m-%dT%H:%M:%S%z')} "
         f"({time.strftime('%F %H:%M:%S %Z')})\n"
-        f"OS: {platform.version()}\n"
-        f"PYTHON: {python_version}\n"
+        f"PLATFORM: {platform.platform()}\n"
+        f"OS: {platform.os()}\n"
+        f"VER: {platform.version()}\n"
+        f"SYSTEM: {platform.system()}\n"
+        f"RELEASE: {platform.release()}\n"
+        f"MACHINE: {platform.machine()}\n"
+        f"PROCESSOR: {platform.processor()}\n"
+        f"PYTHON VER (SYS): {python_version}\n"
+        f"PYTHON VER: {platform.python_version()}\n"
+        f"PYTHON IMPLEMENTATION: {platform.python_implementation()}\n"
+        f"PYTHON COMPILE: {platform.python_compiler()}\n"
+        f"PYTHON BUILD: {platform.python_build()}\n"
+        f"PYTHON REV: {platform.python_revision()}\n"
     )
 
     _write_separator(file, header="Traceback")

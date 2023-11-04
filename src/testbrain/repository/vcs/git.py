@@ -6,6 +6,7 @@ import re
 import subprocess
 import typing as t
 
+from testbrain.repository.exceptions import VCSProcessError
 from testbrain.repository.models import Commit
 from testbrain.repository.types import T_SHA, PathLike, T_Branch, T_File
 from testbrain.repository.utils import parse_commits_from_text
@@ -179,8 +180,13 @@ class GitProcess(Process):
             f"--pretty=format:{pretty_format}",
             str(commit),
         ]
+        try:
+            result = self.execute(command=command)
+        except ProcessExecutionError as exc:
+            err_msg = exc.stderr.splitlines()[0]
+            logger.critical(f"Failed get commits: {err_msg}")
+            raise VCSProcessError(f"Failed get commit history: {err_msg}") from exc
 
-        result = self.execute(command=command)
         return result
 
     def ls_files(self, branch: t.Optional[T_Branch] = None) -> str:

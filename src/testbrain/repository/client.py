@@ -16,9 +16,6 @@ class RepositoryClient(HttpClient):
         self.token = token
         self.auth = HTTPAPIAuth(token=token)
         super().__init__(**kwargs)
-        logger.debug(
-            f"Initialized Testbrain API client for: {server} ({'*' * len(token)})"
-        )
 
     @property
     def version(self) -> str:
@@ -39,10 +36,14 @@ class RepositoryClient(HttpClient):
         endpoint = "/api/ssh_v2/hook/fetch/"
         params = {"project_name": name}
         try:
+            logger.debug(f"Getting project ID GET request: {endpoint} {params}")
             response = self.get(url=urljoin(self.base_url, endpoint), params=params)
+            logger.debug(
+                f"Get project ID response: "
+                f"[{response.status_code}] {response.content}"
+            )
             return response
         except requests.exceptions.ConnectionError:
-            logger.exception("Failed to connect to Testbrain server.", exc_info=False)
             ...
 
     def send_changes_payload(
@@ -53,14 +54,17 @@ class RepositoryClient(HttpClient):
         max_retries: t.Optional[int] = None,
     ):
         endpoint = f"/api/ssh_v2/hook/{project_id}/"
-
         headers = {"X-Git-Event": "push"}
 
+        logger.debug(f"Sending changes POST request: {endpoint} {headers}")
         response = self.post(
             url=urljoin(self.base_url, endpoint),
             data=data,
             headers=headers,
             timeout=timeout,
             max_retries=max_retries,
+        )
+        logger.debug(
+            f"Sent changes response: [{response.status_code}] {response.content}"
         )
         return response
