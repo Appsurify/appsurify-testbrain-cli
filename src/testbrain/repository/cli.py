@@ -9,8 +9,8 @@ import click
 from testbrain import version_message
 from testbrain.core import TestbrainCommand, TestbrainContext, TestbrainGroup
 from testbrain.repository.exceptions import ProjectNotFound, VCSError
-from testbrain.repository.services import PushService
 from testbrain.repository.models import Commit
+from testbrain.repository.services import PushService
 from testbrain.repository.types import T_File
 
 logger = logging.getLogger(__name__)
