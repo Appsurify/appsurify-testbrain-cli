@@ -8,6 +8,7 @@ on:
       - "main"
       - "releases/*"
       - "development"
+      - "test-ci"
 
 jobs:
   push-changes:
@@ -34,30 +35,30 @@ jobs:
       - name: Current branch name
         if: github.event_name == 'pull_request'
         run: |
-          echo "${{ steps.branch-name.outputs.current_branch }}"
+          echo "${{ steps.branch-names.outputs.current_branch }}"
         # Outputs: "feature/test" current PR branch.
 
       - name: Current branch name
         if: github.event_name == 'push'
         run: |
-          echo "${{ steps.branch-name.outputs.current_branch }}"
+          echo "${{ steps.branch-names.outputs.current_branch }}"
         # Outputs: "main" the default branch that triggered the push event.
 
       - name: Get Ref brach name
         run: |
-          echo "${{ steps.branch-name.outputs.ref_branch }}"
+          echo "${{ steps.branch-names.outputs.ref_branch }}"
         #  Outputs: "main" for non PR branches | "1/merge" for a PR branch
 
       - name: Get Head Ref branch name
         if: github.event_name == 'pull_request'
         run: |
-          echo "${{ steps.branch-name.outputs.head_ref_branch }}"
+          echo "${{ steps.branch-names.outputs.head_ref_branch }}"
         # Outputs: "feature/test" current PR branch.
 
       - name: Get Base Ref branch name
         if: github.event_name == 'pull_request'
         run: |
-          echo "${{ steps.branch-name.outputs.base_ref_branch }}"
+          echo "${{ steps.branch-names.outputs.base_ref_branch }}"
         # Outputs: "main" for main <- PR branch.
 
       - name: "Push"
@@ -66,8 +67,6 @@ jobs:
           image: appsurifyinc/appsurify-testbrain-cli:latest
           options: -v ${{ github.workspace }}:/data
           run: |
-            git_hash=$(git rev-parse --short "$GITHUB_SHA")
-            git_branch=${GITHUB_REF#refs/heads/}
             git2testbrain push --server ${{ secrets.TESTBRAIN_SERVER }} --token ${{ secrets.TESTBRAIN_TOKEN }} --project ${{ secrets.TESTBRAIN_PROJECT }} --branch $git_branch --start $git_hash --number 100 -l DEBUG
       - name: "Upload crash dumps"
         uses: actions/upload-artifact@v3
