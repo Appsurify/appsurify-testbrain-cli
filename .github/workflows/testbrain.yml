@@ -2,6 +2,9 @@ name: "Testbrain"
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - development
 #  pull_request:
 #  push:
 #    branches:
