@@ -78,22 +78,3 @@ jobs:
         uses: chartboost/ruff-action@v1
         with:
           src: ./src/
-# Currently use official black action and similar method disabled
-#  black:
-#    name: "black"
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: "Checkout Repository"
-#        uses: actions/checkout@v4
-#      - name: "Set up Python"
-#        uses: actions/setup-python@v4
-#        with:
-#          python-version: "3.11"
-#      - name: "Set up Poetry"
-#        uses: abatilo/actions-poetry@v2
-#        with:
-#          poetry-version: "1.6.1"
-#      - name: "Install black"
-#        run: poetry install --with dev
-#      - name: "Check"
-#        run: poetry run black ./testbrain/ --check
