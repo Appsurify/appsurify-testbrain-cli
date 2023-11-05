@@ -3,7 +3,14 @@ name: "Lint"
 on:
   workflow_dispatch:
   pull_request:
+    branches:
+      - "main"
+      - "development"
   push:
+    branches:
+      - "main"
+      - "releases/*.*.*"
+      - "development"
 
 jobs:
   flake8:
