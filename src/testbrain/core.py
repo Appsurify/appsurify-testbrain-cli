@@ -18,10 +18,13 @@ class TestbrainContext(click.Context):
     _work_dir: t.Optional[t.Union[pathlib.Path, str]] = pathlib.Path(".").resolve()
 
     def __init__(self, *args, **kwargs):
+        self.inject_excepthook()
+        super().__init__(*args, **kwargs)
+
+    def inject_excepthook(self, quiet: bool = False) -> None:
         inject_excepthook(
             lambda etype, value, tb, dest: print("Dumped crash report to", dest)
         )
-        super().__init__(*args, **kwargs)
 
     @property
     def work_dir(self):
@@ -31,6 +34,11 @@ class TestbrainContext(click.Context):
     def work_dir(self, value):
         os.chdir(value)
         self._work_dir = value
+
+    def exit(self, code: int = 0) -> "te.NoReturn":
+        if self.params.get("quiet", False):
+            super().exit(0)
+        super().exit(code)
 
 
 class TestbrainCommand(click.Command):
@@ -61,11 +69,25 @@ class TestbrainCommand(click.Command):
                 help="Log filename",
             )
         )
+        self.params.append(
+            click.Option(
+                ["--quiet"],
+                type=bool,
+                default=False,
+                show_default=True,
+                is_flag=True,
+                help="Quiet mode... everytime exit with 0",
+            )
+        )
 
-    def invoke(self, ctx) -> t.Any:
+    def __call__(self, *args: t.Any, **kwargs: t.Any) -> t.Any:
+        return super().__call__(args, kwargs)
+
+    def invoke(self, ctx: "TestbrainContext") -> t.Any:
         configure_logging(
             level=ctx.params.get("loglevel"), file=ctx.params.get("logfile")
         )
+        ctx.inject_excepthook(quiet=ctx.params.get("quiet", False))
         rv = super().invoke(ctx)
         return rv
 
@@ -76,7 +98,8 @@ class TestbrainCommand(click.Command):
         parent: t.Optional[click.Context] = None,
         **extra: t.Any,
     ) -> click.Context:
-        return super().make_context(info_name, args, parent, **extra)
+        ctx = super().make_context(info_name, args, parent, **extra)
+        return ctx
 
 
 class TestbrainGroup(click.Group):
