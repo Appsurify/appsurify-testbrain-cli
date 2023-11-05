@@ -11,6 +11,10 @@ from testbrain import pkg_name, pkg_version
 from testbrain.utils.crasher import inject_excepthook
 from testbrain.utils.logging import LOG_LEVELS, configure_logging
 
+if t.TYPE_CHECKING:
+    import typing_extensions as te
+
+
 logger = logging.getLogger(__name__)
 
 
