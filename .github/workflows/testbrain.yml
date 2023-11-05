@@ -16,9 +16,7 @@ jobs:
     steps:
       - name: "Checkout repository"
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
-          fetch-depth: 0
+
       - name: "Current branch name"
         run: echo $(git branch --show-current)
 

@@ -142,11 +142,11 @@ class GitProcess(Process):
         patch: t.Optional[bool] = True,
     ) -> str:
         extra_params: list = [
+            f"-n {number}",
             "--abbrev=40",
             "--first-parent",
             "--full-diff",
             "--full-index",
-            f"-n {number}",
             f"--remotes {branch}",
         ]
 
@@ -191,10 +191,11 @@ class GitProcess(Process):
         return result
 
     def ls_files(self, branch: t.Optional[T_Branch] = None) -> str:
-        extra_params: list = ["--name-only"]
+        if not branch:
+            branch = "HEAD"
+
         logger.debug(f"Get files tree for branch: {repr(branch)}")
-        if branch:
-            extra_params.append(f"-r {branch}")
+        extra_params: list = ["--name-only", "-r", branch]
 
         command = ["git", "ls-tree", *extra_params]
         result = self.execute(command=command)
