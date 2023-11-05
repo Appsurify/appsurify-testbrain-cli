@@ -80,14 +80,17 @@ server for further analysis and testing optimization.
 > This module can be used as an independent command in the OS or as
 > a subcommand of the main CLI application "testbrain"
 
+Alias #1
 ```shell
 testbrain repository push --help
 ```
 
+Alias #2
 ```shell
 git2testbrain push --help
 ```
 
+Alias #3
 ```shell
 testbrain git2testbrain push --help
 ```
@@ -106,9 +109,11 @@ testbrain git2testbrain push --help
 | no               | --number       | 1             | TESTBRAIN_NUMBER_OF_COMMITS | Enter the number of commits to process.                                                                     |                  |
 | no               | --start        | latest (HEAD) | TESTBRAIN_START_COMMIT      | Enter the commit that should be starter. If not specified, it will be used 'latest' commit.                 |                  |
 | no (unavailable) | --blame        | false         |                             | Add blame information.                                                                                      |                  |
+| no               | --minimize     | false         |                             | Suppress commit changes information. [default: (False)]                                                     |                  |
+| no               | --pr-mode      | false         | TESTBRAIN_PR_MODE           | Activate PR mode                                                                                            |                  |
 | no               | -l, --loglevel | INFO          |                             | Possible failities: DEBUG/INFO/WARNING/ERROR                                                                |                  |
 | no               | --logfile      | stderr        |                             | Save logs to file                                                                                           |                  |
-
+| no               | --quiet        | false         |                             | Quiet mode... everytime exit with 0                                                                         |                  |
 
 ### Usage examples
 
@@ -156,7 +161,8 @@ git2testbrain --server https://demo.appsurify.com --token **********************
 ```
 You can see this message
 ```text
-ERROR    2023-10-23 11:27:39,697 testbrain.git2testbrain.controller git2testbrain/controller.py:39 controller Git2TestbrainController.get_project_id: Project didn't exist, check project name and try again!
+2023-11-05 21:16:03 INFO     testbrain.repository.cli push [repository/cli.py:184] Running...
+2023-11-05 21:16:03 DEBUG    testbrain.terminal.process Process.__init__ [terminal/process.py:22] Set up execution working dir ...
 Dumped crash report to <path_to_work_dir>/.crashdumps/git2testbrain-2023-10-23-11-27-39.dump
 
 ```
@@ -169,6 +175,59 @@ $(pwd) - git repository path
 docker run --rm -it \
 -v $(pwd)/:/data \
 appsurifyinc/appsurify-testbrain-cli git2testbrain --server https://demo.appsurify.com --token ************************************************************** --project DEMO
+
+```
+
+
+### CI example (github actions)
+
+`.github/workflows/testbrain-git2testbrain.yml`
+```yaml
+name: "Testbrain"
+
+on:
+    workflow_dispatch:
+    pull_request:
+        branches:
+            - "main"
+            - "development"
+    push:
+        branches:
+            - "main"
+            - "releases/*.*.*"
+            - "development"
+
+jobs:
+    push-changes:
+        name: "Push changes to server"
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+            pull-requests: write
+            checks: write
+        steps:
+            - name: "Checkout repository"
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+            - name: "Extract branch name"
+              shell: bash
+              run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+              id: extract_branch
+            - name: "Push"
+              uses: addnab/docker-run-action@v3
+              with:
+                  image: appsurifyinc/appsurify-testbrain-cli:latest
+                  options: -v ${{ github.workspace }}:/data -e TESTBRAIN_PR_MODE=${{ github.event_name == 'pull_request' }}
+                  run: |
+                      git2testbrain push --server ${{ vars.TESTBRAIN_SERVER }} --token ${{ secrets.TESTBRAIN_TOKEN }} --project ${{ vars.TESTBRAIN_PROJECT }} --branch ${{ steps.extract_branch.outputs.branch }} --start ${{ github.sha }} --number ${{ vars.TESTBRAIN_NUMBER_OF_COMMITS }} -l DEBUG
+            - name: "Upload crash dumps"
+              uses: actions/upload-artifact@v3
+              if: failure()
+              with:
+                  name: "crashdumps"
+                  path: ${{ github.workspace }}/.crashdumps/
+                  retention-days: 1
 
 ```
 
