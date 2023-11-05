@@ -784,6 +784,8 @@ def uname():
     if _uname_cache is not None:
         return _uname_cache
 
+    os = ""
+
     # Get some infos from the builtin _os.uname API...
     try:
         system, node, release, version, machine = infos = _os.uname()
