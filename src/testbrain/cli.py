@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 )
 @click.pass_context
 def app(ctx: TestbrainContext, **kwargs):
-    ...
+    logger.debug(f"testbrain run with {ctx} {kwargs}")
 
 
 # app.add_command(repository_app, default=True)

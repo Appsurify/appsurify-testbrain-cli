@@ -672,7 +672,10 @@ def _get_machine_win32():
     )
 
 
-class _Processor:
+class _Processor(object):
+    def __init__(self):
+        ...
+
     @classmethod
     def get(cls):
         func = getattr(cls, f"get_{sys.platform}", cls.from_subprocess)

@@ -29,10 +29,11 @@ logger = logging.getLogger(__name__)
 )
 @click.pass_context
 def app(ctx: TestbrainContext, **kwargs):
-    ...
+    logger.debug(f"testbrain.repository run with {ctx} {kwargs}")
 
 
 def work_dir_callback(ctx, param, value):
+    logger.debug(f"workdir callback run with {ctx} {param}")
     logger.debug(f"Set workdir to {value}")
     os.chdir(value)
     return value
@@ -177,7 +178,7 @@ def push(
     _params = ctx.params.copy()
     _params["token"] = "*" * len(_params["token"])
 
-    logger.debug(f"Start push with params {_params}")
+    logger.debug(f"Start push with params {_params} {kwargs}")
 
     ctx.work_dir = work_dir
 
