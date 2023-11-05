@@ -21,7 +21,6 @@ logger = logging.getLogger(__name__)
     cls=TestbrainGroup,
     default_if_no_args=True,
     no_args_is_help=True,
-    default=True,
 )
 @click.version_option(
     package_name="appsurify-testbrain-cli",
@@ -39,7 +38,12 @@ def work_dir_callback(ctx, param, value):
     return value
 
 
-@app.command("push", cls=TestbrainCommand, default=True)
+@app.command(
+    "push",
+    cls=TestbrainCommand,
+    default=True,
+    context_settings={"ignore_unknown_options": True},
+)
 @click.option(
     "--server",
     metavar="<url>",
@@ -173,7 +177,7 @@ def push(
     logger.info("Running...")
 
     commit = start
-    if commit == "latest":
+    if commit == "latest" or not commit:
         commit = "HEAD"
 
     service = PushService(
