@@ -60,14 +60,17 @@ jobs:
         run: |
           echo "${{ steps.branch-names.outputs.base_ref_branch }}"
         # Outputs: "main" for main <- PR branch.
-
+      - name: "SWITCH"
+        if: github.event_name == 'pull_request'
+        run: |
+          git switch ${{ steps.branch-names.outputs.head_ref_branch }}
       - name: "Push"
         uses: addnab/docker-run-action@v3
         with:
           image: appsurifyinc/appsurify-testbrain-cli:latest
           options: -v ${{ github.workspace }}:/data
           run: |
-            git2testbrain push --server ${{ secrets.TESTBRAIN_SERVER }} --token ${{ secrets.TESTBRAIN_TOKEN }} --project ${{ secrets.TESTBRAIN_PROJECT }} --branch $git_branch --start $git_hash --number 100 -l DEBUG
+            git2testbrain push --server ${{ secrets.TESTBRAIN_SERVER }} --token ${{ secrets.TESTBRAIN_TOKEN }} --project ${{ secrets.TESTBRAIN_PROJECT }} --branch ${{ steps.branch-names.outputs.head_ref_branch }} --start ${{ github.sha }} --number 100 -l DEBUG
       - name: "Upload crash dumps"
         uses: actions/upload-artifact@v3
         with:
