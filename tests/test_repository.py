@@ -129,7 +129,7 @@ class TestRepositoryGitVCS:
         fp.register("git config diff.renameLimit 999999", stdout=[""])
         fp.register("git config diff.renames 0", stdout=[""])
         fp.register(
-            'git log --abbrev=40 --first-parent --full-diff --full-index -n 4 --remotes main --reverse --numstat -p --pretty=format:"%nCOMMIT:%x09%H%nTREE:%x09%T%nDATE:%x09%aI%nAUTHOR:%x09%an%x09%ae%x09%aI%nCOMMITTER:%x09%cn%x09%ce%x09%cI%nMESSAGE:%x09%s%nPARENTS:%x09%P%n" HEAD',
+            'git log -n 4 --abbrev=40 --first-parent --full-diff --full-index --remotes main --reverse --numstat -p --pretty=format:"%nCOMMIT:%x09%H%nTREE:%x09%T%nDATE:%x09%aI%nAUTHOR:%x09%an%x09%ae%x09%aI%nCOMMITTER:%x09%cn%x09%ce%x09%cI%nMESSAGE:%x09%s%nPARENTS:%x09%P%n" HEAD',
             stdout=[
                 (
                     "COMMIT:\t5355a13f5ba44d23de9a3090ad976d63d1a60e3e\n"
@@ -201,7 +201,7 @@ class TestRepositoryGitVCS:
         )
 
         fp.register(
-            "git log --abbrev=40 --first-parent --full-diff --full-index -n 4 --remotes main --reverse --numstat -p --pretty=format:%nCOMMIT:%x09%H%nTREE:%x09%T%nDATE:%x09%aI%nAUTHOR:%x09%an%x09%ae%x09%aI%nCOMMITTER:%x09%cn%x09%ce%x09%cI%nMESSAGE:%x09%s%nPARENTS:%x09%P%n HEAD",
+            "git log -n 4 --abbrev=40 --first-parent --full-diff --full-index --remotes main --reverse --numstat -p --pretty=format:%nCOMMIT:%x09%H%nTREE:%x09%T%nDATE:%x09%aI%nAUTHOR:%x09%an%x09%ae%x09%aI%nCOMMITTER:%x09%cn%x09%ce%x09%cI%nMESSAGE:%x09%s%nPARENTS:%x09%P%n HEAD",
             stdout=[
                 (
                     "COMMIT:\t5355a13f5ba44d23de9a3090ad976d63d1a60e3e\n"
@@ -350,7 +350,7 @@ class TestRepositoryGitVCS:
             stdout=["https://github.com/Appsurify/appsurify-testbrain-cli.git"],
         )
         fp.register(
-            'git log --abbrev=40 --first-parent --full-diff --full-index -n 4 --remotes main --reverse --numstat -p --pretty=format:"%nCOMMIT:%x09%H%nTREE:%x09%T%nDATE:%x09%aI%nAUTHOR:%x09%an%x09%ae%x09%aI%nCOMMITTER:%x09%cn%x09%ce%x09%cI%nMESSAGE:%x09%s%nPARENTS:%x09%P%n" HEAD',
+            'git log -n 4 --abbrev=40 --first-parent --full-diff --full-index --remotes main --reverse --numstat -p --pretty=format:"%nCOMMIT:%x09%H%nTREE:%x09%T%nDATE:%x09%aI%nAUTHOR:%x09%an%x09%ae%x09%aI%nCOMMITTER:%x09%cn%x09%ce%x09%cI%nMESSAGE:%x09%s%nPARENTS:%x09%P%n" HEAD',
             stdout=[
                 (
                     "COMMIT:\t5355a13f5ba44d23de9a3090ad976d63d1a60e3e\n"
@@ -421,7 +421,7 @@ class TestRepositoryGitVCS:
             ],
         )
         fp.register(
-            'git log --abbrev=40 --first-parent --full-diff --full-index -n 1 --remotes main --reverse --pretty=format:"%nCOMMIT:%x09%H%nTREE:%x09%T%nDATE:%x09%aI%nAUTHOR:%x09%an%x09%ae%x09%aI%nCOMMITTER:%x09%cn%x09%ce%x09%cI%nMESSAGE:%x09%s%nPARENTS:%x09%P%n" 5355a13f5ba44d23de9a3090ad976d63d1a60e3e',
+            'git log -n 1 --abbrev=40 --first-parent --full-diff --full-index --remotes main --reverse --pretty=format:"%nCOMMIT:%x09%H%nTREE:%x09%T%nDATE:%x09%aI%nAUTHOR:%x09%an%x09%ae%x09%aI%nCOMMITTER:%x09%cn%x09%ce%x09%cI%nMESSAGE:%x09%s%nPARENTS:%x09%P%n" 5355a13f5ba44d23de9a3090ad976d63d1a60e3e',
             stdout=[
                 (
                     "COMMIT:\t5355a13f5ba44d23de9a3090ad976d63d1a60e3e\n"
@@ -492,7 +492,7 @@ class TestRepositoryGitVCS:
             ],
         )
         fp.register(
-            'git log --abbrev=40 --first-parent --full-diff --full-index -n 1 --remotes main --reverse --pretty=format:"%nCOMMIT:%x09%H%nTREE:%x09%T%nDATE:%x09%aI%nAUTHOR:%x09%an%x09%ae%x09%aI%nCOMMITTER:%x09%cn%x09%ce%x09%cI%nMESSAGE:%x09%s%nPARENTS:%x09%P%n" 27d9aaff69ac8db9d19918c4d5efb6b3ed2c3210',
+            'git log -n 1 --abbrev=40 --first-parent --full-diff --full-index --remotes main --reverse --pretty=format:"%nCOMMIT:%x09%H%nTREE:%x09%T%nDATE:%x09%aI%nAUTHOR:%x09%an%x09%ae%x09%aI%nCOMMITTER:%x09%cn%x09%ce%x09%cI%nMESSAGE:%x09%s%nPARENTS:%x09%P%n" 27d9aaff69ac8db9d19918c4d5efb6b3ed2c3210',
             stdout=[
                 (
                     "COMMIT:\t5355a13f5ba44d23de9a3090ad976d63d1a60e3e\n"
@@ -563,7 +563,7 @@ class TestRepositoryGitVCS:
             ],
         )
         fp.register(
-            'git log --abbrev=40 --first-parent --full-diff --full-index -n 1 --remotes main --reverse --pretty=format:"%nCOMMIT:%x09%H%nTREE:%x09%T%nDATE:%x09%aI%nAUTHOR:%x09%an%x09%ae%x09%aI%nCOMMITTER:%x09%cn%x09%ce%x09%cI%nMESSAGE:%x09%s%nPARENTS:%x09%P%n" 0cd26c4deaebd98ff26b8cf20bda15553ef5bdcd',
+            'git log -n 1 --abbrev=40 --first-parent --full-diff --full-index --remotes main --reverse --pretty=format:"%nCOMMIT:%x09%H%nTREE:%x09%T%nDATE:%x09%aI%nAUTHOR:%x09%an%x09%ae%x09%aI%nCOMMITTER:%x09%cn%x09%ce%x09%cI%nMESSAGE:%x09%s%nPARENTS:%x09%P%n" 0cd26c4deaebd98ff26b8cf20bda15553ef5bdcd',
             stdout=[
                 (
                     "COMMIT:\t5355a13f5ba44d23de9a3090ad976d63d1a60e3e\n"
@@ -634,7 +634,7 @@ class TestRepositoryGitVCS:
             ],
         )
         fp.register(
-            'git log --abbrev=40 --first-parent --full-diff --full-index -n 1 --remotes main --reverse --pretty=format:"%nCOMMIT:%x09%H%nTREE:%x09%T%nDATE:%x09%aI%nAUTHOR:%x09%an%x09%ae%x09%aI%nCOMMITTER:%x09%cn%x09%ce%x09%cI%nMESSAGE:%x09%s%nPARENTS:%x09%P%n" 39c54991d3cd7f4bae68d6b58549e7e2ab084a23',
+            'git log -n 1 --abbrev=40 --first-parent --full-diff --full-index --remotes main --reverse --pretty=format:"%nCOMMIT:%x09%H%nTREE:%x09%T%nDATE:%x09%aI%nAUTHOR:%x09%an%x09%ae%x09%aI%nCOMMITTER:%x09%cn%x09%ce%x09%cI%nMESSAGE:%x09%s%nPARENTS:%x09%P%n" 39c54991d3cd7f4bae68d6b58549e7e2ab084a23',
             stdout=[
                 (
                     "COMMIT:\t5355a13f5ba44d23de9a3090ad976d63d1a60e3e\n"
@@ -705,7 +705,7 @@ class TestRepositoryGitVCS:
             ],
         )
         fp.register(
-            'git log --abbrev=40 --first-parent --full-diff --full-index -n 1 --remotes main --reverse --pretty=format:"%nCOMMIT:%x09%H%nTREE:%x09%T%nDATE:%x09%aI%nAUTHOR:%x09%an%x09%ae%x09%aI%nCOMMITTER:%x09%cn%x09%ce%x09%cI%nMESSAGE:%x09%s%nPARENTS:%x09%P%n" ceff1b9d2d403e83b9c7c39e5baa47eff61a3524',
+            'git log -n 1 --abbrev=40 --first-parent --full-diff --full-index --remotes main --reverse --pretty=format:"%nCOMMIT:%x09%H%nTREE:%x09%T%nDATE:%x09%aI%nAUTHOR:%x09%an%x09%ae%x09%aI%nCOMMITTER:%x09%cn%x09%ce%x09%cI%nMESSAGE:%x09%s%nPARENTS:%x09%P%n" ceff1b9d2d403e83b9c7c39e5baa47eff61a3524',
             stdout=[
                 (
                     "COMMIT:\t5355a13f5ba44d23de9a3090ad976d63d1a60e3e\n"
