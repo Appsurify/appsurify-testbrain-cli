@@ -7,7 +7,6 @@ on:
       - "main"
       - "releases/*.*.*"
       - "development"
-      - "test-ci"
 
 jobs:
   push-changes:
