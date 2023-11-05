@@ -12,6 +12,9 @@ ENV PIP_DEFAULT_TIMEOUT=100 \
     GIT_PYTHON_REFRESH='quiet' \
     GIT_DISCOVERY_ACROSS_FILESYSTEM=1
 
+RUN set -ex \
+    && apk add --update --no-cache gcc musl-dev libffi-dev
+
 RUN pip install poetry==1.6.1
 
 
