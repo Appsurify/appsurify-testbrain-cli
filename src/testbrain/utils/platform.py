@@ -786,7 +786,6 @@ def uname():
 
     # Get some infos from the builtin _os.uname API...
     try:
-        os = None
         system, node, release, version, machine = infos = _os.uname()
     except AttributeError:
         system = sys.platform
@@ -872,11 +871,12 @@ def uname():
 
     elif system == "Java":
         # Java platforms
-        r, v, vminfo, (os_name, os_version, os_arch) = java_ver()
+        r, v, vminfo, _ = java_ver()
         os = vminfo[0].split(",", 1)[0]
         version = r
     else:
-        bits, linkage = architecture(sys.executable)
+        # bits, linkage = architecture(sys.executable)
+        ...
 
     vals = os, version, system, release, node, machine
     # Replace 'unknown' values with the more portable ''

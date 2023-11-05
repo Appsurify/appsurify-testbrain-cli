@@ -30,3 +30,7 @@ profile:
 linter: jetbrains/qodana-python:2023.2
 include:
   - name: CheckDependencyLicenses
+exclude:
+  - name: All
+    paths:
+      - src/testbrain/utils/platform.py

@@ -80,6 +80,7 @@ class PushService(object):
         blame: t.Optional[bool] = False,
         **kwargs: t.Any,
     ) -> t.List[Commit]:
+        logger.debug(f"extra kwargs {kwargs}")
         if blame:
             logger.warning(
                 "In the current version, the "
@@ -101,6 +102,8 @@ class PushService(object):
     def get_repository_file_tree(
         self, branch: T_Branch, minimize: t.Optional[bool] = False, **kwargs: t.Any
     ) -> t.List[T_File]:
+        logger.debug(f"extra kwargs {kwargs}")
+
         if minimize:
             return []
 
@@ -114,6 +117,8 @@ class PushService(object):
         file_tree: t.Optional[t.List[T_File]],
         **kwargs: t.Any,
     ) -> Payload:
+        logger.debug(f"extra kwargs {kwargs}")
+
         ref = branch
         base_ref = ""
         before = commits[0].sha
@@ -143,6 +148,8 @@ class PushService(object):
         max_retries: t.Optional[int] = None,
         **kwargs: t.Any,
     ):
+        logger.debug(f"extra kwargs {kwargs}")
+
         project_id = self._get_project_id()
 
         payload_json = payload.model_dump_json()
