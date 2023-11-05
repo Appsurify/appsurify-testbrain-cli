@@ -38,12 +38,7 @@ def work_dir_callback(ctx, param, value):
     return value
 
 
-@app.command(
-    "push",
-    cls=TestbrainCommand,
-    default=True,
-    context_settings={"ignore_unknown_options": True},
-)
+@app.command("push", cls=TestbrainCommand, default=True)
 @click.option(
     "--server",
     metavar="<url>",
@@ -152,6 +147,16 @@ def work_dir_callback(ctx, param, value):
     is_flag=True,
     help="Suppress commit changes information.",
 )
+@click.option(
+    "--pr-mode",
+    show_default="False",
+    type=bool,
+    default=False,
+    envvar="TESTBRAIN_PR_MODE",
+    show_envvar=True,
+    is_flag=True,
+    help="Activate PR mode.",
+)
 @click.pass_context
 def push(
     ctx: "TestbrainContext",
@@ -161,15 +166,17 @@ def push(
     work_dir,
     repo_name,
     repo_dir,
-    branch: str,
-    number: int,
-    start: str,
-    blame: bool,
-    minimize: bool,
+    branch,
+    number,
+    start,
+    blame,
+    minimize,
+    pr_mode,
     **kwargs,
 ):
     _params = ctx.params.copy()
     _params["token"] = "*" * len(_params["token"])
+
     logger.debug(f"Start push with params {_params}")
 
     ctx.work_dir = work_dir
@@ -201,13 +208,16 @@ def push(
     try:
         logger.info(f"Stating get commits from repository - {service.repo_name}")
         commits: t.List[Commit] = service.get_repository_commits(
-            branch=branch, commit=commit, number=number, **kwargs
+            branch=branch if not pr_mode else commit,
+            commit=commit,
+            number=number,
+            **kwargs,
         )
         logger.info(f"Finished get commits from repository - {len(commits)} commits(s)")
 
         logger.info(f"Stating get file_tree from repository - {service.repo_name}")
         file_tree: t.List[T_File] = service.get_repository_file_tree(
-            branch=branch, minimize=minimize
+            branch=branch if not pr_mode else commit, minimize=minimize
         )
         logger.info(
             f"Finished get file_tree from repository - {len(file_tree)} file(s)"
