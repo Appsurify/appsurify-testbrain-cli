@@ -170,3 +170,4 @@ cython_debug/
 /.idea/modules.xml
 /.idea/vcs.xml
 /poetry.lock
+/.ruff_cache/

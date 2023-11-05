@@ -1,0 +1,28 @@
+name: "Testbrain"
+
+on:
+  workflow_dispatch:
+#  pull_request:
+#  push:
+#    branches:
+#      - "main"
+#      - "releases/*"
+
+jobs:
+  push-changes:
+    name: "Push changes to server"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout repository"
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+
+      - name: "Push"
+        uses: addnab/docker-run-action@v3
+        with:
+          image: appsurifyinc/appsurify-testbrain-cli:latest
+          options: -v ./:/data
+          run: repository push --server ${{ secrets.TESTBRAIN_SERVER }} --token ${{ secrets.TESTBRAIN_TOKEN }} --project ${{ secrets.TESTBRAIN_PROJECT }} --branch ${{ github.ref_name }} --start ${{ github.sha }} --number 100
+
