@@ -6,11 +6,11 @@ on:
     branches:
       - "main"
       - "development"
-  push:
-    branches:
-      - "main"
-      - "releases/*.*.*"
-      - "development"
+#  push:
+#    branches:
+#      - "main"
+#      - "releases/*.*.*"
+#      - "development"
 
 jobs:
   analyze:
