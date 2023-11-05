@@ -19,11 +19,24 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
-
+      - name: "Current branch name"
+        if: github.event_name == 'pull_request'
+        run: echo "${{ steps.branch-name.outputs.current_branch }}"
+      - name: "Current branch name"
+        if: github.event_name == 'push'
+        run: echo "${{ steps.branch-name.outputs.current_branch }}"
+      - name: "Get Ref brach name"
+        run: echo "${{ steps.branch-name.outputs.ref_branch }}"
+      - name: "Get Head Ref branch name"
+        if: github.event_name == 'pull_request'
+        run: echo "${{ steps.branch-name.outputs.head_ref_branch }}"
+      - name: "Get Base Ref branch name"
+        if: github.event_name == 'pull_request'
+        run: echo "${{ steps.branch-name.outputs.base_ref_branch }}"
       - name: "Push"
         uses: addnab/docker-run-action@v3
         with:
           image: appsurifyinc/appsurify-testbrain-cli:latest
           options: -v ${{ github.workspace }}:/data
-          run: git2testbrain push --server ${{ secrets.TESTBRAIN_SERVER }} --token ${{ secrets.TESTBRAIN_TOKEN }} --project ${{ secrets.TESTBRAIN_PROJECT }} --start ${{ github.sha }} --number 100 -l DEBUG
+          run: git2testbrain push --server ${{ secrets.TESTBRAIN_SERVER }} --token ${{ secrets.TESTBRAIN_TOKEN }} --project ${{ secrets.TESTBRAIN_PROJECT }} --start ${{ github.event.pull_request.head.sha }} --number 100 -l DEBUG
 
