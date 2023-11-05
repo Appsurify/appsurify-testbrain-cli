@@ -426,6 +426,7 @@ def inject_excepthook(
     show_exception_vars: bool = True,
     show_exc_vars_recur: bool = True,
     custom_values: Optional[Dict[str, Union[Any, Callable[[], Any]]]] = None,
+    quiet: bool = False,
 ) -> Callable[[Type[BaseException], BaseException, TracebackType], Any]:
     _original_excepthook = sys.excepthook
 
@@ -447,6 +448,9 @@ def inject_excepthook(
 
             if callback is not None:
                 callback(etype, value, tb, dest)
+
+            if quiet:
+                sys.exit(0)
 
             sys.exit(1)
 

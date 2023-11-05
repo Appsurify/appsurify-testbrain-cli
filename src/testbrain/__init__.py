@@ -5,7 +5,7 @@ from testbrain.tests import __version__ as tests_version
 
 __title__ = "Appsurify Testbrain CLI"
 __name__ = "testbrain"
-__version__ = "2023.11.5"
+__version__ = "2023.11.6"
 __build__ = "undefined"
 
 pkg_name, pkg_version = __name__, __version__
