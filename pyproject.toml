@@ -7,7 +7,7 @@ tag = false
 sign_tags = false
 tag_name = "{new_version}"
 tag_message = "Bump version: {current_version} → {new_version}"
-current_version = "2023.11.5"
+current_version = "2023.11.6"
 parse = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)"
 serialize = [
     "{major}.{minor}.{patch}"
@@ -23,7 +23,7 @@ filename = "src/testbrain/__init__.py"
 
 [tool.poetry]
 name = "appsurify-testbrain-cli"
-version = "2023.11.5"
+version = "2023.11.6"
 description = "Command Line Interface for Appsurify Testbrain."
 license = "MIT"
 authors = [
