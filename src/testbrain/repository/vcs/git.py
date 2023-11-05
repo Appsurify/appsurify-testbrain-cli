@@ -192,6 +192,7 @@ class GitProcess(Process):
 
     def ls_files(self, branch: t.Optional[T_Branch] = None) -> str:
         extra_params: list = ["--name-only"]
+        logger.debug(f"Get files tree for branch: {repr(branch)}")
         if branch:
             extra_params.append(f"-r {branch}")
 
