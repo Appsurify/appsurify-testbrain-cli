@@ -61,6 +61,7 @@ jobs:
           image: appsurifyinc/appsurify-testbrain-cli:latest
           options: -v ${{ github.workspace }}:/data
           run: |
+            git branch -a;
             git2testbrain push --server ${{ secrets.TESTBRAIN_SERVER }} --token ${{ secrets.TESTBRAIN_TOKEN }} --project ${{ secrets.TESTBRAIN_PROJECT }} --branch ${{ github.head_ref }} --start latest --number 100 -l DEBUG; cat /data/.crashdumps/*
       - name: "Upload crash dumps"
         uses: actions/upload-artifact@v3
