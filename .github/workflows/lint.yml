@@ -11,6 +11,8 @@ on:
       - "main"
       - "releases/*.*.*"
       - "development"
+      - "*"
+      - "**"
 
 jobs:
   flake8:
