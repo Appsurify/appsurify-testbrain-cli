@@ -30,7 +30,7 @@ jobs:
           image: appsurifyinc/appsurify-testbrain-cli:latest
           options: -v ${{ github.workspace }}:/data
           run: |
-            git2testbrain push --server ${{ env.TESTBRAIN_SERVER }} --token ${{ secrets.TESTBRAIN_TOKEN }} --project ${{ env.TESTBRAIN_PROJECT }} --branch ${{ github.ref_name }} --start ${{ github.sha }} --number 100 -l DEBUG
+            git2testbrain push --server ${{ vars.TESTBRAIN_SERVER }} --token ${{ secrets.TESTBRAIN_TOKEN }} --project ${{ vars.TESTBRAIN_PROJECT }} --branch ${{ github.ref_name }} --start ${{ github.sha }} --number 100 -l DEBUG
       - name: "Upload crash dumps"
         uses: actions/upload-artifact@v3
         if: failure()
