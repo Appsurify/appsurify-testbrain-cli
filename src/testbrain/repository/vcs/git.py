@@ -149,7 +149,7 @@ class GitProcess(Process):
             "--full-index",
         ]
 
-        if branch != "HEAD" or branch != "":
+        if branch != "HEAD" and branch != "":
             extra_params.append(f"--remotes {branch}")
 
         if reverse:
