@@ -25,14 +25,15 @@ class PushService(object):
 
     def __init__(
         self,
+        project: str,
         server: str,
         token: str,
         repo_dir: PathLike,
-        repo_name: str,
-        project: str,
+        repo_name: t.Optional[str] = None,
         pr_mode: t.Optional[bool] = False,
     ):
         self.project = project
+        self.pr_mode = pr_mode
 
         self._client = RepositoryClient(server=server, token=token)
 
@@ -64,9 +65,71 @@ class PushService(object):
     def vcs(self) -> t.Optional[GitVCS]:
         return self._vcs
 
+    def validate_branch(self, branch: t.Optional[T_Branch] = None) -> t.Any:
+        """
+        >>> import logging
+        >>> logging.basicConfig(level=logging.INFO)
+        >>> logger = logging.getLogger()
+        >>> from repository.services import PushService
+        >>> service = PushService(
+        >>>     server="", token="", project="",
+        >>>     repo_dir="/GitHub/appsurify-testbrain-cli",
+        >>>     pr_mode=True
+        >>> )
+        >>> logger.info(">>> releases/2023.10.24 <<<")
+        >>> b = service.validate_branch(branch="releases/2023.10.24")
+        >>> logger.info(b)
+        >>> logger.info(">>> releases/2023.10.25 <<<")
+        >>> b = service.validate_branch(branch="releases/2023.10.25")
+        >>> logger.info(b)
+        >>> logger.info(">>> releases/2023.10.26 <<<")
+        >>> b = service.validate_branch(branch="releases/2023.10.26")
+        >>> logger.info(b)
+        >>> logger.info(">>> None <<<")
+        >>> b = service.validate_branch(branch=None)
+        >>> logger.info(b)
+        """
+        if branch == "":
+            branch = None
+
+        _current = self.vcs.get_current_branch()
+        if not _current:
+            logger.warning("Branch cannot be determined. Repository is DETACH")
+
+        if branch is None:
+            if _current is None:
+                error_msg = "It is not possible to continue without a branch."
+                logger.critical(error_msg)
+                raise VCSServiceError(error_msg)
+
+            branch = _current
+            logger.info(f"Use branch '{branch}'")
+            return branch
+
+        else:
+            if branch == _current:
+                logger.info(f"Use branch '{branch}'")
+                return branch
+            else:
+                if not self.pr_mode:
+                    error_msg = (
+                        "The specified branch does not match "
+                        "the current branch. Fix --branch or use '--pr-mode'"
+                    )
+                    logger.critical(error_msg)
+                    raise VCSServiceError(error_msg)
+                try:
+                    _branch, _head, _remote = self.vcs.get_branch(branch_name=branch)
+                    branch = _branch
+                except BranchNotFound as exc:
+                    logger.warning(f"Branch '{branch}' not found into repository.")
+
+                logger.warning(f"PR Mode enabled.")
+                logger.info(f"Use branch '{branch}'")
+                return branch
+
     def get_commits(
         self,
-        branch: T_Branch,
         commit: T_SHA,
         number: int,
         reverse: t.Optional[bool] = True,
@@ -83,6 +146,7 @@ class PushService(object):
             )
 
         commits = self.vcs.commits(
+            commit=commit,
             number=number,
             reverse=reverse,
             numstat=numstat,
@@ -92,7 +156,7 @@ class PushService(object):
 
         return commits
 
-    def get_repository_file_tree(
+    def get_file_tree(
         self, branch: T_Branch, minimize: t.Optional[bool] = False, **kwargs: t.Any
     ) -> t.List[T_File]:
         if minimize:
@@ -117,7 +181,7 @@ class PushService(object):
         ref_type = "commit"
 
         payload: Payload = Payload(
-            repo_name=self.repo_name,
+            repo_name=self.vcs.repo_name,
             ref=ref,
             base_ref=base_ref,
             before=before,
@@ -207,7 +271,7 @@ class CheckoutService(object):
             _branch, _head, _remote = self.vcs.get_branch(branch_name=branch)
             logger.debug(f"Found branch '{_branch}' with HEAD '{_head}'")
         except VCSError as exc:
-            error_msg = f"Cant detect branch and commit. Maybe use '--pr-mode'"
+            error_msg = "Cant detect branch and commit. Maybe use '--pr-mode'"
             logger.critical(error_msg)
             raise VCSServiceError(error_msg) from exc
 

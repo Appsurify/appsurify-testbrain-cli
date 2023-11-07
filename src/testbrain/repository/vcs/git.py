@@ -132,16 +132,10 @@ class GitProcess(Process):
         params: list = [
             f"-n {number}",
             "--abbrev=40",
-            "--first-parent",
+            # "--first-parent",
             "--full-diff",
             "--full-index",
         ]
-
-        # if branch != "":
-        #     if branch != "HEAD":
-        #         extra_params.append(f"--remotes {branch}")
-        # if branch != "HEAD" and branch != "":
-        #     extra_params.append(f"--remotes {branch}")
 
         if reverse:
             params.append("--reverse")
@@ -279,13 +273,15 @@ class GitVCS(BaseVCS):
 
     def commits(
         self,
-        number: int,
+        commit: T_SHA = "HEAD",
+        number: int = 1,
         reverse: t.Optional[bool] = True,
         numstat: t.Optional[bool] = True,
         raw: t.Optional[bool] = True,
         patch: t.Optional[bool] = True,
     ) -> t.List[Commit]:
         result = self.process.log(
+            rev=commit,
             number=number,
             reverse=reverse,
             numstat=numstat,
@@ -300,7 +296,7 @@ class GitVCS(BaseVCS):
             commit.parents = []
             for parent in parent_commits:
                 parent_result = self.process.log(
-                    commit=parent.sha,
+                    rev=parent.sha,
                     number=1,
                     numstat=False,
                     raw=False,
@@ -315,8 +311,8 @@ class GitVCS(BaseVCS):
         self, branch: t.Optional[T_Branch] = None
     ) -> t.Optional[t.List[T_File]]:
         if branch is None:
-            branch = self.current_branch
-        result = self.process.ls_files(branch=branch)
+            branch = None
+        result = self.process.ls_files(rev=branch)
         file_tree = result.splitlines()
         file_tree = [file.lstrip().rstrip() for file in file_tree]
         return file_tree
