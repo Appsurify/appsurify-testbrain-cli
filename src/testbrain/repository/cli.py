@@ -262,7 +262,7 @@ def push(
 def checkout(ctx: TestbrainContext, repo_dir, branch, commit, pr_mode, **kwargs):
     _params = ctx.params.copy()
 
-    logger.debug(f"Running checkout with params {_params}")
+    logger.debug(f"Running checkout with params {_params} {kwargs}")
 
     logger.info("Running checkout...")
 
