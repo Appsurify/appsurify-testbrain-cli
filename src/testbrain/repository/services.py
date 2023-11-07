@@ -3,7 +3,7 @@ import logging
 import typing as t
 
 from testbrain.repository.client import RepositoryClient
-from testbrain.repository.exceptions import ProjectNotFound
+from testbrain.repository.exceptions import ProjectNotFound, VCSServiceError
 from testbrain.repository.models import Commit, Payload
 from testbrain.repository.types import T_SHA, PathLike, T_Branch, T_File
 from testbrain.repository.vcs.git import GitVCS
@@ -171,9 +171,12 @@ class CheckoutService(object):
     def __init__(
         self,
         repo_dir: t.Optional[PathLike] = None,
+        pr_mode: t.Optional[bool] = False,
+        sync: t.Optional[bool] = False,
     ):
         self.repo_dir = repo_dir
-        self.vcs.update()
+        self.pr_mode = pr_mode
+        self.sync = sync
 
     @property
     def vcs(self) -> t.Optional[GitVCS]:
@@ -181,42 +184,40 @@ class CheckoutService(object):
             self._vcs = GitVCS(repo_dir=self.repo_dir)
         return self._vcs
 
+    def fetch(self, branch: t.Optional[T_Branch] = None) -> bool:
+        return self.vcs.fetch(branch=branch)
+
     def checkout(
         self,
-        branch: t.Optional[T_Branch] = None,
-        commit: t.Optional[T_SHA] = None,
+        branch: T_Branch,
+        commit: t.Optional[T_SHA] = "HEAD",
     ):
         """
-        service = CheckoutService(pr_mode=True)
-        service.checkout(branch="releases/2023.10.24", commit="6f4fc965428d1d311c02c2de4996c4265765d131")
+        service = CheckoutService(repo_dir="/Users/whenessel/GitHub/appsurify-testbrain-cli")
+        service.checkout(branch="releases/2023.10.24")
+        service.checkout(branch="releases/2023.10.24", commit="HEAD")
         service.checkout(branch="releases/2023.10.24", commit="2d517fd")
-        service.checkout(branch="releases/2023.11.5", commit="2d517fd")
-        service.checkout(branch="releases/2023.11.5", commit="727cc25707b4758cfbd264c6a3d3d83e4d663c0e")
-        service.checkout(branch="releases/2023.11.5")
+        raise Error(PLEASE ENABLE PR MODE!!!!)
+
+        service = CheckoutService(repo_dir="/Users/whenessel/GitHub/appsurify-testbrain-cli", pr_mode=True)
+        service.checkout(branch="releases/2023.10.24")
+        service.checkout(branch="releases/2023.10.24", commit="HEAD")
+        service.checkout(branch="releases/2023.10.24", commit="2d517fd")
+
         """
 
-        rev = branch or commit
-        if not rev:
-            rev = "HEAD"
+        if self.sync:
+            self.fetch(branch=branch)
 
-        _current_branch = self.vcs.process.branch(show_current=True)
-        print(f"Rev: {rev} ({_current_branch})")
+        _branch_name, _branch_head = self.vcs.get_branch(branch_name=branch)
+        _validate_commit = self.vcs.validate_commit(branch=branch, commit=commit)
 
-        self.vcs.process.checkout(rev=rev)
-        # if not branch and self.pr_mode:
-        #     raise Exception("If pr_mode is enable. Please specify a branch name.")
-        #
-        # if self.pr_mode:
-        #     if branch:
-        #         self.vcs.current_branch = branch
-        #         self.vcs.process.checkout(rev=branch, detach=True)
-        #
-        #     elif commit:
-        #         self.vcs.process.checkout(rev=commit, detach=True)
+        if commit != "HEAD" and commit.startswith(_branch_head):
+            commit = "HEAD"
 
-        # if branch:
-        #     self.vcs.process.checkout(rev=branch)
-        # elif commit:
-        #     self.vcs.process.checkout(rev=commit)
-        # else:
-        #     self.vcs.process.checkout(rev="HEAD")
+        if commit != "HEAD" and self.pr_mode is False:
+            raise VCSServiceError(
+                "You specified a non-HEAD commit for the branch. Please use PR mode."
+            )
+
+        self.vcs.checkout(branch=branch, commit=commit, detach=self.pr_mode)

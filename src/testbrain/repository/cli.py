@@ -278,7 +278,7 @@ def push(
     metavar="<sha>",
     show_default="latest (HEAD)",
     type=str,
-    default="latest",
+    default="HEAD",
     envvar="TESTBRAIN_START_COMMIT",
     show_envvar=True,
     help="Enter the commit that should be starter. If not "
@@ -311,7 +311,7 @@ def checkout(
 
     try:
         service = CheckoutService(repo_dir=repo_dir, pr_mode=pr_mode)
-        service.checkout_branch(branch=branch)
+        service.checkout(branch=branch, commit=commit)
     except VCSError:
         ctx.exit(127)
 
