@@ -7,9 +7,9 @@ import subprocess
 import typing as t
 
 from testbrain.repository.exceptions import (
-    VCSProcessError,
     BranchNotFound,
     CommitNotFound,
+    VCSProcessError,
 )
 from testbrain.repository.models import Commit
 from testbrain.repository.types import T_SHA, PathLike, T_Branch, T_File
@@ -112,12 +112,12 @@ class GitProcess(Process):
             "|",
             "grep",
             "-E",
-            f"'(^|\s){branch}$'",
+            f"'(^|\s){branch}$'",  # noqa
         ]
         try:
             result = self.execute(command)
         except ProcessExecutionError as exc:
-            raise VCSProcessError(f"Failed validate commit") from exc
+            raise VCSProcessError("Failed validate commit") from exc
         return result
 
     def log(

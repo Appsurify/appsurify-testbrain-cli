@@ -18,6 +18,12 @@ if t.TYPE_CHECKING:
 logger = logging.getLogger(__name__)
 
 
+def work_dir_callback(ctx, param, value):
+    logger.debug(f"Set workdir to {value}")
+    os.chdir(value)
+    return value
+
+
 class TestbrainContext(click.Context):
     _work_dir: t.Optional[t.Union[pathlib.Path, str]] = pathlib.Path(".").resolve()
 
@@ -56,6 +62,22 @@ class TestbrainCommand(click.Command):
         super(TestbrainCommand, self).__init__(*args, **kwargs)
         self.params.append(
             click.Option(
+                ["--work-dir"],
+                metavar="<dir>",
+                type=click.Path(dir_okay=True, resolve_path=True),
+                default=pathlib.Path("."),
+                callback=work_dir_callback,
+                is_eager=True,
+                show_default=True,
+                envvar="TESTBRAIN_WORK_DIR",
+                show_envvar=True,
+                help="Enter the testbrain script working directory. "
+                "If not specified, the current working directory "
+                "will be used.",
+            )
+        )
+        self.params.append(
+            click.Option(
                 ["--loglevel", "-l"],
                 type=click.Choice(LOG_LEVELS, case_sensitive=False),
                 default="INFO",
@@ -92,6 +114,7 @@ class TestbrainCommand(click.Command):
             level=ctx.params.get("loglevel"), file=ctx.params.get("logfile")
         )
         ctx.inject_excepthook(quiet=ctx.params.get("quiet", False))
+        ctx.work_dir = ctx.params.get("work_dir", pathlib.Path("."))
         rv = super().invoke(ctx)
         return rv
 

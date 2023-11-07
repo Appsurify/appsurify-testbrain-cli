@@ -10,7 +10,7 @@ from testbrain import version_message
 from testbrain.core import TestbrainCommand, TestbrainContext, TestbrainGroup
 from testbrain.repository.exceptions import ProjectNotFound, VCSError
 from testbrain.repository.models import Commit
-from testbrain.repository.services import PushService, CheckoutService
+from testbrain.repository.services import CheckoutService, PushService
 from testbrain.repository.types import T_File
 
 logger = logging.getLogger(__name__)
@@ -30,12 +30,6 @@ logger = logging.getLogger(__name__)
 @click.pass_context
 def app(ctx: TestbrainContext, **kwargs):
     ...
-
-
-def work_dir_callback(ctx, param, value):
-    logger.debug(f"Set workdir to {value}")
-    os.chdir(value)
-    return value
 
 
 @app.command("push", cls=TestbrainCommand, default=True)
@@ -65,20 +59,6 @@ def work_dir_callback(ctx, param, value):
     envvar="TESTBRAIN_PROJECT",
     show_envvar=True,
     help="Enter your testbrain project name.",
-)
-@click.option(
-    "--work-dir",
-    metavar="<dir>",
-    type=click.Path(dir_okay=True, resolve_path=True),
-    default=pathlib.Path("."),
-    callback=work_dir_callback,
-    is_eager=True,
-    show_default=True,
-    envvar="TESTBRAIN_WORK_DIR",
-    show_envvar=True,
-    help="Enter the testbrain script working directory. "
-    "If not specified, the current working directory "
-    "will be used.",
 )
 @click.option(
     "--repo-name",
@@ -182,8 +162,6 @@ def push(
 
     logger.debug(f"Running push with params {_params}")
 
-    ctx.work_dir = work_dir
-
     logger.info("Running...")
 
     if commit == "latest" or not commit:
@@ -207,7 +185,7 @@ def push(
     }
 
     try:
-        logger.info(f"Stating get commits from repository")
+        logger.info("Stating get commits from repository")
         commits: t.List[Commit] = service.get_commits(
             branch=branch,
             commit=commit,
@@ -229,29 +207,15 @@ def push(
         )
 
         logger.info(f"Sending changes payload to server - {server}")
-        # _ = service.send_changes_payload(payload=payload)
-        # logger.info(f"Sent changes payload to server - {server}")
+        _ = service.send_changes_payload(payload=payload)
+        logger.info(f"Sent changes payload to server - {server}")
     except (ProjectNotFound, VCSError):
         ctx.exit(127)
 
     logger.info("Done")
 
 
-@app.command("checkout", cls=TestbrainCommand, default=True)
-@click.option(
-    "--work-dir",
-    metavar="<dir>",
-    type=click.Path(dir_okay=True, resolve_path=True),
-    default=pathlib.Path("."),
-    callback=work_dir_callback,
-    is_eager=True,
-    show_default=True,
-    envvar="TESTBRAIN_WORK_DIR",
-    show_envvar=True,
-    help="Enter the testbrain script working directory. "
-    "If not specified, the current working directory "
-    "will be used.",
-)
+@app.command("checkout", cls=TestbrainCommand)
 @click.option(
     "--repo-dir",
     metavar="<dir>",
@@ -296,14 +260,10 @@ def push(
     help="Activate PR mode.",
 )
 @click.pass_context
-def checkout(
-    ctx: TestbrainContext, work_dir, repo_dir, branch, commit, pr_mode, **Kwargs
-):
+def checkout(ctx: TestbrainContext, repo_dir, branch, commit, pr_mode, **Kwargs):
     _params = ctx.params.copy()
 
     logger.debug(f"Running checkout with params {_params}")
-
-    ctx.work_dir = work_dir
 
     logger.info("Running checkout...")
 

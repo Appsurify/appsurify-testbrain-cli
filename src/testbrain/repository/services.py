@@ -4,11 +4,11 @@ import typing as t
 
 from testbrain.repository.client import RepositoryClient
 from testbrain.repository.exceptions import (
-    ProjectNotFound,
-    VCSServiceError,
     BranchNotFound,
     CommitNotFound,
+    ProjectNotFound,
     VCSError,
+    VCSServiceError,
 )
 from testbrain.repository.models import Commit, Payload
 from testbrain.repository.types import T_SHA, PathLike, T_Branch, T_File
@@ -121,10 +121,10 @@ class PushService(object):
                 try:
                     _branch, _head, _remote = self.vcs.get_branch(branch_name=branch)
                     branch = _branch
-                except BranchNotFound as exc:
+                except BranchNotFound:
                     logger.warning(f"Branch '{branch}' not found into repository.")
 
-                logger.warning(f"PR Mode enabled.")
+                logger.warning("PR Mode enabled.")
                 logger.info(f"Use branch '{branch}'")
                 return branch
 
@@ -282,7 +282,8 @@ class CheckoutService(object):
             try:
                 _result = self.vcs.validate_commit(branch=branch, commit=commit)
                 logger.debug(
-                    f"The branch '{branch}' contained a commit '{commit}' in history."
+                    f"The branch '{branch}' contained "
+                    f"a commit '{commit}' in history. {_result}"
                 )
             except CommitNotFound as exc:
                 error_msg = (
