@@ -30,3 +30,19 @@ profile:
 linter: jetbrains/qodana-python:2023.2
 include:
   - name: CheckDependencyLicenses
+exclude:
+  - name: All
+    paths:
+      - src/testbrain/utils/platform.py
+  - name: PyUnboundLocalVariableInspection
+    paths:
+      - src/testbrain/client/compat.py
+  - name: PyAttributeOutsideInitInspection
+    paths:
+      - src/testbrain/client/adapters.py
+  - name: PyPep8NamingInspection
+    paths:
+      - src/testbrain/client/compat.py
+  - name: PyTypeHintsInspection
+    paths:
+      - src/testbrain/repository/types.py

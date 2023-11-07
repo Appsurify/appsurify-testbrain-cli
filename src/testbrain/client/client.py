@@ -40,6 +40,7 @@ class HttpClient(abc.ABC):
     __parent = None
 
     def __init__(self, *args, **kwargs):
+        logger.debug(f"Initial variables with {args} {kwargs}")
         self._user_agent = get_user_agent(name=self.name, version=self.version)
 
     def __new__(cls, *args, **kwargs):

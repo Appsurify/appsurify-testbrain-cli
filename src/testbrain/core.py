@@ -31,9 +31,11 @@ class TestbrainContext(click.Context):
         self.inject_excepthook()
         super().__init__(*args, **kwargs)
 
-    def inject_excepthook(self, quiet: bool = False) -> None:
+    @staticmethod
+    def inject_excepthook(quiet: bool = False) -> None:
         inject_excepthook(
-            lambda etype, value, tb, dest: print("Dumped crash report to", dest)
+            lambda etype, value, tb, dest: print("Dumped crash report to", dest),
+            quiet=quiet,
         )
 
     @property
@@ -150,7 +152,7 @@ class TestbrainGroup(click.Group):
         context_settings.update(self.default_context_settings)
         attrs["context_settings"] = context_settings
 
-        super().__init__(name, **attrs)
+        super().__init__(name, commands, **attrs)
 
     def set_default_command(self, command):
         """Sets a command function as the default command."""
