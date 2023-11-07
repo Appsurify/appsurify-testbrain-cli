@@ -18,7 +18,7 @@ if t.TYPE_CHECKING:
 logger = logging.getLogger(__name__)
 
 
-def work_dir_callback(ctx, param, value):
+def work_dir_callback(ctx, param, value):  # noqa
     logger.debug(f"Set workdir to {value}")
     os.chdir(value)
     return value

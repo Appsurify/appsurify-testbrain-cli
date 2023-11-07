@@ -66,29 +66,6 @@ class PushService(object):
         return self._vcs
 
     def validate_branch(self, branch: t.Optional[T_Branch] = None) -> t.Any:
-        """
-        >>> import logging
-        >>> logging.basicConfig(level=logging.INFO)
-        >>> logger = logging.getLogger()
-        >>> from repository.services import PushService
-        >>> service = PushService(
-        >>>     server="", token="", project="",
-        >>>     repo_dir="/GitHub/appsurify-testbrain-cli",
-        >>>     pr_mode=True
-        >>> )
-        >>> logger.info(">>> releases/2023.10.24 <<<")
-        >>> b = service.validate_branch(branch="releases/2023.10.24")
-        >>> logger.info(b)
-        >>> logger.info(">>> releases/2023.10.25 <<<")
-        >>> b = service.validate_branch(branch="releases/2023.10.25")
-        >>> logger.info(b)
-        >>> logger.info(">>> releases/2023.10.26 <<<")
-        >>> b = service.validate_branch(branch="releases/2023.10.26")
-        >>> logger.info(b)
-        >>> logger.info(">>> None <<<")
-        >>> b = service.validate_branch(branch=None)
-        >>> logger.info(b)
-        """
         if branch == "":
             branch = None
 

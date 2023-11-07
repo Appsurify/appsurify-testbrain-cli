@@ -29,7 +29,7 @@ logger = logging.getLogger(__name__)
 )
 @click.pass_context
 def app(ctx: TestbrainContext, **kwargs):
-    ...
+    logger.debug(f"Repository running with {ctx} {kwargs}")
 
 
 @app.command("push", cls=TestbrainCommand, default=True)
@@ -146,7 +146,6 @@ def push(
     server,
     token,
     project,
-    work_dir,
     repo_name,
     repo_dir,
     branch,
@@ -160,7 +159,7 @@ def push(
     _params = ctx.params.copy()
     _params["token"] = "*" * len(_params["token"])
 
-    logger.debug(f"Running push with params {_params}")
+    logger.debug(f"Running push with params {_params} {kwargs}")
 
     logger.info("Running...")
 
@@ -260,7 +259,7 @@ def push(
     help="Activate PR mode.",
 )
 @click.pass_context
-def checkout(ctx: TestbrainContext, repo_dir, branch, commit, pr_mode, **Kwargs):
+def checkout(ctx: TestbrainContext, repo_dir, branch, commit, pr_mode, **kwargs):
     _params = ctx.params.copy()
 
     logger.debug(f"Running checkout with params {_params}")
