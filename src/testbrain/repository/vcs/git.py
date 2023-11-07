@@ -212,6 +212,8 @@ class GitVCS(BaseVCS):
     def get_current_branch(self) -> T_Branch:
         logger.debug("Get current active branch from repository")
         result = self.process.branch(show_current=True)
+        if result == "":
+            result = None
         logger.debug(f"Current active branch '{result}'")
         return result
 
@@ -224,27 +226,34 @@ class GitVCS(BaseVCS):
         branches = self.process.branch(local=True, remote=True)
         branches = [clean_name(record) for record in branches.splitlines()]
         _branch = None
+        _remote = False
         for branch in branches:
             if branch == branch_name:
                 _branch = branch
                 break
             elif branch == f"remotes/origin/{branch_name}":
                 _branch = f"origin/{branch_name}"
+                _remote = True
                 break
             else:
                 continue
+
         if _branch is None:
             raise BranchNotFound(f"Branch '{branch_name}' not found")
+
         branch_name = _branch
         branch_sha = self.process.rev_parse(rev=branch_name)
-        return branch_name, branch_sha
+        branch_remote = _remote
+        return branch_name, branch_sha, branch_remote
 
     def validate_commit(self, branch: T_Branch, commit: T_SHA) -> t.Any:
         try:
             _ = self.process.validate_commit(branch=branch, commit=commit)
-            return commit
-        except VCSProcessError:
-            raise CommitNotFound(f"Commit '{commit}' not found in '{branch}' history")
+            return True
+        except VCSProcessError as exc:
+            raise CommitNotFound(
+                f"Commit '{commit}' not found in '{branch}' history"
+            ) from exc
 
     def fetch(self, branch: t.Optional[T_Branch] = None) -> bool:
         logger.debug("Fetch repository history")
@@ -256,8 +265,11 @@ class GitVCS(BaseVCS):
         branch: T_Branch,
         commit: T_SHA,
         detach: t.Optional[bool] = False,
+        remote: t.Optional[bool] = False,
     ):
         if commit == "HEAD":
+            if remote:
+                detach = False
             self.process.checkout(rev=branch, detach=detach)
         else:
             branch_head = self.process.rev_parse(rev=branch)

@@ -177,7 +177,7 @@ def push(
     _params = ctx.params.copy()
     _params["token"] = "*" * len(_params["token"])
 
-    logger.debug(f"Start push with params {_params}")
+    logger.debug(f"Running push with params {_params}")
 
     ctx.work_dir = work_dir
 
@@ -300,11 +300,11 @@ def checkout(
 ):
     _params = ctx.params.copy()
 
-    logger.debug(f"Start push with params {_params}")
+    logger.debug(f"Running checkout with params {_params}")
 
     ctx.work_dir = work_dir
 
-    logger.info("Running...")
+    logger.info("Running checkout...")
 
     if commit == "latest" or not commit:
         commit = "HEAD"
