@@ -11,9 +11,12 @@
     - [Requirements](#requirements)
     - [Support OS / Python](#support-os--python)
     - [Installation Command](#installation-command)
-- [Git2Testbrain (git2appsurify)](#git2testbrain-git2appsurify)
+- [Repository Push / Git2Testbrain (git2appsurify)](#repository-push--git2testbrain-git2appsurify)
     - [Possible params](#possible-params)
     - [Usage Examples](#usage-examples)
+- [Repository Checkout](#repository-checkout)
+    - [Possible params](#possible-params-1)
+    - [Usage Examples](#usage-examples-1)
 - [QA2Testbrain (runtestswithappsurify)](#qa2testbrain-runtestswithappsurify)
 
 
@@ -71,7 +74,7 @@ docker pull appsurifyinc/appsurify-testbrain-cli:2023.10.24
 
 [Howto usage](#usage-examples)
 
-## Git2Testbrain (git2appsurify)
+## Repository Push | Git2Testbrain (git2appsurify)
 
 This module is used to push changes in the repository to the Testbrain
 server for further analysis and testing optimization.
@@ -97,23 +100,23 @@ testbrain git2testbrain push --help
 
 ### Possible params
 
-| Required         | Parameter      | Default       | Env                         | Description                                                                                                 | Example          |
-|------------------|----------------|---------------|-----------------------------|-------------------------------------------------------------------------------------------------------------|------------------|
-| yes              | --server       |               | TESTBRAIN_SERVER            | Enter your testbrain server instance url.                                                                   | http://127.0.0.1 |
-| yes              | --token        |               | TESTBRAIN_TOKEN             | Enter your testbrain server instance token.                                                                 |                  |
-| yes              | --project      |               | TESTBRAIN_PROJECT           | Enter your testbrain project name.                                                                          |                  |
-| no               | --work-dir     | current dir   | TESTBRAIN_WORK_DIR          | Enter the testbrain script working directory. If not specified, the current working directory will be used. |                  |
-| no               | --repo-name    |               | TESTBRAIN_REPO_NAME         | Define repository name. If not specified, it will be automatically taken from the GitRepository repository. |                  |
-| no               | --repo-dir     | current dir   | TESTBRAIN_REPO_DIR          | Enter the git repository directory. If not specified, the current working directory will be used.           |                  |
-| no               | --branch       | current       | TESTBRAIN_BRANCH            | Enter the explicit branch to process commits. If not specified, use current active branch.                  |                  |
-| no               | --number       | 1             | TESTBRAIN_NUMBER_OF_COMMITS | Enter the number of commits to process.                                                                     |                  |
-| no               | --start        | latest (HEAD) | TESTBRAIN_START_COMMIT      | Enter the commit that should be starter. If not specified, it will be used 'latest' commit.                 |                  |
-| no (unavailable) | --blame        | false         |                             | Add blame information.                                                                                      |                  |
-| no               | --minimize     | false         |                             | Suppress commit changes information. [default: (False)]                                                     |                  |
-| no               | --pr-mode      | false         | TESTBRAIN_PR_MODE           | Activate PR mode                                                                                            |                  |
-| no               | -l, --loglevel | INFO          |                             | Possible failities: DEBUG/INFO/WARNING/ERROR                                                                |                  |
-| no               | --logfile      | stderr        |                             | Save logs to file                                                                                           |                  |
-| no               | --quiet        | false         |                             | Quiet mode... everytime exit with 0                                                                         |                  |
+| Required         | Parameter          | Default       | Env                         | Description                                                                                                 | Example          |
+|------------------|--------------------|---------------|-----------------------------|-------------------------------------------------------------------------------------------------------------|------------------|
+| yes              | --server           |               | TESTBRAIN_SERVER            | Enter your testbrain server instance url.                                                                   | http://127.0.0.1 |
+| yes              | --token            |               | TESTBRAIN_TOKEN             | Enter your testbrain server instance token.                                                                 |                  |
+| yes              | --project          |               | TESTBRAIN_PROJECT           | Enter your testbrain project name.                                                                          |                  |
+| no               | --work-dir         | current dir   | TESTBRAIN_WORK_DIR          | Enter the testbrain script working directory. If not specified, the current working directory will be used. |                  |
+| no               | --repo-name        |               | TESTBRAIN_REPO_NAME         | Define repository name. If not specified, it will be automatically taken from the GitRepository repository. |                  |
+| no               | --repo-dir         | current dir   | TESTBRAIN_REPO_DIR          | Enter the git repository directory. If not specified, the current working directory will be used.           |                  |
+| no               | --branch           | current       | TESTBRAIN_BRANCH            | Enter the explicit branch to process commits. If not specified, use current active branch.                  |                  |
+| no               | --start / --commit | latest (HEAD) | TESTBRAIN_START_COMMIT      | Enter the commit that should be starter. If not specified, it will be used 'latest' commit.                 |                  |
+| no               | --number           | 1             | TESTBRAIN_NUMBER_OF_COMMITS | Enter the number of commits to process.                                                                     |                  |
+| no (unavailable) | --blame            | false         |                             | Add blame information.                                                                                      |                  |
+| no               | --minimize         | false         |                             | Suppress commit changes information. [default: (False)]                                                     |                  |
+| no               | --pr-mode          | false         | TESTBRAIN_PR_MODE           | Activate PR mode                                                                                            |                  |
+| no               | -l, --loglevel     | INFO          |                             | Possible failities: DEBUG/INFO/WARNING/ERROR                                                                |                  |
+| no               | --logfile          | stderr        |                             | Save logs to file                                                                                           |                  |
+| no               | --quiet            | false         |                             | Quiet mode... everytime exit with 0                                                                         |                  |
 
 ### Usage examples
 
@@ -228,6 +231,72 @@ jobs:
                   name: "crashdumps"
                   path: ${{ github.workspace }}/.crashdumps/
                   retention-days: 1
+
+```
+
+
+## Repository Checkout
+
+This module is used to checkout branches during
+the execution of CI pipelines or manually. **Cloning is not provided.**
+
+
+Alias #1
+```shell
+testbrain repository checkout --help
+```
+
+Alias #2
+```shell
+git2testbrain checkout --help
+```
+
+Alias #3
+```shell
+testbrain git2testbrain checkout --help
+```
+
+### Possible params
+
+
+| Required         | Parameter       | Default       | Env                         | Description                                                                                                 | Example          |
+|------------------|-----------------|---------------|-----------------------------|-------------------------------------------------------------------------------------------------------------|------------------|
+| no               | --repo-dir      | current dir   | TESTBRAIN_REPO_DIR          | Enter the git repository directory. If not specified, the current working directory will be used.           |                  |
+| no               | --branch        | current       | TESTBRAIN_BRANCH            | Enter the explicit branch to process commits. If not specified, use current active branch.                  |                  |
+| no               | --commit        | latest (HEAD) | TESTBRAIN_START_COMMIT      | Enter the commit that should be starter. If not specified, it will be used 'latest' commit.                 |                  |
+| no               | --pr-mode       | false         | TESTBRAIN_PR_MODE           | Activate PR mode                                                                                            |                  |
+| no               | --work-dir      | current dir   | TESTBRAIN_WORK_DIR          | Enter the testbrain script working directory. If not specified, the current working directory will be used. |                  |
+| no               | -l, --loglevel  | INFO          |                             | Possible failities: DEBUG/INFO/WARNING/ERROR                                                                |                  |
+| no               | --logfile       | stderr        |                             | Save logs to file                                                                                           |                  |
+| no               | --quiet         | false         |                             | Quiet mode... everytime exit with 0                                                                         |                  |
+
+### Usage examples
+
+Checkout using Testbrain CLI
+
+```shell
+git2testbrain checkout --branch main -l INFO
+
+```
+or
+```shell
+git2testbrain checkout --branch main --commit 75ec2f061868c33306963a27d5164211553c049b --pr-mode -l INFO
+
+```
+or
+```shell
+git2testbrain checkout --branch main --commit 676c581 --pr-mode -l INFO
+
+```
+
+Docker version usage
+
+$(pwd) - git repository path
+
+```shell
+docker run --rm -it \
+-v $(pwd)/:/data \
+appsurifyinc/appsurify-testbrain-cli git2testbrain checkout --branch main --commit 676c581 --pr-mode -l INFO
 
 ```
 

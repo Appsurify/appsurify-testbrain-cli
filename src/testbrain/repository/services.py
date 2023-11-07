@@ -3,7 +3,13 @@ import logging
 import typing as t
 
 from testbrain.repository.client import RepositoryClient
-from testbrain.repository.exceptions import ProjectNotFound
+from testbrain.repository.exceptions import (
+    BranchNotFound,
+    CommitNotFound,
+    ProjectNotFound,
+    VCSError,
+    VCSServiceError,
+)
 from testbrain.repository.models import Commit, Payload
 from testbrain.repository.types import T_SHA, PathLike, T_Branch, T_File
 from testbrain.repository.vcs.git import GitVCS
@@ -14,22 +20,27 @@ logger = logging.getLogger(__name__)
 class PushService(object):
     _client: t.Optional[RepositoryClient] = None
     _vcs: t.Optional[GitVCS] = None
+
     _payload: t.Optional[Payload] = None
-    _repo_name: str = None
 
     def __init__(
         self,
+        project: str,
         server: str,
         token: str,
-        project: str,
-        repo_dir: t.Optional[PathLike] = None,
+        repo_dir: PathLike,
         repo_name: t.Optional[str] = None,
+        pr_mode: t.Optional[bool] = False,
     ):
-        self.server = server
-        self.token = token
         self.project = project
-        self.repo_dir = repo_dir
-        self._repo_name = repo_name
+        self.pr_mode = pr_mode
+
+        self._client = RepositoryClient(server=server, token=token)
+
+        self._vcs = GitVCS(
+            repo_dir=repo_dir,
+            repo_name=repo_name,
+        )
 
     def _get_project_id(self) -> int:
         response = self.client.get_project_id(name=self.project)
@@ -47,30 +58,55 @@ class PushService(object):
         return project_id
 
     @property
-    def repo_name(self) -> str:
-        if self._repo_name is None:
-            self._repo_name = self.vcs.repo_name
-        return self._repo_name
-
-    @property
     def client(self) -> t.Optional[RepositoryClient]:
-        if self._client is None:
-            self._client = RepositoryClient(server=self.server, token=self.token)
         return self._client
 
     @property
     def vcs(self) -> t.Optional[GitVCS]:
-        if self._vcs is None:
-            self._vcs = GitVCS(repo_dir=self.repo_dir, repo_name=self._repo_name)
         return self._vcs
 
-    def get_current_branch(self) -> T_Branch:
-        branch = self.vcs.current_branch
-        return branch
+    def validate_branch(self, branch: t.Optional[T_Branch] = None) -> t.Any:
+        if branch == "":
+            branch = None
 
-    def get_repository_commits(
+        _current = self.vcs.get_current_branch()
+        if not _current:
+            logger.warning("Branch cannot be determined. Repository is DETACH")
+
+        if branch is None:
+            if _current is None:
+                error_msg = "It is not possible to continue without a branch."
+                logger.critical(error_msg)
+                raise VCSServiceError(error_msg)
+
+            branch = _current
+            logger.info(f"Use branch '{branch}'")
+            return branch
+
+        else:
+            if branch == _current:
+                logger.info(f"Use branch '{branch}'")
+                return branch
+            else:
+                if not self.pr_mode:
+                    error_msg = (
+                        "The specified branch does not match "
+                        "the current branch. Fix --branch or use '--pr-mode'"
+                    )
+                    logger.critical(error_msg)
+                    raise VCSServiceError(error_msg)
+                try:
+                    _branch, _head, _remote = self.vcs.get_branch(branch_name=branch)
+                    branch = _branch
+                except BranchNotFound:
+                    logger.warning(f"Branch '{branch}' not found into repository.")
+
+                logger.warning("PR Mode enabled.")
+                logger.info(f"Use branch '{branch}'")
+                return branch
+
+    def get_commits(
         self,
-        branch: T_Branch,
         commit: T_SHA,
         number: int,
         reverse: t.Optional[bool] = True,
@@ -88,7 +124,6 @@ class PushService(object):
             )
 
         commits = self.vcs.commits(
-            branch=branch,
             commit=commit,
             number=number,
             reverse=reverse,
@@ -99,7 +134,7 @@ class PushService(object):
 
         return commits
 
-    def get_repository_file_tree(
+    def get_file_tree(
         self, branch: T_Branch, minimize: t.Optional[bool] = False, **kwargs: t.Any
     ) -> t.List[T_File]:
         logger.debug(f"extra kwargs {kwargs}")
@@ -128,7 +163,7 @@ class PushService(object):
         ref_type = "commit"
 
         payload: Payload = Payload(
-            repo_name=self.repo_name,
+            repo_name=self.vcs.repo_name,
             ref=ref,
             base_ref=base_ref,
             before=before,
@@ -161,3 +196,101 @@ class PushService(object):
             max_retries=max_retries,
         )
         return result
+
+
+class CheckoutService(object):
+    _vcs: t.Optional[GitVCS] = None
+
+    def __init__(
+        self,
+        repo_dir: t.Optional[PathLike] = None,
+        pr_mode: t.Optional[bool] = False,
+        sync: t.Optional[bool] = False,
+    ):
+        self.repo_dir = repo_dir
+        self.pr_mode = pr_mode
+        self.sync = sync
+
+    @property
+    def vcs(self) -> t.Optional[GitVCS]:
+        if self._vcs is None:
+            self._vcs = GitVCS(repo_dir=self.repo_dir)
+        return self._vcs
+
+    def fetch(self, branch: t.Optional[T_Branch] = None) -> bool:
+        return self.vcs.fetch(branch=branch)
+
+    def checkout(
+        self,
+        branch: t.Optional[T_Branch] = None,
+        commit: t.Optional[T_SHA] = "HEAD",
+    ) -> bool:
+        """
+        svc = CheckoutService(repo_dir="/GitHub/appsurify-testbrain-cli")
+        svc.checkout(branch="releases/2023.10.24")
+        svc.checkout(branch="releases/2023.10.24", commit="HEAD")
+        svc.checkout(branch="releases/2023.10.24", commit="2d517fd")
+        raise
+
+        svc = CheckoutService(repo_dir="/GitHub/appsurify-testbrain-cli", pr_mode=True)
+        svc.checkout(branch="releases/2023.10.24")
+        svc.checkout(branch="releases/2023.10.24", commit="HEAD")
+        svc.checkout(branch="releases/2023.10.24", commit="2d517fd")
+
+        """
+        if self.sync:
+            self.fetch(branch=branch)
+
+        logger.debug(f"Checkout branch '{branch}' with '{commit}'")
+
+        if branch is None:
+            branch = self.vcs.get_current_branch()
+
+        if branch is None and self.pr_mode:
+            logger.debug("Branch cannot be determined. Repository is in DETACH state.")
+            logger.info("Repository already detached and PR mode is enabled.")
+            return True
+
+        try:
+            _branch, _head, _remote = self.vcs.get_branch(branch_name=branch)
+            logger.debug(f"Found branch '{_branch}' with HEAD '{_head}'")
+        except VCSError as exc:
+            error_msg = "Cant detect branch and commit. Maybe use '--pr-mode'"
+            logger.critical(error_msg)
+            raise VCSServiceError(error_msg) from exc
+
+        if commit != "HEAD" and _head.startswith(commit):
+            commit = "HEAD"
+
+        if commit != "HEAD":
+            try:
+                _result = self.vcs.validate_commit(branch=branch, commit=commit)
+                logger.debug(
+                    f"The branch '{branch}' contained "
+                    f"a commit '{commit}' in history. {_result}"
+                )
+            except CommitNotFound as exc:
+                error_msg = (
+                    f"The branch '{branch}' does not contain "
+                    f"a commit '{commit}' in history."
+                )
+                logger.critical(error_msg)
+                raise VCSServiceError(error_msg) from exc
+
+        if commit != "HEAD" and self.pr_mode is False:
+            error_msg = (
+                "You specified a non-HEAD commit for the branch. Please use PR mode."
+            )
+            logger.critical(error_msg)
+            raise VCSServiceError(error_msg)
+
+        if self.pr_mode and _remote:
+            logger.warning(
+                f"This branch '{branch}' is remote. Detach will not be applied."
+            )
+
+        self.vcs.checkout(
+            branch=branch, commit=commit, detach=self.pr_mode, remote=_remote
+        )
+        logger.info(f"Branch '{branch}' checkouted with '{commit}'")
+        return True
