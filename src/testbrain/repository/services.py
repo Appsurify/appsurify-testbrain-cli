@@ -24,12 +24,27 @@ class PushService(object):
         project: str,
         repo_dir: t.Optional[PathLike] = None,
         repo_name: t.Optional[str] = None,
+        branch: t.Optional[T_Branch] = None,
+        commit: t.Optional[T_SHA] = None,
+        pr_mode: bool = False,
     ):
         self.server = server
         self.token = token
         self.project = project
         self.repo_dir = repo_dir
         self._repo_name = repo_name
+
+        self.branch = branch
+        self.commit = commit
+        self.pr_mode = pr_mode
+
+        self._vcs = GitVCS(
+            repo_dir=self.repo_dir,
+            repo_name=self.repo_name,
+            branch=branch,
+            commit=commit,
+            pr_mode=pr_mode,
+        )
 
     def _get_project_id(self) -> int:
         response = self.client.get_project_id(name=self.project)
@@ -61,12 +76,8 @@ class PushService(object):
     @property
     def vcs(self) -> t.Optional[GitVCS]:
         if self._vcs is None:
-            self._vcs = GitVCS(repo_dir=self.repo_dir, repo_name=self._repo_name)
+            self._vcs = GitVCS(repo_dir=self.repo_dir)
         return self._vcs
-
-    def get_current_branch(self) -> T_Branch:
-        branch = self.vcs.current_branch
-        return branch
 
     def get_repository_commits(
         self,
@@ -87,8 +98,6 @@ class PushService(object):
             )
 
         commits = self.vcs.commits(
-            branch=branch,
-            commit=commit,
             number=number,
             reverse=reverse,
             numstat=numstat,
@@ -154,3 +163,60 @@ class PushService(object):
             max_retries=max_retries,
         )
         return result
+
+
+class CheckoutService(object):
+    _vcs: t.Optional[GitVCS] = None
+
+    def __init__(
+        self,
+        repo_dir: t.Optional[PathLike] = None,
+    ):
+        self.repo_dir = repo_dir
+        self.vcs.update()
+
+    @property
+    def vcs(self) -> t.Optional[GitVCS]:
+        if self._vcs is None:
+            self._vcs = GitVCS(repo_dir=self.repo_dir)
+        return self._vcs
+
+    def checkout(
+        self,
+        branch: t.Optional[T_Branch] = None,
+        commit: t.Optional[T_SHA] = None,
+    ):
+        """
+        service = CheckoutService(pr_mode=True)
+        service.checkout(branch="releases/2023.10.24", commit="6f4fc965428d1d311c02c2de4996c4265765d131")
+        service.checkout(branch="releases/2023.10.24", commit="2d517fd")
+        service.checkout(branch="releases/2023.11.5", commit="2d517fd")
+        service.checkout(branch="releases/2023.11.5", commit="727cc25707b4758cfbd264c6a3d3d83e4d663c0e")
+        service.checkout(branch="releases/2023.11.5")
+        """
+
+        rev = branch or commit
+        if not rev:
+            rev = "HEAD"
+
+        _current_branch = self.vcs.process.branch(show_current=True)
+        print(f"Rev: {rev} ({_current_branch})")
+
+        self.vcs.process.checkout(rev=rev)
+        # if not branch and self.pr_mode:
+        #     raise Exception("If pr_mode is enable. Please specify a branch name.")
+        #
+        # if self.pr_mode:
+        #     if branch:
+        #         self.vcs.current_branch = branch
+        #         self.vcs.process.checkout(rev=branch, detach=True)
+        #
+        #     elif commit:
+        #         self.vcs.process.checkout(rev=commit, detach=True)
+
+        # if branch:
+        #     self.vcs.process.checkout(rev=branch)
+        # elif commit:
+        #     self.vcs.process.checkout(rev=commit)
+        # else:
+        #     self.vcs.process.checkout(rev="HEAD")

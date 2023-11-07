@@ -10,7 +10,7 @@ from testbrain import version_message
 from testbrain.core import TestbrainCommand, TestbrainContext, TestbrainGroup
 from testbrain.repository.exceptions import ProjectNotFound, VCSError
 from testbrain.repository.models import Commit
-from testbrain.repository.services import PushService
+from testbrain.repository.services import PushService, CheckoutService
 from testbrain.repository.types import T_File
 
 logger = logging.getLogger(__name__)
@@ -195,9 +195,9 @@ def push(
         repo_name=repo_name,
     )
 
-    if branch is None:
-        branch = service.get_current_branch()
-        logger.debug(f"Branch was not specified. Use current active branch: {branch}")
+    # if branch is None:
+    #     branch = service.get_current_branch()
+    #     logger.debug(f"Branch was not specified. Use current active branch: {branch}")
 
     kwargs = {
         "raw": not minimize,
@@ -231,6 +231,88 @@ def push(
         _ = service.send_changes_payload(payload=payload)
         logger.info(f"Sent changes payload to server - {server}")
     except (ProjectNotFound, VCSError):
+        ctx.exit(127)
+
+    logger.info("Done")
+
+
+@app.command("checkout", cls=TestbrainCommand, default=True)
+@click.option(
+    "--work-dir",
+    metavar="<dir>",
+    type=click.Path(dir_okay=True, resolve_path=True),
+    default=pathlib.Path("."),
+    callback=work_dir_callback,
+    is_eager=True,
+    show_default=True,
+    envvar="TESTBRAIN_WORK_DIR",
+    show_envvar=True,
+    help="Enter the testbrain script working directory. "
+    "If not specified, the current working directory "
+    "will be used.",
+)
+@click.option(
+    "--repo-dir",
+    metavar="<dir>",
+    type=click.Path(dir_okay=True, resolve_path=True),
+    default=pathlib.Path("."),
+    show_default=True,
+    envvar="TESTBRAIN_REPO_DIR",
+    show_envvar=True,
+    help="Enter the git repository directory. If not specified, "
+    "the current working directory will be used.",
+)
+@click.option(
+    "--branch",
+    metavar="<name>",
+    show_default="current",
+    type=str,
+    envvar="TESTBRAIN_BRANCH",
+    show_envvar=True,
+    help="Enter the explicit branch to process commits. If not "
+    "specified, use current active branch.",
+)
+@click.option(
+    "--commit",
+    "--start",
+    metavar="<sha>",
+    show_default="latest (HEAD)",
+    type=str,
+    default="latest",
+    envvar="TESTBRAIN_START_COMMIT",
+    show_envvar=True,
+    help="Enter the commit that should be starter. If not "
+    "specified, it will be used 'latest' commit.",
+)
+@click.option(
+    "--pr-mode",
+    show_default="False",
+    type=bool,
+    default=False,
+    envvar="TESTBRAIN_PR_MODE",
+    show_envvar=True,
+    is_flag=True,
+    help="Activate PR mode.",
+)
+@click.pass_context
+def checkout(
+    ctx: TestbrainContext, work_dir, repo_dir, branch, commit, pr_mode, **Kwargs
+):
+    _params = ctx.params.copy()
+
+    logger.debug(f"Start push with params {_params}")
+
+    ctx.work_dir = work_dir
+
+    logger.info("Running...")
+
+    if commit == "latest" or not commit:
+        commit = "HEAD"
+
+    try:
+        service = CheckoutService(repo_dir=repo_dir, pr_mode=pr_mode)
+        service.checkout_branch(branch=branch)
+    except VCSError:
         ctx.exit(127)
 
     logger.info("Done")
