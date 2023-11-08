@@ -101,9 +101,11 @@ mypy = [{version = "1.4.1", python = "3.7"},{version = "^1.6.1", python = "^3.8"
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
+
 [tool.pytest.ini_options]
 pythonpath = "src/"
 testpaths = "tests/"
+
 
 [tool.black]
 line-length = 88

@@ -108,9 +108,6 @@ class TestbrainCommand(click.Command):
             )
         )
 
-    def __call__(self, *args: t.Any, **kwargs: t.Any) -> t.Any:
-        return super().__call__(args, kwargs)
-
     def invoke(self, ctx: "TestbrainContext") -> t.Any:
         configure_logging(
             level=ctx.params.get("loglevel"), file=ctx.params.get("logfile")

@@ -112,7 +112,7 @@ class GitProcess(Process):
             "|",
             "grep",
             "-E",
-            f"'(^|\s){branch}$'",  # noqa
+            f"'(^|\\s){branch}$'",  # noqa
         ]
         try:
             result = self.execute(command)
