@@ -171,3 +171,5 @@ cython_debug/
 /.idea/vcs.xml
 /poetry.lock
 /.ruff_cache/
+/.idea/codeStyles/codeStyleConfig.xml
+/.idea/dictionaries/whenessel.xml

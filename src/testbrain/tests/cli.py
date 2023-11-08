@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 @click.version_option("unknown")
 @click.pass_context
 def app(ctx: TestbrainContext, **kwargs):
-    ...
+    logger.debug(f"testbrain.tests run with {ctx} {kwargs}")
 
 
 runtestswithappsurify = app

@@ -18,6 +18,12 @@ if t.TYPE_CHECKING:
 logger = logging.getLogger(__name__)
 
 
+def work_dir_callback(ctx, param, value):  # noqa
+    logger.debug(f"Set workdir to {value}")
+    os.chdir(value)
+    return value
+
+
 class TestbrainContext(click.Context):
     _work_dir: t.Optional[t.Union[pathlib.Path, str]] = pathlib.Path(".").resolve()
 
@@ -25,9 +31,11 @@ class TestbrainContext(click.Context):
         self.inject_excepthook()
         super().__init__(*args, **kwargs)
 
-    def inject_excepthook(self, quiet: bool = False) -> None:
+    @staticmethod
+    def inject_excepthook(quiet: bool = False) -> None:
         inject_excepthook(
-            lambda etype, value, tb, dest: print("Dumped crash report to", dest)
+            lambda etype, value, tb, dest: print("Dumped crash report to", dest),
+            quiet=quiet,
         )
 
     @property
@@ -54,6 +62,22 @@ class TestbrainCommand(click.Command):
         context_settings.update(self.default_context_settings)
         kwargs["context_settings"] = context_settings
         super(TestbrainCommand, self).__init__(*args, **kwargs)
+        self.params.append(
+            click.Option(
+                ["--work-dir"],
+                metavar="<dir>",
+                type=click.Path(dir_okay=True, resolve_path=True),
+                default=pathlib.Path("."),
+                callback=work_dir_callback,
+                is_eager=True,
+                show_default=True,
+                envvar="TESTBRAIN_WORK_DIR",
+                show_envvar=True,
+                help="Enter the testbrain script working directory. "
+                "If not specified, the current working directory "
+                "will be used.",
+            )
+        )
         self.params.append(
             click.Option(
                 ["--loglevel", "-l"],
@@ -84,14 +108,12 @@ class TestbrainCommand(click.Command):
             )
         )
 
-    def __call__(self, *args: t.Any, **kwargs: t.Any) -> t.Any:
-        return super().__call__(args, kwargs)
-
     def invoke(self, ctx: "TestbrainContext") -> t.Any:
         configure_logging(
             level=ctx.params.get("loglevel"), file=ctx.params.get("logfile")
         )
         ctx.inject_excepthook(quiet=ctx.params.get("quiet", False))
+        ctx.work_dir = ctx.params.get("work_dir", pathlib.Path("."))
         rv = super().invoke(ctx)
         return rv
 
@@ -127,7 +149,7 @@ class TestbrainGroup(click.Group):
         context_settings.update(self.default_context_settings)
         attrs["context_settings"] = context_settings
 
-        super().__init__(name, **attrs)
+        super().__init__(name, commands, **attrs)
 
     def set_default_command(self, command):
         """Sets a command function as the default command."""

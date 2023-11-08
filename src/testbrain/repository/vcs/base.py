@@ -16,7 +16,6 @@ logger = logging.getLogger(__name__)
 class BaseVCS(abc.ABC):
     _repo_dir: PathLike
     _repo_name: t.Optional[str] = None
-    _current_branch: t.Optional[T_Branch] = None
 
     def __init__(
         self,
@@ -44,29 +43,17 @@ class BaseVCS(abc.ABC):
             self._repo_name = self._get_repo_name()
         return self._repo_name
 
-    @property
-    def current_branch(self) -> T_Branch:
-        if self._current_branch is None:
-            self._current_branch = self._get_current_branch()
-        return self._current_branch
-
     @abc.abstractmethod
     def _get_repo_name(self) -> str:
         raise NotImplementedError()
 
     @abc.abstractmethod
-    def _get_current_branch(self) -> T_Branch:
-        raise NotImplementedError()
-
-    @abc.abstractmethod
-    def branches(self) -> t.List[T_Branch]:
+    def get_current_branch(self) -> T_Branch:
         raise NotImplementedError()
 
     @abc.abstractmethod
     def commits(
         self,
-        branch: T_Branch,
-        commit: T_SHA,
         number: int,
         reverse: t.Optional[bool] = True,
         numstat: t.Optional[bool] = True,
