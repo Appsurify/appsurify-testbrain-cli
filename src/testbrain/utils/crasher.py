@@ -15,7 +15,7 @@ __all__ = ["dump_report_to_file", "dump_report", "format_report", "inject_except
 
 
 def _get_main_name() -> str:
-    import __main__
+    import __main__  # noqa
 
     prog_name = os.path.splitext(os.path.basename(__main__.__file__))[0]
     return prog_name
@@ -229,7 +229,7 @@ def dump_report_to_file(
     if value is None:
         return
 
-    import __main__
+    import __main__  # noqa
 
     etype = type(value)
 

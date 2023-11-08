@@ -48,10 +48,10 @@ else:
     from urllib import urlencode
 
     import Queue as queue
-    from urlparse import urljoin
+    from urlparse import urljoin  # noqa
 
 try:
-    basestring = basestring
+    basestring = basestring  # noqa
 except NameError:
     basestring = (str, bytes)
 
@@ -127,10 +127,6 @@ class HTTPHeaderDict(MutableMapping):
     def __ne__(self, other):
         return not self.__eq__(other)
 
-    if not PY3:  # Python 2
-        iterkeys = MutableMapping.iterkeys
-        itervalues = MutableMapping.itervalues
-
     __marker = object()
 
     def __len__(self):
@@ -203,7 +199,7 @@ class HTTPHeaderDict(MutableMapping):
         other = args[0] if len(args) >= 1 else ()
 
         if isinstance(other, HTTPHeaderDict):
-            for key, val in other.iteritems():
+            for key, val in other.items():
                 self.add(key, val)
         elif isinstance(other, Mapping):
             for key in other:
@@ -266,7 +262,7 @@ class HTTPHeaderDict(MutableMapping):
             yield val[0], ", ".join(val[1:])
 
     def items(self):
-        return list(self.iteritems())
+        return list(self.items())
 
     @classmethod
     def from_httplib(cls, message):  # Python 2
