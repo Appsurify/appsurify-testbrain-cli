@@ -132,7 +132,6 @@ class GitProcess(Process):
         params: list = [
             f"-n {number}",
             "--abbrev=40",
-            # "--first-parent",
             "--full-diff",
             "--full-index",
         ]
