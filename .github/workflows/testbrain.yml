@@ -3,14 +3,12 @@ name: "Testbrain"
 on:
   workflow_dispatch:
   push:
+    branches:
+      - "**"
+      - "releases/**"
 #  pull_request:
 #    branches:
 #      - "main"
-#      - "development"
-#  push:
-#    branches:
-#      - "main"
-#      - "releases/*.*.*"
 #      - "development"
 
 jobs:
