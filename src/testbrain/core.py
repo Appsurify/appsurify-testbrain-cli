@@ -32,9 +32,12 @@ class TestbrainContext(click.Context):
         super().__init__(*args, **kwargs)
 
     @staticmethod
-    def inject_excepthook(quiet: bool = False) -> None:
+    def inject_excepthook(
+        prog_name: t.Optional[str] = None, quiet: t.Optional[bool] = False
+    ) -> None:
         inject_excepthook(
             lambda etype, value, tb, dest: print("Dumped crash report to", dest),
+            prog_name=prog_name,
             quiet=quiet,
         )
 
@@ -112,7 +115,7 @@ class TestbrainCommand(click.Command):
         configure_logging(
             level=ctx.params.get("loglevel"), file=ctx.params.get("logfile")
         )
-        ctx.inject_excepthook(quiet=ctx.params.get("quiet", False))
+        ctx.inject_excepthook(prog_name=self.name, quiet=ctx.params.get("quiet", False))
         ctx.work_dir = ctx.params.get("work_dir", pathlib.Path("."))
         rv = super().invoke(ctx)
         return rv

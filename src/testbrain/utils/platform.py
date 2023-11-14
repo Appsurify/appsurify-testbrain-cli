@@ -1308,6 +1308,19 @@ PY_COMPILER_TUPLE = str(python_compiler()).split(" ", 2)
 PY_COMPILER_NAME = PY_COMPILER_TUPLE[0]
 PY_COMPILER_VERSION = PY_COMPILER_TUPLE[1]
 
+_PY_COMPILER = python_compiler().lower().replace(" ", "-")
+
+PY_PLATFORM = f"PY-{PY_VERSION}-{_PY_COMPILER}"
+
+OS_PLATFORM = (
+    f"{os()}"
+    f"-{version()}"
+    f"-{system()}"
+    f"-{release()}"
+    f"-{processor()}"
+    f"-{machine()}"
+)
+
 
 # Command line interface
 if __name__ == "__main__":

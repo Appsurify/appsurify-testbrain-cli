@@ -1,7 +1,5 @@
 import logging
-import os
 import pathlib
-import sys
 import typing as t
 
 import click
@@ -12,6 +10,7 @@ from testbrain.repository.exceptions import ProjectNotFound, VCSError
 from testbrain.repository.models import Commit
 from testbrain.repository.services import CheckoutService, PushService
 from testbrain.repository.types import T_File
+from testbrain.utils import platform
 
 logger = logging.getLogger(__name__)
 
@@ -156,6 +155,11 @@ def push(
     pr_mode,
     **kwargs,
 ):
+    logger.info(
+        f"Runtime: {version_message} "
+        f"({platform.PY_PLATFORM}-{platform.OS_PLATFORM})"
+    )
+
     _params = ctx.params.copy()
     _params["token"] = "*" * len(_params["token"])
 
@@ -186,7 +190,6 @@ def push(
     try:
         logger.info("Stating get commits from repository")
         commits: t.List[Commit] = service.get_commits(
-            branch=branch,
             commit=commit,
             number=number,
             **kwargs,
