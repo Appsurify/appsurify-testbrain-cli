@@ -14,10 +14,11 @@ from testbrain.utils import platform
 __all__ = ["dump_report_to_file", "dump_report", "format_report", "inject_excepthook"]
 
 
-def _get_main_name() -> str:
-    import __main__
+def _get_main_name(prog_name=None) -> str:
+    import __main__  # noqa
 
-    prog_name = os.path.splitext(os.path.basename(__main__.__file__))[0]
+    if prog_name is None:
+        prog_name = os.path.splitext(os.path.basename(__main__.__file__))[0]
     return prog_name
 
 
@@ -229,7 +230,7 @@ def dump_report_to_file(
     if value is None:
         return
 
-    import __main__
+    import __main__  # noqa
 
     etype = type(value)
 
@@ -337,6 +338,7 @@ def dump_report(
     show_exception_vars: bool = True,
     show_exc_vars_recur: bool = True,
     custom_values: Optional[Dict[str, Union[Any, Callable[[], Any]]]] = None,
+    prog_name: Optional[str] = None,
 ) -> str:
     """Dumps a report to a file named {main_filename}-%Y-%m-%d-%H-%M-%S.dump
 
@@ -350,7 +352,8 @@ def dump_report(
     except Exception:
         report_dir = pathlib.Path(".").resolve()
 
-    filename = f"{_get_main_name()}-{time.strftime('%Y-%m-%d-%H-%M-%S')}.dump"
+    _main_name = _get_main_name(prog_name=prog_name)
+    filename = f"{_main_name}-{time.strftime('%Y-%m-%d-%H-%M-%S')}.dump"
     filename = os.path.join(report_dir, filename)
 
     dump_report_to_file(
@@ -426,7 +429,8 @@ def inject_excepthook(
     show_exception_vars: bool = True,
     show_exc_vars_recur: bool = True,
     custom_values: Optional[Dict[str, Union[Any, Callable[[], Any]]]] = None,
-    quiet: bool = False,
+    prog_name: Optional[str] = None,
+    quiet: Optional[bool] = False,
 ) -> Callable[[Type[BaseException], BaseException, TracebackType], Any]:
     _original_excepthook = sys.excepthook
 
@@ -444,6 +448,7 @@ def inject_excepthook(
                 show_exception_vars=show_exception_vars,
                 show_exc_vars_recur=show_exc_vars_recur,
                 custom_values=custom_values,
+                prog_name=prog_name,
             )
 
             if callback is not None:

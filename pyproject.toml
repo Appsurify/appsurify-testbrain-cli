@@ -7,7 +7,7 @@ tag = false
 sign_tags = false
 tag_name = "{new_version}"
 tag_message = "Bump version: {current_version} → {new_version}"
-current_version = "2023.11.8"
+current_version = "2023.11.9"
 parse = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)"
 serialize = [
     "{major}.{minor}.{patch}"
@@ -23,7 +23,7 @@ filename = "src/testbrain/__init__.py"
 
 [tool.poetry]
 name = "appsurify-testbrain-cli"
-version = "2023.11.8"
+version = "2023.11.9"
 description = "Command Line Interface for Appsurify Testbrain."
 license = "MIT"
 authors = [
@@ -37,7 +37,7 @@ maintainers = [
 readme = "README.md"
 homepage = "https://appsurify.com"
 repository = "https://github.com/Appsurify/appsurify-testbrain-cli"
-documentation = ""
+documentation = "https://appsurify.com"
 keywords = ["appsurify", "testbrain", "cli"]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
@@ -50,10 +50,12 @@ classifiers = [
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Topic :: Software Development :: Version Control",
 ]

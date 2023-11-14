@@ -21,7 +21,7 @@ class TestRepositoryModels:
             "DATE:\t2023-09-29T16:13:45+03:00\n"
             "AUTHOR:\tArtem Demidenko\tar.demidenko@gmail.com\t2023-09-29T16:13:45+03:00\n"
             "COMMITTER:\tArtem Demidenko\tar.demidenko@gmail.com\t2023-09-29T16:13:45+03:00\n"
-            "MESSAGE:\tMerge branch 'dev'\n"
+            "MESSAGE:\tMerge branch 'dev'    \xc2\x9d    \xe2\x9c\x85 \xc2\x9d\n"
             "PARENTS:\t27d9aaff69ac8db9d19918c4d5efb6b3ed2c3210 0cd26c4deaebd98ff26b8cf20bda15553ef5bdcd"
         )
         commit_re_match = RE_COMMIT_LIST.finditer(commit_data)
