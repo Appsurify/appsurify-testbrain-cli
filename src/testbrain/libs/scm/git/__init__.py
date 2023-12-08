@@ -1,22 +1,14 @@
-import abc
 import logging
-import os
 import pathlib
-import re
-import subprocess
 import typing as t
 
-from testbrain.repository.exceptions import (
+from testbrain.contrib.repository.exceptions import (
     BranchNotFound,
     CommitNotFound,
     VCSProcessError,
 )
-from testbrain.repository.models import Commit
-from testbrain.repository.types import T_SHA, PathLike, T_Branch, T_File
-from testbrain.repository.utils import parse_commits_from_text
-from testbrain.repository.vcs.base import BaseVCS
-from testbrain.terminal.exceptions import ProcessExecutionError
-from testbrain.terminal.process import Process
+from testbrain.libs.terminal.process import Process
+
 
 logger = logging.getLogger(__name__)
 
@@ -31,13 +23,10 @@ class GitProcess(Process):
             self.execute(["git", "config", "--global", "merge.renameLimit", str(limit)])
             self.execute(["git", "config", "--global", "diff.renameLimit", str(limit)])
             self.execute(["git", "config", "--global", "diff.renames", "0"])
-        except ProcessExecutionError:
-            logger.warning("Cant fix rename limits GLOBAL")
-        try:
             self.execute(["git", "config", "merge.renameLimit", str(limit)])
             self.execute(["git", "config", "diff.renameLimit", str(limit)])
             self.execute(["git", "config", "diff.renames", "0"])
-        except ProcessExecutionError:
+        except Exception:
             logger.warning("Cant fix rename limits LOCAL")
 
     def remote_url(self) -> str:
@@ -45,7 +34,7 @@ class GitProcess(Process):
         result = self.execute(command=command)
         return result
 
-    def fetch(self, rev: t.Optional[t.Union[T_Branch, T_SHA]] = None):
+    def fetch(self, rev: t.Optional[t.AnyStr] = None):
         params = []
         if not rev:
             params.append("-a")
@@ -56,9 +45,7 @@ class GitProcess(Process):
         result = self.execute(command=command)
         return result
 
-    def checkout(
-        self, rev: t.Union[T_SHA, T_Branch], detach: t.Optional[bool] = False
-    ) -> str:
+    def checkout(self, rev: t.AnyStr, detach: t.Optional[bool] = False) -> str:
         params = []
         if detach:
             params.append("--detach")
@@ -67,7 +54,7 @@ class GitProcess(Process):
         result = self.execute(command=command)
         return result
 
-    def rev_parse(self, rev: t.Union[T_Branch, T_SHA]) -> str:
+    def rev_parse(self, rev: t.AnyStr) -> str:
         """
         >>> git = GitProcess()
         >>> git.checkout("releases/2023.10.24")
@@ -77,12 +64,12 @@ class GitProcess(Process):
 
         """
         command = ["git", "rev-parse", rev]
-        try:
-            result = self.execute(command=command)
-        except ProcessExecutionError as exc:
-            err_msg = exc.stderr.splitlines()[0]
-            logger.critical(f"Failed rev-parse: {err_msg}")
-            raise VCSProcessError(f"Failed rev-parse: {err_msg}") from exc
+        result = self.execute(command=command)
+        # try:
+        # except ProcessExecutionError as exc:
+        #     err_msg = exc.stderr.splitlines()[0]
+        #     logger.critical(f"Failed rev-parse: {err_msg}")
+        #     raise VCSProcessError(f"Failed rev-parse: {err_msg}") from exc
         return result
 
     def branch(
@@ -102,7 +89,7 @@ class GitProcess(Process):
         result = self.execute(command=command)
         return result
 
-    def validate_commit(self, branch: T_Branch, commit: T_SHA) -> str:
+    def validate_commit(self, branch: t.AnyStr, commit: t.AnyStr) -> str:
         command = [
             "git",
             "branch",
@@ -114,15 +101,16 @@ class GitProcess(Process):
             "-E",
             f"'(^|\\s){branch}$'",  # noqa
         ]
-        try:
-            result = self.execute(command)
-        except ProcessExecutionError as exc:
-            raise VCSProcessError("Failed validate commit") from exc
+        result = self.execute(command)
+        # try:
+        #     result = self.execute(command)
+        # except ProcessExecutionError as exc:
+        #     raise VCSProcessError("Failed validate commit") from exc
         return result
 
     def log(
         self,
-        rev: t.Union[T_Branch, T_SHA],
+        rev: t.AnyStr,
         number: int,
         reverse: t.Optional[bool] = True,
         numstat: t.Optional[bool] = True,
@@ -167,16 +155,16 @@ class GitProcess(Process):
             f'--pretty=format:"{pretty_format}"',
             str(rev),
         ]
-        try:
-            result = self.execute(command=command)
-        except ProcessExecutionError as exc:
-            err_msg = exc.stderr.splitlines()[0]
-            logger.critical(f"Failed get rev history: {err_msg}")
-            raise VCSProcessError(f"Failed get rev history: {err_msg}") from exc
-
+        result = self.execute(command=command)
+        # try:
+        #     result = self.execute(command=command)
+        # except ProcessExecutionError as exc:
+        #     err_msg = exc.stderr.splitlines()[0]
+        #     logger.critical(f"Failed get rev history: {err_msg}")
+        #     raise VCSProcessError(f"Failed get rev history: {err_msg}") from exc
         return result
 
-    def ls_files(self, rev: t.Union[T_Branch, T_SHA]) -> str:
+    def ls_files(self, rev: t.AnyStr) -> str:
         logger.debug(f"Get files tree for rev: {repr(rev)}")
         params: list = ["--name-only", "-r", rev]
 
@@ -202,7 +190,7 @@ class GitVCS(BaseVCS):
         repo_name = remote_url.split("/")[-1]
         return repo_name
 
-    def get_current_branch(self) -> T_Branch:
+    def get_current_branch(self) -> t.AnyStr:
         logger.debug("Get current active branch from repository")
         result = self.process.branch(show_current=True)
         if result == "":
@@ -210,7 +198,7 @@ class GitVCS(BaseVCS):
         logger.debug(f"Current active branch '{result}'")
         return result
 
-    def get_branch(self, branch_name: T_Branch) -> t.Any:
+    def get_branch(self, branch_name: t.AnyStr) -> t.Any:
         def clean_name(value: str) -> str:
             value = value.replace("*", "")
             value = value.lstrip().rstrip()
@@ -239,7 +227,7 @@ class GitVCS(BaseVCS):
         branch_remote = _remote
         return branch_name, branch_sha, branch_remote
 
-    def validate_commit(self, branch: T_Branch, commit: T_SHA) -> t.Any:
+    def validate_commit(self, branch: t.AnyStr, commit: t.AnyStr) -> t.Any:
         try:
             _ = self.process.validate_commit(branch=branch, commit=commit)
             return True
@@ -248,15 +236,15 @@ class GitVCS(BaseVCS):
                 f"Commit '{commit}' not found in '{branch}' history"
             ) from exc
 
-    def fetch(self, branch: t.Optional[T_Branch] = None) -> bool:
+    def fetch(self, branch: t.Optional[t.AnyStr] = None) -> bool:
         logger.debug("Fetch repository history")
         _ = self.process.fetch(rev=branch)
         return True
 
     def checkout(
         self,
-        branch: T_Branch,
-        commit: T_SHA,
+        branch: t.AnyStr,
+        commit: t.AnyStr,
         detach: t.Optional[bool] = False,
         remote: t.Optional[bool] = False,
     ):
@@ -272,7 +260,7 @@ class GitVCS(BaseVCS):
 
     def commits(
         self,
-        commit: T_SHA = "HEAD",
+        commit: t.AnyStr = "HEAD",
         number: int = 1,
         reverse: t.Optional[bool] = True,
         numstat: t.Optional[bool] = True,
@@ -307,8 +295,8 @@ class GitVCS(BaseVCS):
         return commits
 
     def file_tree(
-        self, branch: t.Optional[T_Branch] = None
-    ) -> t.Optional[t.List[T_File]]:
+        self, branch: t.Optional[t.AnyStr] = None
+    ) -> t.Optional[t.List[t.AnyStr]]:
         if branch is None:
             branch = None
         result = self.process.ls_files(rev=branch)

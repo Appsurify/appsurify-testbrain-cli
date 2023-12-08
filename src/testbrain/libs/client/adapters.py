@@ -7,9 +7,9 @@ import warnings
 import requests
 from requests import adapters
 
-from testbrain.client.compat import connection, poolmanager
-from testbrain.client.exceptions import RequestsVersionTooOld
-from testbrain.utils import platform
+from testbrain.libs.client.compat import connection, poolmanager
+from testbrain.libs.client.exceptions import RequestsVersionTooOld
+from testbrain.core import platform
 
 logger = logging.getLogger(__name__)
 

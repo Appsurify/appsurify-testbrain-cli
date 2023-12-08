@@ -19,6 +19,5 @@ T_Blame = TypeVar("T_Blame", bound=str)
 
 PathLike = TypeVar("PathLike", bound=Union[pathlib.Path, str])
 
-Lit_change_type = Literal["A", "D", "C", "M", "R", "T", "U"]
 
 NULL_TREE = object()

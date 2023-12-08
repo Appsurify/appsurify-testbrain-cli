@@ -1,15 +1,19 @@
 import binascii
 from typing import Dict, Iterator, List, Match, Optional, TypeVar, Union, cast
 
-from testbrain.repository.models import (
+from testbrain.contrib.repository.models import (
     Commit,
     CommitFile,
     FileStatusEnum,
     Person,
     Stats,
 )
-from testbrain.repository.patterns import RE_COMMIT_DIFF, RE_COMMIT_LIST, RE_OCTAL_BYTE
-from testbrain.repository.types import T_SHA, Lit_change_type
+from testbrain.contrib.repository.patterns import (
+    RE_COMMIT_DIFF,
+    RE_COMMIT_LIST,
+    RE_OCTAL_BYTE,
+)
+from testbrain.contrib.repository.types import T_SHA, Lit_change_type
 
 T_Diff = TypeVar("T_Diff", bound="Diff")
 

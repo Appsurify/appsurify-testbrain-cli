@@ -2,17 +2,17 @@ import abc
 import logging
 import typing as t
 
-from testbrain.repository.client import RepositoryClient
-from testbrain.repository.exceptions import (
+from testbrain.contrib.repository.client import RepositoryClient
+from testbrain.contrib.repository.exceptions import (
     BranchNotFound,
     CommitNotFound,
     ProjectNotFound,
     VCSError,
     VCSServiceError,
 )
-from testbrain.repository.models import Commit, Payload
-from testbrain.repository.types import T_SHA, PathLike, T_Branch, T_File
-from testbrain.repository.vcs.git import GitVCS
+from testbrain.contrib.repository.models import Commit, Payload
+from testbrain.contrib.repository.types import T_SHA, PathLike, T_Branch, T_File
+from testbrain.contrib.repository.vcs.git import GitVCS
 
 logger = logging.getLogger(__name__)
 

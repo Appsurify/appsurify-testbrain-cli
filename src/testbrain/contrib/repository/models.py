@@ -4,7 +4,7 @@ from enum import Enum
 
 from pydantic import BaseModel
 
-from testbrain.repository.types import (
+from testbrain.contrib.repository.types import (
     T_SHA,
     PathLike,
     T_Blame,

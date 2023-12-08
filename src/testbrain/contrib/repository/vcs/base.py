@@ -3,11 +3,11 @@ import logging
 import pathlib
 import typing as t
 
-from testbrain.repository.models import Commit
-from testbrain.repository.types import T_SHA, PathLike, T_Branch, T_File
+from testbrain.contrib.repository.models import Commit
+from testbrain.contrib.repository.types import PathLike, T_Branch, T_File
 
 if t.TYPE_CHECKING:
-    from testbrain.terminal import Process
+    from testbrain.libs.terminal import Process
 
 
 logger = logging.getLogger(__name__)

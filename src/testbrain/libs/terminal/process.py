@@ -2,11 +2,11 @@ import abc
 import logging
 import os
 import pathlib
-import re
 import subprocess
 import typing as t
 
-from testbrain.terminal.exceptions import ProcessExecutionError
+from testbrain.libs.terminal.exceptions import ProcessExecutionError
+
 
 logger = logging.getLogger(__name__)
 

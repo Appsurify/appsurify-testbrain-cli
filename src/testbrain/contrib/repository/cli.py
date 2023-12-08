@@ -4,13 +4,13 @@ import typing as t
 
 import click
 
-from testbrain import version_message
-from testbrain.core import TestbrainCommand, TestbrainContext, TestbrainGroup
-from testbrain.repository.exceptions import ProjectNotFound, VCSError
-from testbrain.repository.models import Commit
-from testbrain.repository.services import CheckoutService, PushService
-from testbrain.repository.types import T_File
-from testbrain.utils import platform
+from testbrain.core.context import TestbrainContext
+from testbrain.core.command import TestbrainCommand, TestbrainGroup
+from testbrain.contrib.repository.exceptions import ProjectNotFound, VCSError
+from testbrain.contrib.repository.models import Commit
+from testbrain.contrib.repository.services import CheckoutService, PushService
+from testbrain.contrib.repository.types import T_File
+from testbrain.core.platform import platform
 
 logger = logging.getLogger(__name__)
 
@@ -21,17 +21,12 @@ logger = logging.getLogger(__name__)
     default_if_no_args=True,
     no_args_is_help=True,
 )
-@click.version_option(
-    package_name="appsurify-testbrain-cli",
-    prog_name="repository",
-    message=version_message,
-)
 @click.pass_context
-def app(ctx: TestbrainContext, **kwargs):
+def repository(ctx: TestbrainContext, **kwargs):
     logger.debug(f"Repository running with {ctx} {kwargs}")
 
 
-@app.command("push", cls=TestbrainCommand, default=True)
+@repository.command("push", cls=TestbrainCommand, default=True)
 @click.option(
     "--server",
     metavar="<url>",
@@ -155,10 +150,10 @@ def push(
     pr_mode,
     **kwargs,
 ):
-    logger.info(
-        f"Runtime: {version_message} "
-        f"({platform.PY_PLATFORM}-{platform.OS_PLATFORM})"
-    )
+    # logger.info(
+    #     f"Runtime: {version_message} "
+    #     f"({platform.PY_PLATFORM}-{platform.OS_PLATFORM})"
+    # )
 
     _params = ctx.params.copy()
     _params["token"] = "*" * len(_params["token"])
@@ -217,7 +212,7 @@ def push(
     logger.info("Done")
 
 
-@app.command("checkout", cls=TestbrainCommand)
+@repository.command("checkout", cls=TestbrainCommand)
 @click.option(
     "--repo-dir",
     metavar="<dir>",
@@ -279,12 +274,3 @@ def checkout(ctx: TestbrainContext, repo_dir, branch, commit, pr_mode, **kwargs)
         ctx.exit(127)
 
     logger.info("Done")
-
-
-git2testbrain = app
-git2appsurify = app
-
-
-if __name__ == "__main__":
-    logger.name = "testbrain.repository.cli"
-    app(prog_name="repository")

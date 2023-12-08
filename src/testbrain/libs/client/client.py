@@ -7,9 +7,9 @@ from requests.adapters import BaseAdapter
 from requests.auth import AuthBase
 from urllib3.util import Retry
 
-from testbrain.client.adapters import TCPKeepAliveAdapter
-from testbrain.client.auth import HTTPTokenAuth
-from testbrain.client.utils import from_camel_case, get_user_agent
+from testbrain.libs.client.adapters import TCPKeepAliveAdapter
+from testbrain.libs.client.auth import HTTPTokenAuth
+from testbrain.libs.client.utils import from_camel_case, get_user_agent
 
 logger = logging.getLogger(__name__)
 
