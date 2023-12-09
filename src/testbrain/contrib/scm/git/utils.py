@@ -1,4 +1,5 @@
 import binascii
+import os
 import typing as t
 
 
@@ -13,7 +14,6 @@ LIT_CHANGE_TYPE = t.Literal["A", "D", "C", "M", "R", "T", "U"]
 
 T_DIFF = t.TypeVar("T_DIFF", bound="Diff")
 
-PathLike = t.Union[str, "os.PathLike[str]"]
 
 CHANGE_TYPE = t.Literal[
     "added", "deleted", "modified", "copied", "renamed", "removed", "unknown"
@@ -21,7 +21,7 @@ CHANGE_TYPE = t.Literal[
 
 
 class FilesTD(t.TypedDict):
-    filename: t.Union[str, PathLike]
+    filename: t.Union[str, "os.PathLike[str]"]
     sha: t.Optional[str]
     additions: int
     insertions: int
@@ -29,7 +29,7 @@ class FilesTD(t.TypedDict):
     changes: int
     lines: int
     status: CHANGE_TYPE
-    previous_filename: t.Optional[t.Union[str, PathLike]]
+    previous_filename: t.Optional[t.Union[str, "os.PathLike[str]"]]
     patch: t.Optional[str]
     blame: t.Optional[str]
 
