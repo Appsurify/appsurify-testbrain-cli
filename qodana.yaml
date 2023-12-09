@@ -45,4 +45,4 @@ exclude:
       - src/testbrain/client/compat.py
   - name: PyTypeHintsInspection
     paths:
-      - src/testbrain/repository/types.py
+      - src/testbrain/git/types.py

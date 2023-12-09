@@ -20,7 +20,7 @@ jobs:
       pull-requests: write
       checks: write
     steps:
-      - name: "Checkout repository"
+      - name: "Checkout git"
         uses: actions/checkout@v4
         with:
           fetch-depth: 0

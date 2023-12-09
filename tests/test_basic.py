@@ -80,7 +80,7 @@ def test_basic_group(runner):
 
 
 def test_group_commands_dict(runner):
-    """A Group can be built with a dict of commands."""
+    """A Group can be built with a dict of apps."""
 
     @click.command()
     def sub():
@@ -92,7 +92,7 @@ def test_group_commands_dict(runner):
 
 
 def test_group_from_list(runner):
-    """A Group can be built with a list of commands."""
+    """A Group can be built with a list of apps."""
 
     @click.command()
     def sub():
