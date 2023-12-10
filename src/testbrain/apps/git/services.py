@@ -3,16 +3,12 @@ import os
 import pathlib
 import typing as t
 
-from testbrain.contrib.scm.exceptions import (
-    BranchNotFound,
-    CommitNotFound,
-    SCMError,
-)
+from testbrain.contrib.scm.exceptions import BranchNotFound, CommitNotFound, SCMError
 from testbrain.contrib.scm.git import GitVCS
-from .client import RepositoryClient
-from .models import Commit, Payload
-from .exceptions import GitServiceError, ProjectNotFound
 
+from .client import RepositoryClient
+from .exceptions import GitServiceError, ProjectNotFound
+from .models import Commit, Payload
 
 logger = logging.getLogger(__name__)
 

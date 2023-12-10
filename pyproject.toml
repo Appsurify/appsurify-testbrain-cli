@@ -114,6 +114,7 @@ testpaths = "tests/"
 [tool.black]
 line-length = 88
 target-version = ["py37", "py38", "py311"]
+exclude = """src/testbrain/contrib/scm/tfvc/appsurifytfs.py"""
 
 [tool.isort]
 profile = "black"
@@ -121,12 +122,13 @@ src_paths = ["isort", "test", "src"]
 
 [tool.flake8]
 max-line-length = 88
-exclude = [".git", "__pycache__", ".pytest_cache"]
+exclude = [".git", "__pycache__", ".pytest_cache", "src/testbrain/contrib/scm/tfvc/appsurifytfs.py"]
 extend-ignore = ["E203" ,"F401", "F403"]
 
 [tool.ruff]
 line-length = 88
 indent-width = 4
+extend-exclude = ["src/testbrain/contrib/scm/tfvc/appsurifytfs.py"]
 
 [tool.ruff.lint]
 select = ["E", "F"]

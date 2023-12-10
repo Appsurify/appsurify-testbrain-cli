@@ -3,14 +3,11 @@ import pathlib
 import re
 import typing as t
 
-
 from testbrain.contrib.terminal import Process, ProcessExecutionError
 
 from ..base import AbstractVCS
-from ..exceptions import CommitNotFound, BranchNotFound, ProcessError
-
+from ..exceptions import BranchNotFound, CommitNotFound, ProcessError
 from .utils import parse_commits_from_text
-
 
 logger = logging.getLogger(__name__)
 

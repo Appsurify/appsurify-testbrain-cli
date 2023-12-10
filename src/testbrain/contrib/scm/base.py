@@ -5,7 +5,6 @@ import typing as t
 
 from testbrain.contrib.terminal import Process
 
-
 logger = logging.getLogger(__name__)
 
 

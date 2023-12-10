@@ -1,11 +1,11 @@
 import logging
-import click
-import testbrain
 
-from testbrain.core.command import TestbrainContext, TestbrainGroup
+import click
+
+import testbrain
 from testbrain.apps.git import cli as git_cli
 from testbrain.apps.tfvc import cli as tfvc_cli
-
+from testbrain.core.command import TestbrainContext, TestbrainGroup
 
 logger = logging.getLogger(__name__)
 

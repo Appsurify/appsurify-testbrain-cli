@@ -1,6 +1,5 @@
 import re
 
-
 pattern = re.compile(
     r"(?P<propertyName>(?=^)\w[\s\w,]+)"
     r"(?(1):)(?:\s|\n)?(?P<propertyData>[\W\w\s]+)",

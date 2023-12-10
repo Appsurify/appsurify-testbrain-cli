@@ -5,15 +5,14 @@ import typing as t
 import click
 
 import testbrain
-from testbrain.core.context import TestbrainContext
-from testbrain.core.command import TestbrainCommand, TestbrainGroup
-
 from testbrain.contrib.scm.exceptions import SCMError
+from testbrain.core.command import TestbrainCommand, TestbrainGroup
+from testbrain.core.context import TestbrainContext
 
+from . import __version__
 from .exceptions import ProjectNotFound
 from .models import Commit
 from .services import CheckoutService, PushService
-from . import __version__
 
 logger = logging.getLogger(__name__)
 

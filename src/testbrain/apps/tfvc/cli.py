@@ -5,9 +5,8 @@ import typing as t
 import click
 
 import testbrain
-from testbrain.core.context import TestbrainContext
 from testbrain.core.command import TestbrainCommand, TestbrainGroup
-
+from testbrain.core.context import TestbrainContext
 
 logger = logging.getLogger(__name__)
 

@@ -7,7 +7,6 @@ import typing as t
 
 from testbrain.contrib.terminal.exceptions import ProcessExecutionError
 
-
 logger = logging.getLogger(__name__)
 
 

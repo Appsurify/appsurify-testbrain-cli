@@ -7,28 +7,26 @@
 # python setup.py sdist
 # twine upload --git-url https://upload.pypi.org/legacy/ dist/*
 
-import warnings
-import os
-import sys
 import json
-import string
 import logging
 import logging.handlers as handlers
+import os
+import string
+import sys
+import warnings
 from datetime import datetime
 from functools import reduce
-from subprocess import Popen, PIPE
+from subprocess import PIPE, Popen
 
 try:
     import requests
-    from requests.adapters import HTTPAdapter
+    from requests.adapters import HTTPAdapter, Retry
     from requests.sessions import Session
-    from requests.adapters import Retry
 except ImportError:
     warnings.warn("Please install 'requests'. 'pip install requests'")
     sys.exit(1)
 
 import re
-
 
 DEFAULT_BRANCH = "$/Philips.PIC/PIIC iX/Main"
 CURRENT_BRANCH = DEFAULT_BRANCH
@@ -899,8 +897,8 @@ def _get_last_commit_sha(key):
 
 
 def slugify(value):
-    import unicodedata
     import re
+    import unicodedata
 
     value = unicodedata.normalize("NFKD", value).encode("ascii", "ignore")
     value = str(re.sub("[^\w\s-]", "", value).strip().lower())
