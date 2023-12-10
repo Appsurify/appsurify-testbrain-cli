@@ -27,7 +27,7 @@
 Python 3.7+
 
 > Note: Support for Python 3.7 will be completed soon because
-> this version is already considered depricated
+> this version is already considered deprecated
 
 
 ### Support OS / Python

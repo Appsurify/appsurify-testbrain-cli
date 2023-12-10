@@ -30,12 +30,6 @@ except ImportError:
 import re
 
 
-pattern = re.compile(
-    r"""(?P<propertyName>(?=^)\w[\s\w,]+)(?(1):)(?:\s|\n)?(?P<propertyData>[\W\w\s]+)""",
-    re.MULTILINE,
-)
-f_pattern = re.compile(r"""(?P<propertyName>(?=^)\w[\s\w,]+)(?(1):)""", re.MULTILINE)
-
 DEFAULT_BRANCH = "$/Philips.PIC/PIIC iX/Main"
 CURRENT_BRANCH = DEFAULT_BRANCH
 
@@ -322,10 +316,7 @@ def get_all_changesets_rest_api():
     def get_data():
         r = requests.get(
             str.format(get_changesets_url, organization, project, len(arr)),
-            auth=(
-                "Khalil Mohammad Mirza",
-                "263ztlyieakewwcgeu75xivdwpkhtzkycbgy555f5camihzfdzaq",
-            ),
+            auth=(),
         )
         if r.status_code == 200:
             json = r.json()

@@ -26,7 +26,7 @@ logger = logging.getLogger(__name__)
 )
 @click.pass_context
 def git(ctx: TestbrainContext, **kwargs):
-    logger.debug(f"Repository running with {ctx} {kwargs}")
+    logger.debug(f"Git running with {ctx} {kwargs}")
 
 
 @git.command("push", cls=TestbrainCommand, default=True)
@@ -270,9 +270,3 @@ def checkout(ctx: TestbrainContext, repo_dir, branch, commit, pr_mode, **kwargs)
         ctx.exit(127)
 
     logger.info("Done")
-
-
-# repository = git
-# git2appsurify = push
-#
-# git2testbrain = push

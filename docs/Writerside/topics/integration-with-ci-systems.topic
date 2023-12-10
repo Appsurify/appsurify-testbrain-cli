@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
+       title="Integration with CI systems" id="integration-with-ci-systems" help-id="Integration-with-CI-systems">
+
+    <p>
+        You can learn more about TestbrainCLI integration solutions provided for:
+    </p>
+
+    <list>
+        <li><a href="github-actions.topic">GitHub Actions</a></li>
+
+    </list>
+
+
+</topic>

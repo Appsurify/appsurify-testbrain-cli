@@ -67,11 +67,12 @@ include = ["CHANGELOG.md"]
 [tool.poetry.scripts]
 testbrain = "testbrain.__main__:app"
 tbcli = "testbrain.__main__:app"
-git2testbrain = "testbrain.apps.git.cli:push"
 # Backward capabilities
 # testbrain git - aliases
-#git2testbrain = "testbrain.git.cli:git2testbrain"
-#git2appsurify = "testbrain.git.cli:git2appsurify"
+git2testbrain = "testbrain.apps.git.cli:push"
+git2appsurify = "testbrain.apps.git.cli:push"
+# testbrain git - aliases
+tfvc2testbrain = "testbrain.apps.tfvc.cli:push"
 # testbrain tests - aliases
 #runtestswithappsurify = "testbrain.tests.cli:runtestswithappsurify"
 #testimportappsurify = "testbrain.tests.cli:testimportappsurify"

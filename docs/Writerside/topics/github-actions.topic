@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
+       title="GitHub Actions" id="github-actions" help-id="GitHub-Actions">
+
+    <chapter title="Usage" id="usage">
+
+        <chapter title="Basic Configuration" id="basic-configuration">
+            <procedure>
+                <step>On the Settings tab of the GitHub UI, create the TESTBRAIN_TOKEN encrypted secret and save the
+                    project token as its value.
+                </step>
+                <step>Some step</step>
+                <step>On the Actions tab of the GitHub UI, set up a
+                    new workflow and create the .github/workflows/testbrain-ci.yml file</step>
+
+                <code-block src="gh.yml" lang="yaml" />
+
+            </procedure>
+        </chapter>
+        
+        <p>
+            List the prerequisites that are required or recommended.
+            Make sure that:
+        </p>
+
+
+    </chapter>
+
+</topic>
