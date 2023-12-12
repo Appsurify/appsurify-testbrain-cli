@@ -1,4 +1,4 @@
-from testbrain.apps.git.client import RepositoryClient, HTTPAPIAuth
+from testbrain.apps.repository.git.client import RepositoryClient, HTTPAPIAuth
 
 
 def test_git_client_get_project(requests_mock):
