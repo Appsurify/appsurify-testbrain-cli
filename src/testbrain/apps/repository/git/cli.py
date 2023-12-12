@@ -9,7 +9,6 @@ from testbrain.contrib.scm.exceptions import SCMError
 from testbrain.core.command import TestbrainCommand, TestbrainGroup
 from testbrain.core.context import TestbrainContext
 
-from . import __version__
 from .exceptions import ProjectNotFound
 from .models import Commit
 from .services import CheckoutService, PushService

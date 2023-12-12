@@ -19,7 +19,7 @@ class RepositoryClient(HttpClient):
 
     @property
     def version(self) -> str:
-        from . import __version__
+        from .. import __version__
 
         return __version__
 

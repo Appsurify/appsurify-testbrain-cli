@@ -3,8 +3,8 @@ import logging
 import click
 
 import testbrain
-from testbrain.apps.git import cli as git_cli
-from testbrain.apps.tfvc import cli as tfvc_cli
+from testbrain.apps.auth.cli import auth
+from testbrain.apps.repository.cli import repository
 from testbrain.core.command import TestbrainContext, TestbrainGroup
 
 logger = logging.getLogger(__name__)
@@ -20,16 +20,13 @@ logger = logging.getLogger(__name__)
     package_name=testbrain.__name__,
     prog_name=testbrain.__prog__,
     version=testbrain.__version__,
-    message="%(prog)s (%(version)s) [%(package)s]",
+    message="%(package)s (%(version)s) [%(prog)s]",
 )
 @click.pass_context
 def app(ctx: TestbrainContext, **kwargs):
     logger.debug(f"testbrain run with {ctx} {kwargs}")
 
 
-app.add_command(tfvc_cli.tfvc, "tfvc")
-
-app.add_command(git_cli.git, "git")
-app.add_command(git_cli.git, "repository")
-app.add_command(git_cli.push, "git2appsurify")
-app.add_command(git_cli.push, "git2testbrain")
+# TODO: Will be needed refactoring
+app.add_command(auth, "auth")
+app.add_command(repository, "repository")

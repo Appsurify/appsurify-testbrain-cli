@@ -69,10 +69,10 @@ testbrain = "testbrain.__main__:app"
 tbcli = "testbrain.__main__:app"
 # Backward capabilities
 # testbrain git - aliases
-git2testbrain = "testbrain.apps.git.cli:push"
-git2appsurify = "testbrain.apps.git.cli:push"
+git2testbrain = "testbrain.apps.repository.git.cli:push"
+git2appsurify = "testbrain.apps.repository.git.cli:push"
 # testbrain git - aliases
-tfvc2testbrain = "testbrain.apps.tfvc.cli:push"
+tfvc2testbrain = "testbrain.apps.repository.tfvc.cli:push"
 # testbrain tests - aliases
 #runtestswithappsurify = "testbrain.tests.cli:runtestswithappsurify"
 #testimportappsurify = "testbrain.tests.cli:testimportappsurify"

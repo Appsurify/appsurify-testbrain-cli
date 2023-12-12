@@ -3,25 +3,26 @@
                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
     <build-profile instance="atc">
+
         <variables>
-            <product-web-url>https://app.appsurify.com</product-web-url>
-            <primary-color>halloween</primary-color>
-            <header-logo>logo-appsurify-testbrain.png</header-logo>
-            <custom-favicons>https://app.appsurify.com/assets/img/favicon.ico</custom-favicons>
+<!--            <product-web-url>https://app.appsurify.com</product-web-url>-->
+<!--            <primary-color>halloween</primary-color>-->
+<!--            <header-logo>logo-appsurify-testbrain.png</header-logo>-->
+<!--            <custom-favicons>https://app.appsurify.com/assets/img/favicon.ico</custom-favicons>-->
 <!--            <download-page>https://pypi.org/project/appsurify-testbrain-cli/</download-page>-->
-            <showDownloadButton>true</showDownloadButton>
-            <noindex-content>true</noindex-content>
-
+<!--            <showDownloadButton>true</showDownloadButton>-->
+<!--            <noindex-content>true</noindex-content>-->
         </variables>
-
 
         <footer>
             <copyright>Appsurify 2023</copyright>
-            <social type="blog" href="http://appsurify.wpenginepowered.com/resources/?_sft_asset_type=blog"></social>
-            <social type="linkedin" href="https://www.linkedin.com/company/appsurify"></social>
-            <social type="email" href="sales@appsurify.com"></social>
+            <social type="blog" href="http://appsurify.wpenginepowered.com/resources/?_sft_asset_type=blog" />
+            <social type="linkedin" href="https://www.linkedin.com/company/appsurify" />
+            <social type="email" href="sales@appsurify.com" />
+
             <link href="https://appsurify.com/knowledge-base/">Knowledge</link>
             <link href="https://docs.appsurify.com/getting-started/solution-overview">Tech Docs</link>
+
         </footer>
 
     </build-profile>
@@ -32,5 +33,7 @@
         <layout name="macOS" display-name="macOS"/>
         <layout name="Linux" display-name="Linux"/>
     </shortcuts>
+
+
 
 </buildprofiles>

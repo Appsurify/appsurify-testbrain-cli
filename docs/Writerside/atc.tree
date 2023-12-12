@@ -4,20 +4,6 @@
 
 <instance-profile id="atc"
                  name="Appsurify Testbrain CLI"
-                 start-page="discover-testbrain-cli.topic">
+>
 
-    <toc-element topic="discover-testbrain-cli.topic">
-        <toc-element topic="about-testbrain-cli.topic"/>
-        <toc-element topic="getting-started.topic"/>
-    </toc-element>
-    <toc-element topic="integration-with-ci-systems.topic">
-        <toc-element topic="github-actions.topic"/>
-    </toc-element>
-    <toc-element topic="GROUP.topic">
-        <toc-element topic="Section-Starting-Page.topic"/>
-        <toc-element topic="Tutorial.topic"/>
-        <toc-element topic="Reference.topic"/>
-        <toc-element topic="Overview.topic"/>
-        <toc-element topic="How-to.topic"/>
-    </toc-element>
 </instance-profile>
