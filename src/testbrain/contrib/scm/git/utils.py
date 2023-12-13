@@ -1,6 +1,7 @@
 import binascii
 import os
 import typing as t
+
 import typing_extensions as te
 
 from .patterns import RE_COMMIT_DIFF, RE_COMMIT_LIST, RE_OCTAL_BYTE
