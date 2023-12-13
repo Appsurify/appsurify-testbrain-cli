@@ -1,0 +1,40 @@
+name: "Testbrain"
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "**"
+      - "releases/**"
+
+jobs:
+  push-changes:
+    name: "Push changes to server"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      checks: write
+    steps:
+      - name: "Checkout git"
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: "Extract branch name"
+        shell: bash
+        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: extract_branch
+      - name: "Push"
+        uses: addnab/docker-run-action@v3
+        with:
+          image: appsurifyinc/appsurify-testbrain-cli:latest
+          options: -v ${{ github.workspace }}:/data -e TESTBRAIN_PR_MODE=${{ github.event_name == 'pull_request' }}
+          run: |
+            git2testbrain push --server ${{ vars.TESTBRAIN_SERVER }} --token ${{ secrets.TESTBRAIN_TOKEN }} --project ${{ vars.TESTBRAIN_PROJECT }} --branch ${{ steps.extract_branch.outputs.branch }} --start ${{ github.sha }} --number ${{ vars.TESTBRAIN_NUMBER_OF_COMMITS }} -l DEBUG
+      - name: "Upload crash dumps"
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: "crashdumps"
+          path: ${{ github.workspace }}/.crashdumps/
+          retention-days: 1

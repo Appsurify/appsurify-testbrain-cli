@@ -1,4 +1,4 @@
-name: "Pre Release"
+name: "Create pre-release"
 
 on:
   push:
@@ -6,8 +6,8 @@ on:
       - "*.*.*"
 
 jobs:
-  update:
-    name: "Create release branch"
+  create-branch:
+    name: "Create branch"
     runs-on: ubuntu-latest
     permissions:
       contents: write

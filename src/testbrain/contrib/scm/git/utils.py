@@ -2,19 +2,32 @@ import binascii
 import os
 import typing as t
 
+import typing_extensions as te
+
 from .patterns import RE_COMMIT_DIFF, RE_COMMIT_LIST, RE_OCTAL_BYTE
 
-LIT_CHANGE_TYPE = t.Literal["A", "D", "C", "M", "R", "T", "U"]
+try:
+    Literal = t.Literal
+except AttributeError:
+    Literal = te.Literal
+
+try:
+    TypedDict = t.TypedDict
+except AttributeError:
+    TypedDict = te.TypedDict
+
+
+LIT_CHANGE_TYPE = Literal["A", "D", "C", "M", "R", "T", "U"]
 
 T_DIFF = t.TypeVar("T_DIFF", bound="Diff")
 
 
-CHANGE_TYPE = t.Literal[
+CHANGE_TYPE = Literal[
     "added", "deleted", "modified", "copied", "renamed", "removed", "unknown"
 ]
 
 
-class FilesTD(t.TypedDict):
+class FilesTD(TypedDict):
     filename: t.Union[str, "os.PathLike[str]"]
     sha: t.Optional[str]
     additions: int
@@ -28,7 +41,7 @@ class FilesTD(t.TypedDict):
     blame: t.Optional[str]
 
 
-class TotalTD(t.TypedDict):
+class TotalTD(TypedDict):
     additions: int
     insertions: int
     deletions: int
@@ -38,7 +51,7 @@ class TotalTD(t.TypedDict):
     total: int
 
 
-class HshTD(t.TypedDict):
+class HshTD(TypedDict):
     total: TotalTD
     files: t.Dict[str, FilesTD]
 
@@ -193,20 +206,20 @@ def merge_files_and_diffs(
                 commit_file["sha"] = file_diff.b_blob["sha"]
 
             if file_diff.change_type == "A":
-                commit_file["status"] = t.cast(t.Literal, "added")
+                commit_file["status"] = t.cast(Literal, "added")
             elif file_diff.change_type == "D":
-                commit_file["status"] = t.cast(t.Literal, "deleted")
+                commit_file["status"] = t.cast(Literal, "deleted")
                 commit_file["sha"] = file_diff.NULL_HEX_SHA
             elif file_diff.change_type == "C":
-                commit_file["status"] = t.cast(t.Literal, "copied")
+                commit_file["status"] = t.cast(Literal, "copied")
                 commit_file["previous_filename"] = file_diff.a_path
             elif file_diff.change_type == "R":
-                commit_file["status"] = t.cast(t.Literal, "renamed")
+                commit_file["status"] = t.cast(Literal, "renamed")
                 commit_file["previous_filename"] = file_diff.a_path
             elif file_diff.change_type == "M":
-                commit_file["status"] = t.cast(t.Literal, "modified")
+                commit_file["status"] = t.cast(Literal, "modified")
             else:
-                commit_file["status"] = t.cast(t.Literal, "unknown")
+                commit_file["status"] = t.cast(Literal, "unknown")
 
         commit_files.append(commit_file)
 
