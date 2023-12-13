@@ -3,33 +3,30 @@ import logging
 import click
 
 import testbrain
-from testbrain.core import TestbrainContext, TestbrainGroup
-from testbrain.repository.cli import app as repository_app
+from testbrain.apps.auth.cli import auth
+from testbrain.apps.repository.cli import repository
+from testbrain.core.command import TestbrainContext, TestbrainGroup
 
 logger = logging.getLogger(__name__)
 
 
 @click.group(
-    name="testbrain",
+    name=testbrain.__prog__,
     cls=TestbrainGroup,
     default_if_no_args=True,
     no_args_is_help=True,
 )
-@click.version_option(
-    package_name="appsurify-testbrain-cli",
-    prog_name="testbrain",
-    message=testbrain.version_message,
+@click.version_option(  # TODO: "%(package)s (%(prog)s %(version)s)"
+    package_name=testbrain.__name__,
+    prog_name=testbrain.__prog__,
+    version=testbrain.__version__,
+    message="%(package)s (%(version)s) [%(prog)s]",
 )
 @click.pass_context
 def app(ctx: TestbrainContext, **kwargs):
     logger.debug(f"testbrain run with {ctx} {kwargs}")
 
 
-# app.add_command(repository_app, default=True)
-app.add_command(repository_app, name="repository")
-app.add_command(repository_app, name="git2testbrain")
-app.add_command(repository_app, name="git2appsurify")
-
-
-if __name__ == "__main__":
-    app(prog_name="testbrain")
+# TODO: Will be needed refactoring
+app.add_command(auth, "auth")
+app.add_command(repository, "repository")

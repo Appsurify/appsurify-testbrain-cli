@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE terms SYSTEM "https://resources.jetbrains.com/writerside/1.0/glossary.dtd">
+
+<terms>
+    <term name="gui">Graphical User Interface</term>
+    <term name="webui">Web User Interface</term>
+    <term name="cli">Command Line Interface</term>
+    <term name="tooltip">Tooltips show a definition when a user hovers over a term.</term>
+    <term name="ci">Continuous Integration</term>
+    <term name="ci/cd">Continuous Integration / Continuous Deployment</term>
+    <term name="ci/cd pipeline">Continuous Integration / Continuous Deployment Pipeline</term>
+</terms>

@@ -1,0 +1,6 @@
+class GitServiceError(Exception):
+    ...
+
+
+class ProjectNotFound(Exception):
+    ...
