@@ -27,7 +27,7 @@
 Python 3.7+
 
 > Note: Support for Python 3.7 will be completed soon because
-> this version is already considered depricated
+> this version is already considered deprecated
 
 
 ### Support OS / Python
@@ -85,7 +85,7 @@ server for further analysis and testing optimization.
 
 Alias #1
 ```shell
-testbrain repository push --help
+testbrain git push --help
 ```
 
 Alias #2
@@ -209,7 +209,7 @@ jobs:
             pull-requests: write
             checks: write
         steps:
-            - name: "Checkout repository"
+            - name: "Checkout git"
               uses: actions/checkout@v4
               with:
                   fetch-depth: 0
@@ -243,7 +243,7 @@ the execution of CI pipelines or manually. **Cloning is not provided.**
 
 Alias #1
 ```shell
-testbrain repository checkout --help
+testbrain git checkout --help
 ```
 
 Alias #2

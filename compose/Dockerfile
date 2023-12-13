@@ -1,4 +1,4 @@
-FROM python:3.11.6-alpine as builder
+FROM python:3.12.1-alpine as builder
 MAINTAINER Artem Demidenko <ar.demidenko@gmail.com>
 
 ENV PIP_DEFAULT_TIMEOUT=100 \
@@ -16,7 +16,7 @@ ENV PIP_DEFAULT_TIMEOUT=100 \
 RUN set -ex \
     && apk add --update --no-cache gcc musl-dev libffi-dev
 
-RUN pip install poetry==1.6.1
+RUN pip install poetry==1.7.1
 
 
 WORKDIR /app
@@ -27,7 +27,7 @@ COPY src /app/src
 RUN --mount=type=cache,target=$POETRY_CACHE_DIR poetry install --without=dev,test
 
 
-FROM python:3.11.6-alpine as runtime
+FROM python:3.12.1-alpine as runtime
 MAINTAINER Artem Demidenko <ar.demidenko@gmail.com>
 
 RUN set -ex \
