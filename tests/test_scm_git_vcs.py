@@ -115,21 +115,21 @@ def test_git_vcs(fp):
 
     with pytest.raises(fp.exceptions.ProcessNotRegisteredError):
         # this will fail, as "ls" command is not registered
-        git_vcs2 = GitVCS(repo_dir="/tmp")
-        assert git_vcs2.repo_dir == "/tmp"
+        git_vcs2 = GitVCS(repo_dir="./")
+        assert git_vcs2.repo_dir == "./"
 
     register_limits(fp)
-    git_vcs3 = GitVCS(repo_dir="/tmp")
-    assert git_vcs3.repo_dir == pathlib.Path("/tmp").resolve()
+    git_vcs3 = GitVCS(repo_dir="./")
+    assert git_vcs3.repo_dir == pathlib.Path("./").resolve()
 
 
 def test_git_vcs_get_repo_name(fp):
     register_limits(fp)
     git_vcs = GitVCS(
-        repo_dir="/tmp/appsurify-testbrain-cli", repo_name="appsurify-testbrain-cli"
+        repo_dir="./appsurify-testbrain-cli", repo_name="appsurify-testbrain-cli"
     )
 
-    assert git_vcs.repo_dir == pathlib.Path("/tmp/appsurify-testbrain-cli").resolve()
+    assert git_vcs.repo_dir == pathlib.Path("./appsurify-testbrain-cli").resolve()
     assert git_vcs.repo_name == "appsurify-testbrain-cli"
 
     register_limits(fp)
@@ -137,8 +137,8 @@ def test_git_vcs_get_repo_name(fp):
         ["git", "config", "--get", "remote.origin.url"],
         stdout="https://github.com/Appsurify/appsurify-testbrain-cli.git",
     )
-    git_vcs = GitVCS(repo_dir="/tmp/appsurify-testbrain-cli")
-    assert git_vcs.repo_dir == pathlib.Path("/tmp/appsurify-testbrain-cli").resolve()
+    git_vcs = GitVCS(repo_dir="./appsurify-testbrain-cli")
+    assert git_vcs.repo_dir == pathlib.Path("./appsurify-testbrain-cli").resolve()
     assert git_vcs.repo_name == "appsurify-testbrain-cli"
 
     register_limits(fp)
@@ -146,8 +146,8 @@ def test_git_vcs_get_repo_name(fp):
         ["git", "config", "--get", "remote.origin.url"],
         stdout="",
     )
-    git_vcs = GitVCS(repo_dir="/tmp/appsurify-testbrain-cli")
-    assert git_vcs.repo_dir == pathlib.Path("/tmp/appsurify-testbrain-cli").resolve()
+    git_vcs = GitVCS(repo_dir="./appsurify-testbrain-cli")
+    assert git_vcs.repo_dir == pathlib.Path("./appsurify-testbrain-cli").resolve()
     assert git_vcs.repo_name == "appsurify-testbrain-cli"
 
 
