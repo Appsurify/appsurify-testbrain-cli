@@ -1,5 +1,5 @@
 __title__ = "Appsurify Testbrain CLI"
 __name__ = "appsurify-testbrain-cli"
 __prog__ = "testbrain-cli"
-__version__ = "2023.11.9"
+__version__ = "2023.12.10"
 __build__ = "undefined"
