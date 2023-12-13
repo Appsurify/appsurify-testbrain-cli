@@ -9,6 +9,8 @@ jobs:
     name: "PyPi Publish"
     runs-on: ubuntu-latest
     steps:
+      - name: "Checkout Repository"
+        uses: actions/checkout@v4
       - name: "Set up Python"
         uses: actions/setup-python@v4
         with:
@@ -41,5 +43,4 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: "Tag Latest"
         run: |
-          echo "TAG!"
-          # docker buildx imagetools create --tag appsurifyinc/appsurify-testbrain-cli:latest appsurifyinc/appsurify-testbrain-cli:${{ github.event.release.name }}
+          docker buildx imagetools create --tag appsurifyinc/appsurify-testbrain-cli:latest appsurifyinc/appsurify-testbrain-cli:${{ github.event.release.name }}
