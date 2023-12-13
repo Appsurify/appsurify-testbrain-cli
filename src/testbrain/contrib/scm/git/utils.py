@@ -1,15 +1,19 @@
 import binascii
 import os
 import typing as t
+import typing_extensions as te
 
 from .patterns import RE_COMMIT_DIFF, RE_COMMIT_LIST, RE_OCTAL_BYTE
 
 try:
     Literal = t.Literal
 except AttributeError:
-    import typing_extensions as te
-
     Literal = te.Literal
+
+try:
+    TypedDict = t.TypedDict
+except AttributeError:
+    TypedDict = te.TypedDict
 
 
 LIT_CHANGE_TYPE = Literal["A", "D", "C", "M", "R", "T", "U"]
@@ -22,7 +26,7 @@ CHANGE_TYPE = Literal[
 ]
 
 
-class FilesTD(t.TypedDict):
+class FilesTD(TypedDict):
     filename: t.Union[str, "os.PathLike[str]"]
     sha: t.Optional[str]
     additions: int
@@ -36,7 +40,7 @@ class FilesTD(t.TypedDict):
     blame: t.Optional[str]
 
 
-class TotalTD(t.TypedDict):
+class TotalTD(TypedDict):
     additions: int
     insertions: int
     deletions: int
@@ -46,7 +50,7 @@ class TotalTD(t.TypedDict):
     total: int
 
 
-class HshTD(t.TypedDict):
+class HshTD(TypedDict):
     total: TotalTD
     files: t.Dict[str, FilesTD]
 
