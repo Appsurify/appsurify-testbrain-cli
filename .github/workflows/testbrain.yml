@@ -21,10 +21,12 @@ jobs:
         with:
           python-version: 3.12
       - name: "Set up Testbrain CLI"
-        run: pip3 install appsurify-testbrain-cli
+        run: |
+          pip3 install appsurify-testbrain-cli
       - name: "Delivering changes to the server"
         run: |
-          git2testbrain --server ${{ vars.TESTBRAIN_SERVER }} \
+          testbrain repository git push \
+          --server ${{ vars.TESTBRAIN_SERVER }} \
           --repo-dir ${{ github.workspace }} \
           --token ${{ secrets.TESTBRAIN_TOKEN }} \
           --project ${{ vars.TESTBRAIN_PROJECT }} \
