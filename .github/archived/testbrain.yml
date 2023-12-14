@@ -19,6 +19,7 @@ jobs:
       - name: "Checkout git"
         uses: actions/checkout@v4
         with:
+          ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
       - name: "Extract branch name"
         shell: bash
