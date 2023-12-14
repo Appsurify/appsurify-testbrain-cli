@@ -15,7 +15,6 @@ jobs:
       - name: "Checkout git"
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
       - name: "Set up Python"
         uses: actions/setup-python@v4
@@ -27,12 +26,12 @@ jobs:
       - name: "Delivering changes to the server"
         run: |
           testbrain repository git push \
-          --server ${{ vars.TESTBRAIN_SERVER }} \
           --repo-dir ${{ github.workspace }} \
+          --server ${{ vars.TESTBRAIN_SERVER }} \
           --token ${{ secrets.TESTBRAIN_TOKEN }} \
           --project ${{ vars.TESTBRAIN_PROJECT }} \
           --branch ${{ github.ref_name }} \
-          --start ${{ github.sha }} \
+          --commit ${{ github.sha }} \
           --number ${{ vars.TESTBRAIN_NUMBER_OF_COMMITS }} \
           --loglevel INFO
       - name: "Upload crash dumps"
