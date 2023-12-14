@@ -46,17 +46,10 @@ jobs:
           poetry run pytest --exitfirst --verbose  --failed-first --junitxml=reports/pytest/${{ github.sha }}/junit-${{ matrix.os }}-PY${{ matrix.python-version }}.xml --cov-report xml:reports/coverage/${{ github.sha }}/${{ matrix.os }}-PY${{ matrix.python-version }}.xml --cov=src/ tests/
       - name: "Upload tests reports"
         run: |
-          runtestswithappsurify \
-          --url ${{ vars.TESTBRAIN_SERVER }} \
-          --apikey ${{ secrets.TESTBRAIN_TOKEN }} \
-          --project ${{ vars.TESTBRAIN_PROJECT }} \
-          --testsuite "pytest" \
-          --runtemplate "no tests" \
-          --testtemplate "pytest" \
-          --branch ${{ github.ref_name }} \
-          --commit ${{ github.sha }} \
-          --reporttype directory \
-          --report reports/pytest/${{ github.sha }}/
+          set -e
+          EXIT_CODE=0
+          runtestswithappsurify --url ${{ vars.TESTBRAIN_SERVER }} --apikey ${{ secrets.TESTBRAIN_TOKEN }} --project ${{ vars.TESTBRAIN_PROJECT }} --testsuite "pytest" --runtemplate "no tests" --testtemplate "pytest" --branch ${{ github.ref_name }} --commit ${{ github.sha }} --reporttype directory --report reports/pytest/${{ github.sha }}/ || EXIT_CODE=$?
+          echo $EXIT_CODE
       - name: "Surface failing tests"
         if: always()
         uses: pmeier/pytest-results-action@main
