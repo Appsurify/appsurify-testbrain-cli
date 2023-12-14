@@ -2,8 +2,10 @@
 <!DOCTYPE instance-profile
         SYSTEM "https://resources.jetbrains.com/writerside/1.0/product-profile.dtd">
 
-<instance-profile id="atc"
-                 name="Appsurify Testbrain CLI"
->
+<instance-profile id="atc" name="Appsurify Testbrain CLI" start-page="getting-started.topic">
 
+    <toc-element topic="getting-started.topic">
+        <toc-element topic="about-testbrain-cli.topic"/>
+        <toc-element topic="quick-start.topic"/>
+    </toc-element>
 </instance-profile>

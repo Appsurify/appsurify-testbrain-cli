@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
+       title="Getting started" id="getting-started" help-id="starting-page">
+
+<!--    A section combines multiple topics dedicated to a specific subject.
+            Add a starting page to provide an overview of the topics in the section.
+            Start with two topics you want to promote in the <spotlight> group,
+            several important topics in the <primary> group (for example, where to start),
+            several less important topics in the <secondary> group (for example, more advanced topics),
+            and optionally add any other relevant topics in the <misc> group as cards and lists of links
+            (maybe related topics from other sections).
+            Only the spotlight section is limited to two topics.
+            For other groups, try to keep the number between 2 and 6, but you can add more if necessary.-->
+
+    <section-starting-page>
+        <title>Appsurify Testbrain CLI</title>
+
+        <description>
+
+            The Appsurify Testbrain command-line interface (Testbrain CLI) is a set of commands used
+            to interacting and integrate with Appsurify Testbrain Server.
+        </description>
+
+        <!--    Add up to 2 topics that you want to promote. Use the "type" attribute to select an icon.    -->
+        <spotlight>
+
+            <a href="about-testbrain-cli.topic" type="learn" summary="Testbrain CLI is a utility that provides an easy way
+                to interact with the Testbrain server from the command line or from the CI/CD Pipeline.">
+                About Testbrain CLI
+            </a>
+            <a href="quick-start.topic" type="start" summary="Demonstration of how to quickly start using Testbrain CLI">
+                Quick start
+            </a>
+
+        </spotlight>
+
+
+    </section-starting-page>
+
+</topic>

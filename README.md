@@ -1,8 +1,7 @@
-[![image](https://img.shields.io/github/v/release/Appsurify/appsurify-testbrain-cli?label=github)](https://github.com/Appsurify/appsurify-testbrain-cli/releases)
-[![image](https://img.shields.io/pypi/v/appsurify-testbrain-cli.svg)](https://pypi.org/project/appsurify-testbrain-cli/)
-[![image](https://img.shields.io/pypi/l/appsurify-testbrain-cli.svg)](https://pypi.org/project/appsurify-testbrain-cli/)
+[![image](https://img.shields.io/pypi/v/appsurify-testbrain-cli?logo=pypi)](https://pypi.org/project/appsurify-testbrain-cli/)
+[![image](https://img.shields.io/docker/v/appsurifyinc/appsurify-testbrain-cli?logo=docker)](https://hub.docker.com/repository/docker/appsurifyinc/appsurify-testbrain-cli/general)
+[![image](https://img.shields.io/github/v/release/Appsurify/appsurify-testbrain-cli?logo=GitHub)](https://github.com/Appsurify/appsurify-testbrain-cli/releases)
 [![image](https://img.shields.io/pypi/pyversions/appsurify-testbrain-cli.svg)](https://pypi.org/project/appsurify-testbrain-cli/)
-
 
 # Appsurify Script Installation
 

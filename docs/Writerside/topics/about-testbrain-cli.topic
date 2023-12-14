@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
+       title="About TestbrainCLI" id="about-testbrain-cli">
+
+
+    <p>
+        For interactive use, you first launch a shell such as cmd.exe on Windows,
+        or Bash on Linux or macOS, and then issue a command at the shell prompt.
+        To automate repetitive tasks, you assemble the CLI commands into a shell
+        script using the script syntax of your chosen shell, and then you execute the script.
+        You can install the Testbrain CLI locally on Linux, Mac, or Windows computers.
+        It can also be used from inside a Docker container.
+    </p>
+
+    <chapter title="Current version" id="about-testbrain-cli-current-version">
+        The current version of the Appsurify Testbrain CLI is <b>%version%</b>.
+        To find your installed version and see if you need to update, run <code>testbrain --version</code>.
+
+        <p>
+            <img style="inline" alt="PyPI - Version" src="https://img.shields.io/pypi/v/appsurify-testbrain-cli?logo=pypi" />
+            <img style="inline" alt="Docker Image Version (latest semver)" src="https://img.shields.io/docker/v/appsurifyinc/appsurify-testbrain-cli?logo=docker" />
+            <img style="inline" alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/Appsurify/appsurify-testbrain-cli?logo=GitHub" />
+            <img style="inline" alt="Python versions" src="https://img.shields.io/pypi/pyversions/appsurify-testbrain-cli.svg" />
+        </p>
+
+    </chapter>
+
+    <chapter title="Run Testbrain CLI in your CI/CD pipeline or locally" id="about-testbrain-cli-run" >
+        <p>Testbrain not provides native solutions for Azure Pipelines, CircleCI, GitHub, and TeamCity.
+            But for CI/CD systems, you can use Testbrain CLI from PyPi package or Docker images.
+            To run Testbrain CLI locally, you can use Python interpreter or Docker images.</p>
+    </chapter>
+
+</topic>
