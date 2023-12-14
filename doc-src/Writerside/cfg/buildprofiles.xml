@@ -6,9 +6,10 @@
 
         <variables>
 
-            <product-web-url>https://appsurify.com</product-web-url>
+            <product-web-url>https://appsurify.github.io/appsurify-testbrain-cli/</product-web-url>
 
-            <primary-color>dracula</primary-color>
+<!--            <primary-color>dracula</primary-color>-->
+            <primary-color>deep-ocean</primary-color>
             <header-logo>logo-appsurify-testbrain.png</header-logo>
             <custom-favicons>favicon.ico</custom-favicons>
 
