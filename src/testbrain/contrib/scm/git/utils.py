@@ -6,14 +6,13 @@ import typing_extensions as te
 
 from .patterns import RE_COMMIT_DIFF, RE_COMMIT_LIST, RE_OCTAL_BYTE
 
-Literal = t.Literal
 TypedDict = t.TypedDict
 
-# try:
-#     Literal = t.Literal
-# except AttributeError:
-#     Literal = te.Literal
-#
+try:
+    Literal = t.Literal
+except AttributeError:
+    Literal = te.Literal
+
 # try:
 #     TypedDict = t.TypedDict
 # except AttributeError:
