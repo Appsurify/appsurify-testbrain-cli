@@ -8,6 +8,7 @@ from .patterns import RE_COMMIT_DIFF, RE_COMMIT_LIST, RE_OCTAL_BYTE
 
 Literal = t.Literal
 TypedDict = t.TypedDict
+
 # try:
 #     Literal = t.Literal
 # except AttributeError:
