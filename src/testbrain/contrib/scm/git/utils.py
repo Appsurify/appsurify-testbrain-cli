@@ -6,15 +6,17 @@ import typing_extensions as te
 
 from .patterns import RE_COMMIT_DIFF, RE_COMMIT_LIST, RE_OCTAL_BYTE
 
-try:
-    Literal = t.Literal
-except AttributeError:
-    Literal = te.Literal
-
-try:
-    TypedDict = t.TypedDict
-except AttributeError:
-    TypedDict = te.TypedDict
+Literal = t.Literal
+TypedDict = t.TypedDict
+# try:
+#     Literal = t.Literal
+# except AttributeError:
+#     Literal = te.Literal
+#
+# try:
+#     TypedDict = t.TypedDict
+# except AttributeError:
+#     TypedDict = te.TypedDict
 
 
 LIT_CHANGE_TYPE = Literal["A", "D", "C", "M", "R", "T", "U"]
