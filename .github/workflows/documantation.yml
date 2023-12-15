@@ -1,10 +1,10 @@
-name: "Build documentation"
+name: "Documentation"
 
 on:
   workflow_dispatch:
   push:
     branches:
-      - "development"
+      - "main"
 
 permissions:
   id-token: write
