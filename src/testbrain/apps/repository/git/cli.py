@@ -30,6 +30,7 @@ def git(ctx: TestbrainContext, **kwargs):
 @git.command("push", cls=TestbrainCommand, default=True)
 @click.option(
     "--server",
+    "--url",
     metavar="<url>",
     required=True,
     type=str,
@@ -39,6 +40,7 @@ def git(ctx: TestbrainContext, **kwargs):
 )
 @click.option(
     "--token",
+    "--apikey",
     metavar="<token>",
     required=True,
     type=str,

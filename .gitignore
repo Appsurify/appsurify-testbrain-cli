@@ -173,3 +173,4 @@ cython_debug/
 /.ruff_cache/
 /.idea/codeStyles/codeStyleConfig.xml
 /.idea/dictionaries/whenessel.xml
+/dev-scripts/

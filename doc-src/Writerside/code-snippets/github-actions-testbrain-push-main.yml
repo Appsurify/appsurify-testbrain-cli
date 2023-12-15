@@ -4,8 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - "**"
-      - "releases/*.*.*"
+      - "main"
 
 jobs:
   delivery:
@@ -21,18 +20,15 @@ jobs:
         with:
           python-version: 3.12
       - name: "Set up Testbrain CLI"
-        run: |
-          pip3 install appsurify-testbrain-cli
+        run: pip3 install appsurify-testbrain-cli
       - name: "Delivering changes to the server"
         run: |
           testbrain repository git push \
-          --repo-dir ${{ github.workspace }} \
           --server ${{ vars.TESTBRAIN_SERVER }} \
           --token ${{ secrets.TESTBRAIN_TOKEN }} \
           --project ${{ vars.TESTBRAIN_PROJECT }} \
+          --repo-dir ${{ github.workspace }} \
           --branch ${{ github.ref_name }} \
-          --commit ${{ github.sha }} \
-          --number ${{ vars.TESTBRAIN_NUMBER_OF_COMMITS }} \
           --loglevel INFO
       - name: "Upload crash dumps"
         uses: actions/upload-artifact@v3
@@ -40,4 +36,4 @@ jobs:
         with:
           name: "crashdumps"
           path: ${{ github.workspace }}/.crashdumps/
-          retention-days: 1
+          retention-days: 3

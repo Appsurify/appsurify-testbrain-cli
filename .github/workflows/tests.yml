@@ -2,9 +2,6 @@ name: "Test"
 
 on:
   workflow_dispatch:
-  pull_request:
-    branches:
-      - "development"
   push:
     branches:
       - "development"
@@ -29,6 +26,8 @@ jobs:
     steps:
       - name: "Checkout Repository"
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: "Set up Python"
         uses: actions/setup-python@v4
         with:
@@ -38,10 +37,16 @@ jobs:
         with:
           poetry-version: ${{ matrix.poetry-version }}
       - name: "Install dependencies"
-        run: poetry install --with test
+        run: |
+          poetry install --with test;
+          pip3 install appsurifyci --pre
       - name: "Run tests"
         run: |
-          poetry run pytest --exitfirst --verbose  --failed-first --junitxml=reports/pytest/${{ github.sha }}/junit-${{ matrix.os }}-PY${{ matrix.python-version }}.xml --cov-report xml:reports/coverage/${{ github.sha }}/${{ matrix.os }}-PY${{ matrix.python-version }}.xml --cov=src/ tests/
+          poetry run pytest --verbose --failed-first --junitxml=reports/pytest/${{ github.sha }}/junit-${{ matrix.os }}-PY${{ matrix.python-version }}.xml --cov-report xml:reports/coverage/${{ github.sha }}/${{ matrix.os }}-PY${{ matrix.python-version }}.xml --cov=src/ tests/
+      - name: "Upload reports to TB Server"
+        if: always()
+        run: |
+          runtestswithappsurify --url ${{ vars.TESTBRAIN_SERVER }} --apikey ${{ secrets.TESTBRAIN_TOKEN }} --project ${{ vars.TESTBRAIN_PROJECT }} --testsuite "pytest" --runtemplate "no tests" --testtemplate "pytest" --branch ${{ github.ref_name }} --commit ${{ github.sha }} --reporttype directory --report reports/pytest/${{ github.sha }}/; python3 -c "exit()"
       - name: "Surface failing tests"
         if: always()
         uses: pmeier/pytest-results-action@main

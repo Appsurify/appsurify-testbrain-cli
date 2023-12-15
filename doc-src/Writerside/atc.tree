@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE instance-profile
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/product-profile.dtd">
+
+<instance-profile id="atc" name="Appsurify Testbrain CLI" start-page="getting-started.topic">
+
+    <toc-element topic="getting-started.topic">
+        <toc-element topic="about-testbrain-cli.topic"/>
+        <toc-element topic="quick-start.topic"/>
+        <toc-element topic="сompatibility.topic"/>
+    </toc-element>
+    <toc-element topic="installation.topic"/>
+    <toc-element topic="configuration.topic"/>
+    <toc-element topic="features.topic"/>
+    <toc-element topic="integration-with-ci-systems.topic"/>
+    <toc-element topic="tutorial.topic"/>
+</instance-profile>

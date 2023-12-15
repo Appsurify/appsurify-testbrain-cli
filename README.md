@@ -1,8 +1,7 @@
-[![image](https://img.shields.io/github/v/release/Appsurify/appsurify-testbrain-cli?label=github)](https://github.com/Appsurify/appsurify-testbrain-cli/releases)
-[![image](https://img.shields.io/pypi/v/appsurify-testbrain-cli.svg)](https://pypi.org/project/appsurify-testbrain-cli/)
-[![image](https://img.shields.io/pypi/l/appsurify-testbrain-cli.svg)](https://pypi.org/project/appsurify-testbrain-cli/)
+[![image](https://img.shields.io/pypi/v/appsurify-testbrain-cli?logo=pypi)](https://pypi.org/project/appsurify-testbrain-cli/)
+[![image](https://img.shields.io/docker/v/appsurifyinc/appsurify-testbrain-cli?logo=docker)](https://hub.docker.com/repository/docker/appsurifyinc/appsurify-testbrain-cli/general)
+[![image](https://img.shields.io/github/v/release/Appsurify/appsurify-testbrain-cli?logo=GitHub)](https://github.com/Appsurify/appsurify-testbrain-cli/releases)
 [![image](https://img.shields.io/pypi/pyversions/appsurify-testbrain-cli.svg)](https://pypi.org/project/appsurify-testbrain-cli/)
-
 
 # Appsurify Script Installation
 
@@ -18,6 +17,14 @@
     - [Possible params](#possible-params-1)
     - [Usage Examples](#usage-examples-1)
 - [QA2Testbrain (runtestswithappsurify)](#qa2testbrain-runtestswithappsurify)
+
+
+## Refs
+- [Documentation Testbrain CLI](https://appsurify.github.io/appsurify-testbrain-cli/)
+- [PyPi](https://pypi.org/project/appsurifyci/)
+- [GitHub](https://github.com/Appsurify/appsurifyci)
+- [Docker](https://hub.docker.com/r/appsurifyinc/appsurify-testbrain-cli/)
+- [README](https://github.com/Appsurify/appsurifyci/blob/master/README.md)
 
 
 ## Installation Instructions
@@ -308,11 +315,4 @@ Coming soon. Currently under development. Use the old 'appsurifyci' package
 ```shell
 pip install appsurifyci --upgrade
 ```
-
-- [PyPi](https://pypi.org/project/appsurifyci/)
-- [GitHub](https://github.com/Appsurify/appsurifyci)
-- [README](https://github.com/Appsurify/appsurifyci/blob/master/README.md)
-
-
-
 

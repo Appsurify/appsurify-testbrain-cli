@@ -1,0 +1,37 @@
+name: "Testbrain"
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  delivery:
+    name: "Delivery"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout git"
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: "Delivering changes to the server"
+        uses: addnab/docker-run-action@v3
+        with:
+          image: appsurifyinc/appsurify-testbrain-cli:latest
+          options: -v ${{ github.workspace }}:/data
+          run: |
+            repository git push \
+            --server ${{ vars.TESTBRAIN_SERVER }} \
+            --token ${{ secrets.TESTBRAIN_TOKEN }} \
+            --project ${{ vars.TESTBRAIN_PROJECT }} \
+            --repo-dir ${{ github.workspace }} \
+            --branch ${{ github.ref_name }} \
+            --loglevel INFO
+      - name: "Upload crash dumps"
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: "crashdumps"
+          path: ${{ github.workspace }}/.crashdumps/
+          retention-days: 3
