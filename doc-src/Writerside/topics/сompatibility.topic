@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
+       title="Compatibility" id="сompatibility">
+
+    <p>
+        Testbrain CLI is written in Python - this allows you to run tools on the most
+        popular operating systems that have a Python interpreter installed.
+    </p>
+
+    <warning>
+        Support for Python 3.7 will be completed soon because this version is already considered deprecated
+    </warning>
+
+
+    <chapter title="Compatibility OS / Python" id="compatibility-os-python" >
+        <table>
+            <tr>
+                <td> </td>
+                <td>Python 3.7</td>
+                <td>Python 3.8</td>
+                <td>Python 3.11</td>
+                <td>Python 3.12</td>
+            </tr>
+            <tr>
+                <td>Linux</td>
+                <td><format style="bold" color="Orange">Yes</format></td>
+                <td><format style="bold" color="Green">Yes</format></td>
+                <td><format style="bold" color="Green">Yes</format></td>
+                <td><format style="bold" color="Green">Yes</format></td>
+            </tr>
+            <tr>
+                <td>Windows</td>
+                <td><format style="bold" color="Orange">Yes</format></td>
+                <td><format style="bold" color="Green">Yes</format></td>
+                <td><format style="bold" color="Green">Yes</format></td>
+                <td><format style="bold" color="Green">Yes</format></td>
+            </tr>
+            <tr>
+                <td>macOS</td>
+                <td><format style="bold" color="Orange">Yes</format></td>
+                <td><format style="bold" color="Green">Yes</format></td>
+                <td><format style="bold" color="Green">Yes</format></td>
+                <td><format style="bold" color="Green">Yes</format></td>
+            </tr>
+        </table>
+
+        <warning>
+            <format style="bold" color="Orange">Yes</format> - This version is currently supported and tested,
+            but testing on this version may be ignored at any time.
+        </warning>
+    </chapter>
+
+</topic>

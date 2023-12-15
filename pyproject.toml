@@ -21,6 +21,9 @@ filename = "pyproject.toml"
 [[tool.bumpversion.files]]
 filename = "src/testbrain/__init__.py"
 
+[[tool.bumpversion.files]]
+filename = "doc-src/Writerside/v.list"
+
 [tool.poetry]
 name = "appsurify-testbrain-cli"
 version = "2023.12.10"

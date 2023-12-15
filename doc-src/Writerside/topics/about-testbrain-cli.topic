@@ -15,17 +15,16 @@
         It can also be used from inside a Docker container.
     </p>
 
+    <p>
+        <img style="inline" alt="PyPI - Version" src="https://img.shields.io/pypi/v/appsurify-testbrain-cli?logo=pypi" />
+        <img style="inline" alt="Docker Image Version (latest semver)" src="https://img.shields.io/docker/v/appsurifyinc/appsurify-testbrain-cli?logo=docker" />
+        <img style="inline" alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/Appsurify/appsurify-testbrain-cli?logo=GitHub" />
+        <img style="inline" alt="Python versions" src="https://img.shields.io/pypi/pyversions/appsurify-testbrain-cli.svg" />
+    </p>
+
     <chapter title="Current version" id="about-testbrain-cli-current-version">
         The current version of the Appsurify Testbrain CLI is <b>%version%</b>.
         To find your installed version and see if you need to update, run <code>testbrain --version</code>.
-
-        <p>
-            <img style="inline" alt="PyPI - Version" src="https://img.shields.io/pypi/v/appsurify-testbrain-cli?logo=pypi" />
-            <img style="inline" alt="Docker Image Version (latest semver)" src="https://img.shields.io/docker/v/appsurifyinc/appsurify-testbrain-cli?logo=docker" />
-            <img style="inline" alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/Appsurify/appsurify-testbrain-cli?logo=GitHub" />
-            <img style="inline" alt="Python versions" src="https://img.shields.io/pypi/pyversions/appsurify-testbrain-cli.svg" />
-        </p>
-
     </chapter>
 
     <chapter title="Run Testbrain CLI in your CI/CD pipeline or locally" id="about-testbrain-cli-run" >

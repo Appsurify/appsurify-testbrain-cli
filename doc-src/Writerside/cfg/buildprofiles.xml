@@ -8,15 +8,14 @@
 
             <product-web-url>https://appsurify.github.io/appsurify-testbrain-cli/</product-web-url>
 
-<!--            <primary-color>dracula</primary-color>-->
-            <primary-color>deep-ocean</primary-color>
+            <primary-color>halloween</primary-color>
             <header-logo>logo-appsurify-testbrain.png</header-logo>
             <custom-favicons>favicon.ico</custom-favicons>
 
-            <download-page>
-                https://github.com/Appsurify/appsurify-testbrain-cli</download-page>
-            <download-title>Testbrain CLI on GitHub</download-title>
-            <showDownloadButton>true</showDownloadButton>
+<!--            <download-page>-->
+<!--                https://github.com/Appsurify/appsurify-testbrain-cli</download-page>-->
+<!--            <download-title>Testbrain CLI on GitHub</download-title>-->
+<!--            <showDownloadButton>true</showDownloadButton>-->
 
             <noindex-content>true</noindex-content>
         </variables>
