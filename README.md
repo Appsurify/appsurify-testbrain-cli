@@ -19,6 +19,14 @@
 - [QA2Testbrain (runtestswithappsurify)](#qa2testbrain-runtestswithappsurify)
 
 
+## Refs
+- [Documentation Testbrain CLI](https://appsurify.github.io/appsurify-testbrain-cli/)
+- [PyPi](https://pypi.org/project/appsurifyci/)
+- [GitHub](https://github.com/Appsurify/appsurifyci)
+- [Docker](https://hub.docker.com/r/appsurifyinc/appsurify-testbrain-cli/)
+- [README](https://github.com/Appsurify/appsurifyci/blob/master/README.md)
+
+
 ## Installation Instructions
 
 ### Requirements
@@ -307,11 +315,4 @@ Coming soon. Currently under development. Use the old 'appsurifyci' package
 ```shell
 pip install appsurifyci --upgrade
 ```
-
-- [PyPi](https://pypi.org/project/appsurifyci/)
-- [GitHub](https://github.com/Appsurify/appsurifyci)
-- [README](https://github.com/Appsurify/appsurifyci/blob/master/README.md)
-
-
-
 

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE vars SYSTEM "https://resources.jetbrains.com/writerside/1.0/vars.dtd">
 <vars>
-    <var name="product" value="Appsurify Testbrain CLI"/>
-    <var name="version" value="2023.11.9"/>
+    <var name="version" value="2023.12.11"/>
 </vars>

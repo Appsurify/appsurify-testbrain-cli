@@ -7,5 +7,11 @@
     <toc-element topic="getting-started.topic">
         <toc-element topic="about-testbrain-cli.topic"/>
         <toc-element topic="quick-start.topic"/>
+        <toc-element topic="сompatibility.topic"/>
     </toc-element>
+    <toc-element topic="installation.topic"/>
+    <toc-element topic="configuration.topic"/>
+    <toc-element topic="features.topic"/>
+    <toc-element topic="integration-with-ci-systems.topic"/>
+    <toc-element topic="tutorial.topic"/>
 </instance-profile>
