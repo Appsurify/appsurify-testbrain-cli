@@ -198,7 +198,7 @@ class GitVCS(AbstractVCS):
         result = self.process.remote_url()
         remote_url = result.replace(".git", "")
         if not remote_url:
-            remote_url = self.repo_dir.as_posix()
+            remote_url = self.repo_dir  # .as_posix()
         repo_name = remote_url.split("/")[-1]
         return repo_name
 
