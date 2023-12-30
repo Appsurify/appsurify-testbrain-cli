@@ -1,4 +1,5 @@
-import typing as t
+import time
+import random
 
 import pytest
 
@@ -94,7 +95,7 @@ def test_git_process_remote_url(fp):
         stdout="https://github.com/Appsurify/appsurify-testbrain-cli.git",
     )
     result_remote_url = git_process.remote_url()
-
+    time.sleep(random.uniform(0.2, 0.9))
     assert type(result_remote_url) is str
     assert (
         result_remote_url == "https://github.com/Appsurify/appsurify-testbrain-cli.git"
@@ -133,6 +134,7 @@ def test_git_process_checkout(fp):
         ["git", "checkout"],
         stdout="",
     )
+    time.sleep(random.uniform(0.2, 0.9))
     result_checkout = git_process.checkout(rev="main")
     assert type(result_checkout) is str
     assert result_checkout == ""
