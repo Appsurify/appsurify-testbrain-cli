@@ -121,7 +121,7 @@ def test_git_vcs(fp):
 
     register_limits(fp)
     git_vcs3 = GitVCS(repo_dir="./")
-    time.sleep(random.uniform(0.2, 0.9))
+    time.sleep(random.uniform(0.1, 0.5))
     assert git_vcs3.repo_dir == pathlib.Path("./").resolve()
 
 
@@ -149,7 +149,7 @@ def test_git_vcs_get_repo_name(fp):
         stdout="",
     )
     git_vcs = GitVCS(repo_dir="./appsurify-testbrain-cli")
-    time.sleep(random.uniform(0.2, 0.9))
+    time.sleep(random.uniform(0.1, 0.5))
     assert git_vcs.repo_dir == pathlib.Path("./appsurify-testbrain-cli").resolve()
     assert git_vcs.repo_name == "appsurify-testbrain-cli"
 
@@ -195,7 +195,7 @@ def test_git_vcs_get_branch(fp):
         ["git", "rev-parse", "main"], stdout="6d3bdaed89913b8b3ea6ca66f8fd2361cc0498dd"
     )
     git_vcs = GitVCS()
-    time.sleep(random.uniform(0.2, 0.9))
+    time.sleep(random.uniform(0.1, 0.5))
     with pytest.raises(BranchNotFound):
         branch, sha, remote = git_vcs.get_branch(branch_name="dev")
 
