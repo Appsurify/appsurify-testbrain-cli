@@ -79,3 +79,23 @@ def test_header_auth(requests_mock):
     assert header_keyword in api_origin_req.headers
 
     assert api_origin_req.headers[header_keyword] == "<TOKEN>"
+
+
+def test_failed_auth(requests_mock):
+    requests_mock.get(
+        "http://demo.testbrain.cloud",
+        status_code=403,
+        json={"status": "failure"},
+    )
+
+    api_auth = HTTPAPIAuth(token="<TOKEN>")
+
+    api_client = HttpClient()
+    api_response = api_client.get("http://demo.testbrain.cloud", auth=api_auth)
+    api_origin_req = api_response.request
+
+    header_keyword = HTTPAPIAuth.keyword
+    time.sleep(random.uniform(0.1, 0.5))
+    assert header_keyword in api_origin_req.headers
+    assert api_origin_req.headers[header_keyword] == "<TOKEN>"
+    assert api_response.status_code == 200
