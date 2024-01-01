@@ -98,4 +98,4 @@ def test_failed_auth(requests_mock):
     time.sleep(random.uniform(0.1, 0.5))
     assert header_keyword in api_origin_req.headers
     assert api_origin_req.headers[header_keyword] == "<TOKEN>"
-    assert api_response.status_code == 200
+    assert api_response.status_code == 403
