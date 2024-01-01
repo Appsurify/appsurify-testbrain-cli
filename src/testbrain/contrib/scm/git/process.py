@@ -2,7 +2,7 @@ import logging
 import pathlib
 import re
 import typing as t
-
+from testbrain.core import platform
 from testbrain.contrib.terminal import Process, ProcessExecutionError
 
 from ..base import AbstractVCS
@@ -199,6 +199,8 @@ class GitVCS(AbstractVCS):
         remote_url = result.replace(".git", "")
         if not remote_url:
             remote_url = self.repo_dir.as_posix()
+            if platform.IS_WINDOWS:
+                raise Exception("Fake exception only for windows")
         repo_name = remote_url.split("/")[-1]
         return repo_name
 
