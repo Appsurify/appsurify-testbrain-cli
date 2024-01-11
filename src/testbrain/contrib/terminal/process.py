@@ -22,7 +22,6 @@ class Process(abc.ABC):
 
         logger.debug("Set up environment: inherited from OS")
         self.env = os.environ
-        # self.env.update({"LC_ALL": "C.UTF-8"})
 
     @property
     def work_dir(self) -> pathlib.Path:

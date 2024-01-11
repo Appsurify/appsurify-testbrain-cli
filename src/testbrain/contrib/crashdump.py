@@ -9,7 +9,7 @@ from types import FrameType, TracebackType
 from typing import Any, Callable, Dict, Optional, Set, TextIO, Type, Union
 
 import testbrain
-from testbrain.core import platform
+from testbrain.contrib import platform
 
 __all__ = ["dump_report_to_file", "dump_report", "format_report", "inject_excepthook"]
 

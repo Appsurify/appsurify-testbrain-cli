@@ -8,7 +8,7 @@ import click
 from click import Command, Context
 
 import testbrain
-from testbrain.core.crashdump import inject_excepthook
+from testbrain.contrib.crashdump import inject_excepthook
 from testbrain.core.logging import LOG_LEVELS, configure_logging
 
 if t.TYPE_CHECKING:
