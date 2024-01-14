@@ -4,9 +4,9 @@ import typing as t
 
 import click
 
-from testbrain.contrib.scm.exceptions import SCMError
 from testbrain.cli.core.command import TestbrainCommand, TestbrainGroup
 from testbrain.cli.core.context import TestbrainContext
+from testbrain.contrib.scm.exceptions import SCMError
 
 from .exceptions import ProjectNotFound
 from .models import Commit

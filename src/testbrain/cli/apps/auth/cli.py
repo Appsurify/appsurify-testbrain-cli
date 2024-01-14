@@ -5,9 +5,9 @@ import typing as t
 import click
 
 import testbrain.cli
-from testbrain.contrib.client import client
 from testbrain.cli.core.command import TestbrainCommand, TestbrainGroup
 from testbrain.cli.core.context import TestbrainContext
+from testbrain.contrib.client import client
 
 logger = logging.getLogger(__name__)
 

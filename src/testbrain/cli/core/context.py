@@ -8,8 +8,8 @@ import click
 from click import Command, Context
 
 import testbrain.cli
-from testbrain.contrib.system.crashdump import inject_excepthook
 from testbrain.cli.core.logging import LOG_LEVELS, configure_logging
+from testbrain.contrib.system.crashdump import inject_excepthook
 
 if t.TYPE_CHECKING:
     import typing_extensions as te
