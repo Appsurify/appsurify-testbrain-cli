@@ -5,8 +5,8 @@ import typing as t
 import click
 from click import Command
 
-from testbrain.core.context import TestbrainContext
-from testbrain.core.logging import LOG_LEVELS, configure_logging
+from testbrain.cli.core.context import TestbrainContext
+from testbrain.cli.core.logging import LOG_LEVELS, configure_logging
 
 logger = logging.getLogger(__name__)
 

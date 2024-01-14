@@ -10,11 +10,15 @@ from testbrain.contrib.client.client import HttpClient
 logger = logging.getLogger(__name__)
 
 
+class RepositoryAuth(HTTPAPIAuth):
+    ...
+
+
 class RepositoryClient(HttpClient):
     def __init__(self, server: str, token: str, **kwargs):
         self.base_url = server
         self.token = token
-        self.auth = HTTPAPIAuth(token=token)
+        self.auth = RepositoryAuth(token=token)
         super().__init__(**kwargs)
 
     @property
