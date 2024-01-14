@@ -1,4 +1,4 @@
-from testbrain.apps.repository.git.client import RepositoryClient, HTTPAPIAuth
+from testbrain.cli.apps.repository.git.client import RepositoryClient, RepositoryAuth
 
 
 def test_git_client_get_project(requests_mock):
@@ -39,7 +39,7 @@ def test_git_client_header_auth(requests_mock):
 
     api_origin_req = api_response.request
 
-    header_keyword = HTTPAPIAuth.keyword
+    header_keyword = RepositoryAuth.keyword
 
     assert header_keyword in api_origin_req.headers
 
