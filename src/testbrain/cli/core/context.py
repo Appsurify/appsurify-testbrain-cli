@@ -7,9 +7,9 @@ import typing as t
 import click
 from click import Command, Context
 
-import testbrain
-from testbrain.core.crashdump import inject_excepthook
-from testbrain.core.logging import LOG_LEVELS, configure_logging
+import testbrain.cli
+from testbrain.cli.core.logging import LOG_LEVELS, configure_logging
+from testbrain.contrib.system.crashdump import inject_excepthook
 
 if t.TYPE_CHECKING:
     import typing_extensions as te

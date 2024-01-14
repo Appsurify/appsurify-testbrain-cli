@@ -1,6 +1,4 @@
-import time
-import random
-from testbrain.apps.repository.git.client import RepositoryClient, HTTPAPIAuth
+from testbrain.cli.apps.repository.git.client import RepositoryClient, RepositoryAuth
 
 
 def test_git_client_get_project(requests_mock):
@@ -12,7 +10,6 @@ def test_git_client_get_project(requests_mock):
 
     api_client = RepositoryClient(server="http://demo.testbrain.cloud", token="<TOKEN>")
     api_response = api_client.get_project_id(name="appsurify-testbrain-cli")
-    time.sleep(random.uniform(0.1, 0.5))
     assert api_response.status_code == 200
     assert api_response.json() == {"project_id": 1}
 
@@ -24,7 +21,6 @@ def test_git_client_get_project(requests_mock):
 
     api_client = RepositoryClient(server="http://demo.testbrain.cloud", token="<TOKEN>")
     api_response = api_client.get_project_id(name="appsurify-testbrain-cli")
-    time.sleep(random.uniform(0.1, 0.5))
     assert api_response.status_code == 200
     assert api_response.json() == {
         "error": "Project didn't exist, check project name and try again!"
@@ -43,8 +39,8 @@ def test_git_client_header_auth(requests_mock):
 
     api_origin_req = api_response.request
 
-    header_keyword = HTTPAPIAuth.keyword
-    time.sleep(random.uniform(0.1, 0.5))
+    header_keyword = RepositoryAuth.keyword
+
     assert header_keyword in api_origin_req.headers
 
     assert api_origin_req.headers[header_keyword] == "<TOKEN>"
