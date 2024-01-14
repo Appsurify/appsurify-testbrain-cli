@@ -53,7 +53,6 @@ classifiers = [
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
@@ -68,25 +67,27 @@ packages = [
 include = ["CHANGELOG.md"]
 
 [tool.poetry.scripts]
-testbrain = "testbrain.__main__:app"
-tbcli = "testbrain.__main__:app"
+testbrain = "testbrain.cli.cli:app"
+tbcli = "testbrain.cli.cli:app"
 # Backward capabilities
 # testbrain git - aliases
-git2testbrain = "testbrain.apps.repository.git.cli:push"
-git2appsurify = "testbrain.apps.repository.git.cli:push"
+git2testbrain = "testbrain.cli.apps.repository.git.cli:push"
+git2appsurify = "testbrain.cli.apps.repository.git.cli:push"
 # testbrain git - aliases
-tfvc2testbrain = "testbrain.apps.repository.tfvc.cli:push"
+tfvc2testbrain = "testbrain.cli.apps.repository.tfvc.cli:push"
 # testbrain tests - aliases
 #runtestswithappsurify = "testbrain.tests.cli:runtestswithappsurify"
 #testimportappsurify = "testbrain.tests.cli:testimportappsurify"
 
 
 [tool.poetry.dependencies]
-python = ">=3.7,<4"
+python = ">=3.8,<4"
 pydantic = "^2.4.2"
 requests = "^2.31.0"
 urllib3 = "<2.0.0"
 click = "^8.1.7"
+appsurify-testbrain-contrib = {git = "https://github.com/Appsurify/appsurify-testbrain-contrib.git", rev = "2024.1.5"}
+
 
 [tool.poetry.group.test.dependencies]
 pytest = "^7.4.2"
@@ -116,7 +117,7 @@ testpaths = "tests/"
 
 [tool.black]
 line-length = 88
-target-version = ["py37", "py38", "py311"]
+target-version = ["py38", "py39", "py310", "py311", "py312"]
 exclude = """src/testbrain/contrib/scm/tfvc/appsurifytfs.py"""
 
 [tool.isort]

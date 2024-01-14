@@ -1,7 +1,7 @@
 import pytest
 
-from testbrain.apps.repository.git.models import Commit
-from testbrain.apps.repository.git.services import PushService
+from testbrain.cli.apps.repository.git.models import Commit
+from testbrain.cli.apps.repository.git.services import PushService
 
 
 FAKE_LOG_OUTPUT = (

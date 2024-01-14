@@ -4,10 +4,10 @@ import typing as t
 
 import click
 
-import testbrain
+import testbrain.cli
 from testbrain.contrib.client import client
-from testbrain.core.command import TestbrainCommand, TestbrainGroup
-from testbrain.core.context import TestbrainContext
+from testbrain.cli.core.command import TestbrainCommand, TestbrainGroup
+from testbrain.cli.core.context import TestbrainContext
 
 logger = logging.getLogger(__name__)
 

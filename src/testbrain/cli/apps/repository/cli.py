@@ -2,8 +2,8 @@ import logging
 
 import click
 
-from testbrain.core.command import TestbrainGroup
-from testbrain.core.context import TestbrainContext
+from testbrain.cli.core.command import TestbrainGroup
+from testbrain.cli.core.context import TestbrainContext
 
 from .git.cli import git
 from .tfvc.cli import tfvc

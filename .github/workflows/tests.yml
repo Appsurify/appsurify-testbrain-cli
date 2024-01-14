@@ -14,8 +14,8 @@ jobs:
       fail-fast: false
       matrix:
         os: [Ubuntu, macOS, Windows]
-        python-version: ["3.7", "3.8", "3.11", "3.12"]
-        poetry-version: ["1.5.1"]
+        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
+        poetry-version: ["1.7.1"]
         include:
           - os: Ubuntu
             image: ubuntu-latest

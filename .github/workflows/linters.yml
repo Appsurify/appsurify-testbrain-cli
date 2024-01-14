@@ -22,11 +22,11 @@ jobs:
       - name: "Set up Python"
         uses: actions/setup-python@v4
         with:
-          python-version: "3.11"
+          python-version: "3.12"
       - name: "Set up Poetry"
         uses: abatilo/actions-poetry@v2
         with:
-          poetry-version: "1.6.1"
+          poetry-version: "1.7.1"
       - name: "Install flake8"
         run: poetry install --with dev
       - name: "Check"
@@ -43,11 +43,11 @@ jobs:
       - name: "Set up Python"
         uses: actions/setup-python@v4
         with:
-          python-version: "3.11"
+          python-version: "3.12"
       - name: "Set up Poetry"
         uses: abatilo/actions-poetry@v2
         with:
-          poetry-version: "1.6.1"
+          poetry-version: "1.7.1"
       - name: "Install isort"
         run: poetry install --with dev
       - name: "Check"
