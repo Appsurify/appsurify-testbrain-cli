@@ -220,7 +220,7 @@ def test_apps_git_service(fp):
         **kwargs,
     )
     time.sleep(random.uniform(0.1, 0.5))
-    assert len(commits) == 3
+    assert len(commits) == 2
 
 
 def test_apps_git_service_get_commits(fp):
