@@ -1,0 +1,55 @@
+version: '3.7'
+
+
+services:
+  pytest-py38:
+    build:
+      context: .
+      dockerfile: ./compose/tests/Dockerfile.py38
+    image: appsurify-testbrain-cli:pytest-py38
+    container_name: pytest-py38
+    command: poetry run pytest
+    volumes:
+      - ./:/app/data
+
+  pytest-py39:
+    build:
+      context: .
+      dockerfile: ./compose/tests/Dockerfile.py39
+    image: appsurify-testbrain-cli:pytest-py39
+    container_name: pytest-py39
+    command: poetry run pytest
+    volumes:
+      - ./:/app/data
+
+  pytest-py310:
+    build:
+      context: .
+      dockerfile: ./compose/tests/Dockerfile.py310
+    image: appsurify-testbrain-cli:pytest-py310
+    container_name: pytest-py310
+    command: poetry run pytest
+    volumes:
+      - ./:/app/data
+
+  pytest-py311:
+    build:
+      context: .
+      dockerfile: ./compose/tests/Dockerfile.py311
+    image: appsurify-testbrain-cli:pytest-py311
+    container_name: pytest-py311
+    command: poetry run pytest
+    volumes:
+      - ./:/app/data
+
+  pytest-py312:
+    build:
+      context: .
+      dockerfile: ./compose/tests/Dockerfile.py312
+    image: appsurify-testbrain-cli:pytest-py312
+    container_name: pytest-py312
+    command: poetry run pytest
+    volumes:
+      - ./:/app/data
+
+
