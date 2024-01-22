@@ -146,7 +146,6 @@ class TestbrainGroup(click.Group):
 
         def _decorator(f):
             cmd = decorator(f)
-            # if self.default_cmd_name is not None:
             self.set_default_command(cmd)
             return cmd
 
@@ -179,11 +178,12 @@ class TestbrainCommandFormatter(click.formatting.HelpFormatter):
 
     def write_dl(self, rows, *args, **kwargs):
         rows_ = []
-        for cmd_name, help in rows:
+        for cmd_name, cmd_help in rows:
             if cmd_name == self.group.default_cmd_name:
-                rows_.insert(0, (cmd_name + " " + self.mark, help))
+                cmd_tuple = (cmd_name + " " + self.mark, cmd_help)
+                rows_.insert(0, cmd_tuple)
             else:
-                rows_.append((cmd_name, help))
+                rows_.append((cmd_name, cmd_help))
 
         rows_.insert(0, ("Commands:", ""))
         return self.formatter.write_dl(rows_, *args, **kwargs)

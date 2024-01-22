@@ -93,9 +93,15 @@ def push(
     **kwargs,
 ):
     _params = ctx.params.copy()
+    _params["server"] = server
+    _params["token"] = token
+    _params["project"] = project
+    _params["repo_name"] = repo_name
+    _params["repo_dir"] = repo_dir
+    _params["branch"] = branch
+
     _params["token"] = "*" * len(_params["token"])
 
     logger.debug(f"Running push with params {_params} {kwargs}")
-
     logger.info("Running...")
     logger.warning("This will take a while...")

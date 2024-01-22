@@ -1,0 +1,55 @@
+version: '3.7'
+
+
+services:
+  pytest-py38:
+    build:
+      context: .
+      dockerfile: ./compose/tests/Dockerfile.py38
+    image: appsurify-testbrain-cli:pytest-py38
+    container_name: cli-pytest-py38
+    command: poetry run pytest --verbose --failed-first --junitxml=reports/junit-py38.xml -o junit_suite_name=pytest-py38
+    volumes:
+      - ./:/app/data
+
+  pytest-py39:
+    build:
+      context: .
+      dockerfile: ./compose/tests/Dockerfile.py39
+    image: appsurify-testbrain-cli:pytest-py39
+    container_name: cli-pytest-py39
+    command: poetry run pytest --verbose --failed-first --junitxml=reports/junit-py39.xml -o junit_suite_name=pytest-py39
+    volumes:
+      - ./:/app/data
+
+  pytest-py310:
+    build:
+      context: .
+      dockerfile: ./compose/tests/Dockerfile.py310
+    image: appsurify-testbrain-cli:pytest-py310
+    container_name: cli-pytest-py310
+    command: poetry run pytest --verbose --failed-first --junitxml=reports/junit-py310.xml -o junit_suite_name=pytest-py310
+    volumes:
+      - ./:/app/data
+
+  pytest-py311:
+    build:
+      context: .
+      dockerfile: ./compose/tests/Dockerfile.py311
+    image: appsurify-testbrain-cli:pytest-py311
+    container_name: cli-pytest-py311
+    command: poetry run pytest --verbose --failed-first --junitxml=reports/junit-py311.xml -o junit_suite_name=pytest-py311
+    volumes:
+      - ./:/app/data
+
+  pytest-py312:
+    build:
+      context: .
+      dockerfile: ./compose/tests/Dockerfile.py312
+    image: appsurify-testbrain-cli:pytest-py312
+    container_name: cli-pytest-py312
+    command: poetry run pytest --verbose --failed-first --junitxml=reports/junit-py312.xml -o junit_suite_name=pytest-py312
+    volumes:
+      - ./:/app/data
+
+
