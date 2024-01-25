@@ -1,3 +1,7 @@
+import sys
+
+import pytest
+
 from testbrain.cli.apps.repository.git.client import RepositoryClient, RepositoryAuth
 
 
