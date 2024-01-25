@@ -112,8 +112,17 @@ build-backend = "poetry.core.masonry.api"
 
 
 [tool.pytest.ini_options]
-pythonpath = "src/"
-testpaths = "tests/"
+addopts = "--verbose" #  "-rA"
+pythonpath = "./src/testbrain"
+testpaths = ["./tests/"]
+#python_files = ["test_*.py", "*_test.py"]
+#python_classes = ["Test", "Acceptance"]
+#python_functions = ["test"]
+#junit_family = "xunit1" # "xunit1"
+#junit_suite_name = "pytest"
+#junit_logging = "all"
+#junit_log_passing_tests = true
+#junit_duration_report = "call"
 
 
 [tool.black]
