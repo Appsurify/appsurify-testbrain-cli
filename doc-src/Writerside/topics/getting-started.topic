@@ -37,6 +37,11 @@
 
         </spotlight>
 
+        <primary>
+            <a href="auth.topic">Auth component</a>
+            <a href="report.topic">Report component</a>
+            <a href="repository.topic">Repository component</a>
+        </primary>
 
     </section-starting-page>
 

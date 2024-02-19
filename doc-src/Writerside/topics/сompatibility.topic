@@ -26,21 +26,21 @@
             </tr>
             <tr>
                 <td>Linux</td>
-                <td><format style="bold" color="Orange">Yes</format></td>
+                <td><format style="bold" color="Red">No</format></td>
                 <td><format style="bold" color="Green">Yes</format></td>
                 <td><format style="bold" color="Green">Yes</format></td>
                 <td><format style="bold" color="Green">Yes</format></td>
             </tr>
             <tr>
                 <td>Windows</td>
-                <td><format style="bold" color="Orange">Yes</format></td>
+                <td><format style="bold" color="Red">No</format></td>
                 <td><format style="bold" color="Green">Yes</format></td>
                 <td><format style="bold" color="Green">Yes</format></td>
                 <td><format style="bold" color="Green">Yes</format></td>
             </tr>
             <tr>
                 <td>macOS</td>
-                <td><format style="bold" color="Orange">Yes</format></td>
+                <td><format style="bold" color="Red">No</format></td>
                 <td><format style="bold" color="Green">Yes</format></td>
                 <td><format style="bold" color="Green">Yes</format></td>
                 <td><format style="bold" color="Green">Yes</format></td>

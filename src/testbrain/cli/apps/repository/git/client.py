@@ -58,7 +58,7 @@ class RepositoryClient(HttpClient):
         max_retries: t.Optional[int] = None,
     ):
         endpoint = f"/api/ssh_v2/hook/{project_id}/"
-        headers = {"X-Git-Event": "push"}
+        headers = {"X-Git-Event": "push", "Content-Type": "application/json"}
 
         logger.debug(f"Sending changes POST request: {endpoint} {headers}")
         response = self.post(
