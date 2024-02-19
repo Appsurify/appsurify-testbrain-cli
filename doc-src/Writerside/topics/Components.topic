@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
+       title="Components" id="Components">
+
+    <p>
+        TestbrainCLI has several components for easy interaction with the Testbrain server.
+    </p>
+
+    <chapter title="Main components available" id="overview-chapter" >
+        <table>
+            <tr>
+                <td>Component</td>
+                <td>Description</td>
+            </tr>
+            <tr>
+                <td><a href="auth.topic">Auth</a></td>
+                <td>Authorization Component.</td>
+            </tr>
+            <tr>
+                <td><a href="report.topic">Report</a></td>
+                <td>Component for working with testing reports.</td>
+            </tr>
+            <tr>
+                <td><a href="repository.topic">Repository</a></td>
+                <td>Component for working with changes in the repository.</td>
+            </tr>
+        </table>
+    </chapter>
+
+</topic>

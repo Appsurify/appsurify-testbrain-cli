@@ -5,7 +5,7 @@ import platform
 from click.testing import CliRunner
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session")
 def runner(request):
     return CliRunner()
 

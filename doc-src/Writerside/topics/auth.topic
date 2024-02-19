@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
+       title="Auth" id="auth" help-id="Auth">
+
+    <p>
+        The component provides functions for working with the Testbrain server authorization system.
+    </p>
+
+    <chapter title="Available functions" id="available-functions">
+        <list type="bullet">
+            <li><a href="#example-token">Token</a></li>
+        </list>
+    </chapter>
+
+    <chapter title="Command line parameters" id="parameters">
+
+        <deflist type="narrow" sorted="desc">
+
+            <def title="--server <url>">
+                Enter your testbrain server instance url. [env var: TESTBRAIN_SERVER; required]
+            </def>
+
+            <def title="--email TEXT">
+                Enter your e-mail.
+            </def>
+
+            <def title="--password TEXT">
+                Enter your password.
+            </def>
+
+            <def title="--work-dir <dir>">
+                Enter the testbrain script working
+                directory. If not specified, the current
+                working directory will be used.  [env var:
+                TESTBRAIN_WORK_DIR; default: ./]
+            </def>
+
+            <def title="--loglevel, -l INFO">
+                [DEBUG|INFO|WARNING|ERROR|CRITICAL]
+            </def>
+
+            <def title="--logfile PATH">
+                Log filename  [default: (stderr)]
+            </def>
+
+            <def title="--quiet">
+                Quiet mode... everytime exit with 0
+            </def>
+
+        </deflist>
+
+    </chapter>
+
+    <chapter title="Example of obtaining an authorization token" id="example-token">
+        <p>An example of calling a command to obtain an authorization token to use it later in CI/CD</p>
+        <tabs group="quick-start">
+
+            <tab title="Shell" group-key="quick-start-shell">
+                <procedure>
+                    <tabs>
+                        <tab title="testbrain">
+                            <code-block lang="shell">
+                                testbrain auth token \
+                                --server [server] \
+                                --email [email] \
+                                --password [password]
+                            </code-block>
+                        </tab>
+                        <tab title="tbcli">
+                            <code-block lang="shell">
+                                tbcli auth token \
+                                --server [server] \
+                                --email [email] \
+                                --password [password]
+                            </code-block>
+                        </tab>
+                    </tabs>
+                </procedure>
+            </tab>
+            <tab title="Docker" group-key="quick-start-docker">
+
+                <procedure>
+                    <tabs>
+                        <tab title="Stable/Latest">
+                            <code-block lang="shell">
+                                docker run --rm -it \
+                                -v $(pwd)/:/data \
+                                appsurifyinc/appsurify-testbrain-cli:latest \
+                                auth token \
+                                --server [server] \
+                                --email [email] \
+                                --password [password]
+                            </code-block>
+                        </tab>
+                        <tab title="Dev/Edge">
+                            <code-block lang="shell">
+                                docker run --rm -it \
+                                -v $(pwd)/:/data \
+                                appsurifyinc/appsurify-testbrain-cli:edge \
+                                auth token \
+                                --server [server] \
+                                --email [email] \
+                                --password [password]
+                            </code-block>
+                        </tab>
+                    </tabs>
+                </procedure>
+
+            </tab>
+        </tabs>
+
+    </chapter>
+</topic>

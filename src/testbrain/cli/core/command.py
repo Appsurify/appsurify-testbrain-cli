@@ -25,7 +25,7 @@ class TestbrainCommand(click.Command):
                 ["--work-dir"],
                 metavar="<dir>",
                 type=click.Path(dir_okay=True, resolve_path=True),
-                default=pathlib.Path("."),
+                default=pathlib.Path(".").resolve(),
                 is_eager=True,
                 show_default=True,
                 envvar="TESTBRAIN_WORK_DIR",

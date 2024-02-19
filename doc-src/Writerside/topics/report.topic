@@ -1,0 +1,668 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
+       title="Report" id="report" help-id="Report">
+
+    <p>
+        A component that provides a set of functions
+        for working with test reports: converting, merging, sending to the server.
+    </p>
+
+
+    <chapter title="Available functions">
+        <table>
+            <tr><td>Func</td><td>Description</td><td>Support</td></tr>
+            <tr>
+                <td><a href="#mstest2junit">mstest2junit</a></td>
+                <td>Converting a report(s) from mstest (.trx) format to junit (.xml)</td>
+                <td>
+                    <list>
+                        <li>MSTest to JUnit</li>
+
+                    </list>
+                </td>
+            </tr>
+            <tr><td><a href="#merge-junit">merge-junit</a></td><td>Merging a report(s) to one report file</td>
+                <td>
+                    <list>
+                        <li>JUnit</li>
+                    </list>
+                </td>
+            </tr>
+            <tr>
+                <td><a href="#report2testbrain">report2testbrain</a></td><td>Pushing testing report(s) to Testbrain server</td>
+                <td>
+                    <list>
+                        <li>MSTest</li>
+                        <li>JUnit</li>
+                        <li>Testbrain</li>
+                    </list>
+                </td>
+            </tr>
+
+        </table>
+    </chapter>
+
+    <chapter title="MSTest2JUnit" id="mstest2junit">
+        <p>Converting a report(s) from mstest (.trx) format to junit (.xml)</p>
+        <p>It is possible to convert 1 file or directory with test reports.
+            It also supports automatic merging into one test report.</p>
+
+        <chapter title="Command line parameters" id="mstest2junit-parameters">
+            <deflist type="narrow" sorted="desc">
+
+                <def title="--in-path PATH">
+                    MSTest report or directory with reports. [default: ./]
+                </def>
+
+                <def title="--out-path PATH">
+                    Output JUNit report filename or directory. If empty - out filename like in-path filename.xml
+                </def>
+
+                <def title="--merge">
+                    Merge all report files into a single?
+                    [default: (False)]
+                </def>
+
+                <def title="--work-dir <dir>">
+                    Enter the testbrain script working
+                    directory. If not specified, the current
+                    working directory will be used.  [env var:
+                    TESTBRAIN_WORK_DIR; default: ./]
+                </def>
+
+                <def title="--loglevel, -l INFO">
+                    [DEBUG|INFO|WARNING|ERROR|CRITICAL]
+                </def>
+
+                <def title="--logfile PATH">
+                    Log filename  [default: (stderr)]
+                </def>
+
+                <def title="--quiet">
+                    Quiet mode... everytime exit with 0
+                </def>
+
+            </deflist>
+        </chapter>
+
+        <chapter title="Usage examples" id="mstest2junit-example">
+            <p>Some simple usage examples to make the behavior easier to understand.</p>
+
+            <tabs group="quick-start">
+                <tab title="Shell" group-key="quick-start-shell">
+                    <procedure>
+                        <tabs group="quick-start-internal">
+                            <tab title="testbrain" group-key="quick-start-internal-testbrain">
+                                <code-block lang="shell">
+                                    testbrain report mstest2junit --help
+                                </code-block>
+                            </tab>
+                            <tab title="tbcli" group-key="quick-start-internal-tbcli">
+                                <code-block lang="shell">
+                                    tbcli report mstest2junit --help
+                                </code-block>
+                            </tab>
+                            <tab title="mstest2junit (alias)" group-key="quick-start-internal-alias">
+                                <code-block lang="shell">
+                                    mstest2junit --help
+                                </code-block>
+                            </tab>
+                        </tabs>
+                    </procedure>
+                </tab>
+                <tab title="Docker" group-key="quick-start-docker">
+                    <procedure>
+                        <tabs group="quick-start-internal">
+                            <tab title="Stable/Latest" group-key="quick-start-internal-docker-latest">
+                                <code-block lang="shell">
+                                    docker run --rm -it \
+                                    -v $(pwd)/:/data \
+                                    appsurifyinc/appsurify-testbrain-cli:latest \
+                                    report mstest2junit --help
+                                </code-block>
+                            </tab>
+                            <tab title="Dev/Edge" group-key="quick-start-internal-docker-edge">
+                                <code-block lang="shell">
+                                    docker run --rm -it \
+                                    -v $(pwd)/:/data \
+                                    appsurifyinc/appsurify-testbrain-cli:edge \
+                                    report mstest2junit --help
+                                </code-block>
+                            </tab>
+                        </tabs>
+                    </procedure>
+
+                </tab>
+
+            </tabs>
+
+            <p>Convert all mstest (.trx) files to junit (.xml). For example,
+                the ./reports/ directory contains files - report-a.trx, report-b.trx,
+                after the conversion the files - report-a.xml, report-b.xml
+                will appear in the ./out-reports/ directory</p>
+
+            <tabs group="quick-start">
+                <tab title="Shell" group-key="quick-start-shell">
+                    <procedure>
+                        <tabs group="quick-start-internal">
+                            <tab title="testbrain" group-key="quick-start-internal-testbrain">
+                                <code-block lang="shell">
+                                    testbrain report mstest2junit \
+                                    --in-path ./reports/ \
+                                    --out-path ./out-reports/
+                                </code-block>
+                            </tab>
+                            <tab title="tbcli" group-key="quick-start-internal-tbcli">
+                                <code-block lang="shell">
+                                    tbcli report mstest2junit \
+                                    --in-path ./reports/ \
+                                    --out-path ./out-reports/
+                                </code-block>
+                            </tab>
+                            <tab title="mstest2junit (alias)" group-key="quick-start-internal-alias">
+                                <code-block lang="shell">
+                                    mstest2junit \
+                                    --in-path ./reports/ \
+                                    --out-path ./out-reports/
+                                </code-block>
+                            </tab>
+                        </tabs>
+                    </procedure>
+                </tab>
+                <tab title="Docker" group-key="quick-start-docker">
+                    <procedure>
+                        <tabs group="quick-start-internal">
+                            <tab title="Stable/Latest" group-key="quick-start-internal-docker-latest">
+                                <code-block lang="shell">
+                                    docker run --rm -it \
+                                    -v $(pwd)/:/data \
+                                    appsurifyinc/appsurify-testbrain-cli:latest \
+                                    report mstest2junit \
+                                    --in-path ./reports/ \
+                                    --out-path ./out-reports/
+                                </code-block>
+                            </tab>
+                            <tab title="Dev/Edge" group-key="quick-start-internal-docker-edge">
+                                <code-block lang="shell">
+                                    docker run --rm -it \
+                                    -v $(pwd)/:/data \
+                                    appsurifyinc/appsurify-testbrain-cli:edge \
+                                    report mstest2junit \
+                                    --in-path ./reports/ \
+                                    --out-path ./out-reports/
+                                </code-block>
+                            </tab>
+                        </tabs>
+                    </procedure>
+
+                </tab>
+
+            </tabs>
+            <code-block lang="shell">
+                2024-02-15 22:54:12 INFO     Saved junit report to /full/path/reports/mstest-report-a.xml
+                2024-02-15 22:54:13 INFO     Saved junit report to /full/path/reports/mstest-report-b-big.xml
+                2024-02-15 22:54:14 INFO     Saved junit report to /full/path/reports/mstest-report-a-with-bom.xml
+            </code-block>
+
+            <p>With merge all to one report file.
+                If --out-path is directory - merged report filename = "junit-merged-report.xml".
+                If --out-path is filename ./out-report/customefilename.xml - merged report filename = "customefilename.xml"
+            </p>
+
+            <tabs group="quick-start">
+                <tab title="Shell" group-key="quick-start-shell">
+                    <procedure>
+                        <tabs group="quick-start-internal">
+                            <tab title="testbrain" group-key="quick-start-internal-testbrain">
+                                <code-block lang="shell">
+                                    testbrain report mstest2junit \
+                                    --in-path ./reports/ \
+                                    --out-path ./out-reports/ \
+                                    --merge
+                                </code-block>
+                            </tab>
+                            <tab title="tbcli" group-key="quick-start-internal-tbcli">
+                                <code-block lang="shell">
+                                    tbcli report mstest2junit \
+                                    --in-path ./reports/ \
+                                    --out-path ./out-reports/ \
+                                    --merge
+                                </code-block>
+                            </tab>
+                            <tab title="mstest2junit (alias)" group-key="quick-start-internal-alias">
+                                <code-block lang="shell">
+                                    mstest2junit \
+                                    --in-path ./reports/ \
+                                    --out-path ./out-reports/ \
+                                    --merge
+                                </code-block>
+                            </tab>
+                        </tabs>
+                    </procedure>
+                </tab>
+                <tab title="Docker" group-key="quick-start-docker">
+                    <procedure>
+                        <tabs group="quick-start-internal">
+                            <tab title="Stable/Latest" group-key="quick-start-internal-docker-latest">
+                                <code-block lang="shell">
+                                    docker run --rm -it \
+                                    -v $(pwd)/:/data \
+                                    appsurifyinc/appsurify-testbrain-cli:latest \
+                                    report mstest2junit \
+                                    --in-path ./reports/ \
+                                    --out-path ./out-reports/ \
+                                    --merge
+                                </code-block>
+                            </tab>
+                            <tab title="Dev/Edge" group-key="quick-start-internal-docker-edge">
+                                <code-block lang="shell">
+                                    docker run --rm -it \
+                                    -v $(pwd)/:/data \
+                                    appsurifyinc/appsurify-testbrain-cli:edge \
+                                    report mstest2junit \
+                                    --in-path ./reports/ \
+                                    --out-path ./out-reports/ \
+                                    --merge
+                                </code-block>
+                            </tab>
+                        </tabs>
+                    </procedure>
+
+                </tab>
+
+            </tabs>
+            <code-block lang="shell">
+                2024-02-15 22:54:12 INFO     Saved junit report to /full/path/reports/junit-merged-report.xml
+            </code-block>
+
+        </chapter>
+
+    </chapter>
+
+    <chapter title="Merge JUnit" id="merge-junit">
+        <p>Merging a report(s) to one report file</p>
+        <chapter title="Command line parameters" id="merge-junit-parameters">
+            <deflist type="narrow" sorted="desc">
+
+                <def title="--in-dir PATH">
+                    JUnit reports directory. [default: ./]
+                </def>
+
+                <def title="--out-file PATH">
+                    Output JUNit report filename.
+                </def>
+
+                <def title="--work-dir <dir>">
+                    Enter the testbrain script working
+                    directory. If not specified, the current
+                    working directory will be used.  [env var:
+                    TESTBRAIN_WORK_DIR; default: ./]
+                </def>
+
+                <def title="--loglevel, -l INFO">
+                    [DEBUG|INFO|WARNING|ERROR|CRITICAL]
+                </def>
+
+                <def title="--logfile PATH">
+                    Log filename  [default: (stderr)]
+                </def>
+
+                <def title="--quiet">
+                    Quiet mode... everytime exit with 0
+                </def>
+
+            </deflist>
+        </chapter>
+        <chapter title="Usage examples" id="merge-junit-example">
+            <p>Some simple usage examples to make the behavior easier to understand.</p>
+
+            <tabs group="quick-start">
+                <tab title="Shell" group-key="quick-start-shell">
+                    <procedure>
+                        <tabs group="quick-start-internal">
+                            <tab title="testbrain" group-key="quick-start-internal-testbrain">
+                                <code-block lang="shell">
+                                    testbrain report merge-junit --help
+                                </code-block>
+                            </tab>
+                            <tab title="tbcli" group-key="quick-start-internal-tbcli">
+                                <code-block lang="shell">
+                                    tbcli report merge-junit --help
+                                </code-block>
+                            </tab>
+
+                        </tabs>
+                    </procedure>
+                </tab>
+                <tab title="Docker" group-key="quick-start-docker">
+                    <procedure>
+                        <tabs group="quick-start-internal">
+                            <tab title="Stable/Latest" group-key="quick-start-internal-docker-latest">
+                                <code-block lang="shell">
+                                    docker run --rm -it \
+                                    -v $(pwd)/:/data \
+                                    appsurifyinc/appsurify-testbrain-cli:latest \
+                                    report merge-junit --help
+                                </code-block>
+                            </tab>
+                            <tab title="Dev/Edge" group-key="quick-start-internal-docker-edge">
+                                <code-block lang="shell">
+                                    docker run --rm -it \
+                                    -v $(pwd)/:/data \
+                                    appsurifyinc/appsurify-testbrain-cli:edge \
+                                    report merge-junit --help
+                                </code-block>
+                            </tab>
+                        </tabs>
+                    </procedure>
+
+                </tab>
+
+            </tabs>
+
+            <p>Merge all report files into junit format directories</p>
+
+            <tabs group="quick-start">
+                <tab title="Shell" group-key="quick-start-shell">
+                    <procedure>
+                        <tabs group="quick-start-internal">
+                            <tab title="testbrain" group-key="quick-start-internal-testbrain">
+                                <code-block lang="shell">
+                                    testbrain report merge-junit \
+                                    --in-dir ./path/to/junit-reports/ \
+                                    --out-file ./path/to/junit-reports/result-junit.xml
+                                </code-block>
+                            </tab>
+                            <tab title="tbcli" group-key="quick-start-internal-tbcli">
+                                <code-block lang="shell">
+                                    tbcli report merge-junit \
+                                    --in-dir ./path/to/junit-reports/ \
+                                    --out-file ./path/to/junit-reports/result-junit.xml
+                                </code-block>
+                            </tab>
+
+                        </tabs>
+                    </procedure>
+                </tab>
+                <tab title="Docker" group-key="quick-start-docker">
+                    <procedure>
+                        <tabs group="quick-start-internal">
+                            <tab title="Stable/Latest" group-key="quick-start-internal-docker-latest">
+                                <code-block lang="shell">
+                                    docker run --rm -it \
+                                    -v $(pwd)/:/data \
+                                    appsurifyinc/appsurify-testbrain-cli:latest \
+                                    report merge-junit \
+                                    --in-dir ./path/to/junit-reports/ \
+                                    --out-file ./path/to/junit-reports/result-junit.xml
+                                </code-block>
+                            </tab>
+                            <tab title="Dev/Edge" group-key="quick-start-internal-docker-edge">
+                                <code-block lang="shell">
+                                    docker run --rm -it \
+                                    -v $(pwd)/:/data \
+                                    appsurifyinc/appsurify-testbrain-cli:edge \
+                                    report merge-junit \
+                                    --in-dir ./path/to/junit-reports/ \
+                                    --out-file ./path/to/junit-reports/result-junit.xml
+                                </code-block>
+                            </tab>
+                        </tabs>
+                    </procedure>
+
+                </tab>
+
+            </tabs>
+            <code-block lang="shell">
+                2024-02-15 22:54:12 INFO     Saved junit report to /full/path/reports/junit-merged-report.xml
+            </code-block>
+
+        </chapter>
+    </chapter>
+
+
+
+    <chapter title="Report2Testbrain" id="report2testbrain">
+        <p>Pushing testing report(s) to Testbrain server</p>
+        <chapter title="Command line parameters" id="report2testbrain-parameters">
+            <deflist type="narrow" sorted="desc">
+
+                <def title="--server, --url <url>">
+                    Enter your testbrain server instance url.
+                    [env var: TESTBRAIN_SERVER; required]
+                </def>
+
+                <def title="--token, --apikey <token>">
+                    Enter your testbrain server instance token.
+                    [env var: TESTBRAIN_TOKEN; required]
+                </def>
+
+                <def title="--project <name>">
+                    Enter your testbrain project name.  [env var: TESTBRAIN_PROJECT; required]
+                </def>
+
+                <def title="--testsuite <name>">
+                    Enter your testbrain testsuite name.  [env var: TESTBRAIN_TESTSUITE; required]
+                </def>
+
+                <def title="--branch <name>">
+                    Enter the explicit branch to process
+                    commits. If not specified, use empty.  [env var: TESTBRAIN_BRANCH; default: ()]
+                </def>
+
+                <def title="--commit <sha>">
+                    Enter the commit sha.  [env var:
+                    TESTBRAIN_COMMIT; default: (latest (HEAD)); required]
+                </def>
+
+                <def title="--report-type [JUNIT|MSTEST|TESTBRAIN]">
+                    Enter the report type.  [default: junit; required]
+                </def>
+
+                <def title="--import-type <type>">
+                    Enter the import type. (default:
+                    prioritized)  [default: (prioritized); required]
+                </def>
+
+                <def title="--path PATH">
+                    path file or directory with reports. [default: .]
+                </def>
+
+                <def title="--merge">
+                    Merge all report files into a single?
+                    [default: (False)]
+                </def>
+
+                <def title="--multi">
+                    All report files into a single request. Recommended if count of files > 100 [default: (False)]
+                </def>
+
+                 <def title="--work-dir <dir>">
+                    Enter the testbrain script working
+                    directory. If not specified, the current
+                    working directory will be used.  [env var:
+                    TESTBRAIN_WORK_DIR; default: ./]
+                </def>
+
+                <def title="--loglevel, -l INFO">
+                    [DEBUG|INFO|WARNING|ERROR|CRITICAL]
+                </def>
+
+                <def title="--logfile PATH">
+                    Log filename  [default: (stderr)]
+                </def>
+
+                <def title="--quiet">
+                    Quiet mode... everytime exit with 0
+                </def>
+
+            </deflist>
+        </chapter>
+
+        <chapter title="Usage examples" id="report2testbrain-example">
+            <p>Some simple usage examples to make the behavior easier to understand.</p>
+
+            <tabs group="quick-start">
+                <tab title="Shell" group-key="quick-start-shell">
+                    <procedure>
+                        <tabs group="quick-start-internal">
+                            <tab title="testbrain" group-key="quick-start-internal-testbrain">
+                                <code-block lang="shell">
+                                    testbrain report push --help
+                                </code-block>
+                            </tab>
+                            <tab title="tbcli" group-key="quick-start-internal-tbcli">
+                                <code-block lang="shell">
+                                    tbcli report push --help
+                                </code-block>
+                            </tab>
+                            <tab title="report2testbrain (alias)" group-key="quick-start-internal-alias">
+                                <code-block lang="shell">
+                                    report2testbrain --help
+                                </code-block>
+                            </tab>
+                        </tabs>
+                    </procedure>
+                </tab>
+                <tab title="Docker" group-key="quick-start-docker">
+                    <procedure>
+                        <tabs group="quick-start-internal">
+                            <tab title="Stable/Latest" group-key="quick-start-internal-docker-latest">
+                                <code-block lang="shell">
+                                    docker run --rm -it \
+                                    -v $(pwd)/:/data \
+                                    appsurifyinc/appsurify-testbrain-cli:latest \
+                                    report push --help
+                                </code-block>
+                            </tab>
+                            <tab title="Dev/Edge" group-key="quick-start-internal-docker-edge">
+                                <code-block lang="shell">
+                                    docker run --rm -it \
+                                    -v $(pwd)/:/data \
+                                    appsurifyinc/appsurify-testbrain-cli:edge \
+                                    report push --help
+                                </code-block>
+                            </tab>
+                        </tabs>
+                    </procedure>
+
+                </tab>
+
+            </tabs>
+
+            <p>Sending all test reports from the directory.</p>
+
+            <tabs group="quick-start">
+                <tab title="Shell" group-key="quick-start-shell">
+                    <procedure>
+                        <tabs group="quick-start-internal">
+                            <tab title="testbrain" group-key="quick-start-internal-testbrain">
+                                <code-block lang="shell">
+                                    testbrain report push \
+                                    --server "https://demo.appsurify.com" \
+                                    --token "MTp6Zm1lQk5oY2tuNjFQWW9EZEk2aW1r**********************" \
+                                    --project "Demo Project" \
+                                    --testsuite "junit" \
+                                    --commit "85238bf04dc85b89672e30e406ffd19236da6d9b" \
+                                    --report-type "junit" \
+                                    --import-type "prioritized" \
+                                    --path ./reports/junit/
+                                </code-block>
+                            </tab>
+                            <tab title="tbcli" group-key="quick-start-internal-tbcli">
+                                <code-block lang="shell">
+                                    tbcli report push \
+                                    --server "https://demo.appsurify.com" \
+                                    --token "MTp6Zm1lQk5oY2tuNjFQWW9EZEk2aW1r**********************" \
+                                    --project "Demo Project" \
+                                    --testsuite "junit" \
+                                    --commit "85238bf04dc85b89672e30e406ffd19236da6d9b" \
+                                    --report-type "junit" \
+                                    --import-type "prioritized" \
+                                    --path ./reports/junit/
+                                </code-block>
+                            </tab>
+                            <tab title="mstest2junit (alias)" group-key="quick-start-internal-alias">
+                                <code-block lang="shell">
+                                    report2testbrain \
+                                    --server "https://demo.appsurify.com" \
+                                    --token "MTp6Zm1lQk5oY2tuNjFQWW9EZEk2aW1r**********************" \
+                                    --project "Demo Project" \
+                                    --testsuite "junit" \
+                                    --commit "85238bf04dc85b89672e30e406ffd19236da6d9b" \
+                                    --report-type "junit" \
+                                    --import-type "prioritized" \
+                                    --path ./reports/junit/
+                                </code-block>
+                            </tab>
+                        </tabs>
+                    </procedure>
+                </tab>
+                <tab title="Docker" group-key="quick-start-docker">
+                    <procedure>
+                        <tabs group="quick-start-internal">
+                            <tab title="Stable/Latest" group-key="quick-start-internal-docker-latest">
+                                <code-block lang="shell">
+                                    docker run --rm -it \
+                                    -v $(pwd)/:/data \
+                                    appsurifyinc/appsurify-testbrain-cli:latest \
+                                    report push \
+                                    --server "https://demo.appsurify.com" \
+                                    --token "MTp6Zm1lQk5oY2tuNjFQWW9EZEk2aW1r**********************" \
+                                    --project "Demo Project" \
+                                    --testsuite "junit" \
+                                    --commit "85238bf04dc85b89672e30e406ffd19236da6d9b" \
+                                    --report-type "junit" \
+                                    --import-type "prioritized" \
+                                    --path ./reports/junit/
+                                </code-block>
+                            </tab>
+                            <tab title="Dev/Edge" group-key="quick-start-internal-docker-edge">
+                                <code-block lang="shell">
+                                    docker run --rm -it \
+                                    -v $(pwd)/:/data \
+                                    appsurifyinc/appsurify-testbrain-cli:edge \
+                                    report push \
+                                    --server "https://demo.appsurify.com" \
+                                    --token "MTp6Zm1lQk5oY2tuNjFQWW9EZEk2aW1r**********************" \
+                                    --project "Demo Project" \
+                                    --testsuite "junit" \
+                                    --commit "85238bf04dc85b89672e30e406ffd19236da6d9b" \
+                                    --report-type "junit" \
+                                    --import-type "prioritized" \
+                                    --path ./reports/junit/
+                                </code-block>
+                            </tab>
+                        </tabs>
+                    </procedure>
+
+                </tab>
+
+            </tabs>
+            <code-block lang="shell">
+                2024-02-20 00:41:34 INFO     Start pushing report(s) [5] ...
+                2024-02-20 00:41:34 INFO     Pushing report junit-py39-report-a.xml
+                2024-02-20 00:41:36 INFO     Pushed report successfully: {'new_defects': 0, 'flaky_defects': 0, 'reopened_defects': 0, 'reopened_flaky_defects': 0, 'flaky_failures_breaks': 0, 'failed_tests': 0, 'broken_tests': 0, 'skipped_tests': 0, 'passed_tests': 0, 'test_run_id': 1013, 'task_id': '6673b99a-0226-4b4e-857c-22fbc94aeba6', 'report_url': 'https://demo.appsurify.com/test-runs/1013'}
+                2024-02-20 00:41:36 INFO     Pushing report junit-py310-report-a.xml
+                2024-02-20 00:41:38 INFO     Pushed report successfully: {'new_defects': 0, 'flaky_defects': 0, 'reopened_defects': 0, 'reopened_flaky_defects': 0, 'flaky_failures_breaks': 0, 'failed_tests': 0, 'broken_tests': 0, 'skipped_tests': 0, 'passed_tests': 0, 'test_run_id': 1014, 'task_id': '92237505-a346-4d30-b328-253ceb0b2bd8', 'report_url': 'https://demo.appsurify.com/test-runs/1014'}
+                2024-02-20 00:41:38 INFO     Pushing report junit-py311-report-a.xml
+                2024-02-20 00:41:40 INFO     Pushed report successfully: {'new_defects': 0, 'flaky_defects': 0, 'reopened_defects': 0, 'reopened_flaky_defects': 0, 'flaky_failures_breaks': 0, 'failed_tests': 0, 'broken_tests': 0, 'skipped_tests': 0, 'passed_tests': 0, 'test_run_id': 1015, 'task_id': 'bab50d05-e738-4f6a-811d-e9d593007707', 'report_url': 'https://demo.appsurify.com/test-runs/1015'}
+                2024-02-20 00:41:40 INFO     Pushing report junit-py38-report-a.xml
+                2024-02-20 00:41:42 INFO     Pushed report successfully: {'new_defects': 0, 'flaky_defects': 0, 'reopened_defects': 0, 'reopened_flaky_defects': 0, 'flaky_failures_breaks': 0, 'failed_tests': 0, 'broken_tests': 0, 'skipped_tests': 0, 'passed_tests': 0, 'test_run_id': 1016, 'task_id': 'fe02b572-9b05-4d6d-966e-db7775936470', 'report_url': 'https://demo.appsurify.com/test-runs/1016'}
+                2024-02-20 00:41:42 INFO     Pushing report junit-py312-report-a.xml
+                2024-02-20 00:41:45 INFO     Pushed report successfully: {'new_defects': 0, 'flaky_defects': 0, 'reopened_defects': 0, 'reopened_flaky_defects': 0, 'flaky_failures_breaks': 0, 'failed_tests': 0, 'broken_tests': 0, 'skipped_tests': 0, 'passed_tests': 0, 'test_run_id': 1010, 'task_id': 'a32b02c9-46ac-45a2-9906-9d58b79e6975', 'report_url': 'https://demo.appsurify.com/test-runs/1010'}
+            </code-block>
+
+            <p>If there are a lot of files, you should add the --merge parameter</p>
+            <p>But this option only works with junit reports. You can first convert
+                reports to junit format and then send them to the server.</p>
+
+
+        </chapter>
+
+    </chapter>
+
+</topic>
