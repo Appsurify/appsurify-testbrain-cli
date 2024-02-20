@@ -6,6 +6,7 @@ on:
     branches:
       - "development"
       - "testing"
+      - "fake"
 
 jobs:
   run-pytests:
