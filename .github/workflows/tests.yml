@@ -48,7 +48,7 @@ jobs:
       - name: "Upload reports to TB Server"
         if: always()
         run: |
-          testbrain report push --server ${{ vars.TESTBRAIN_SERVER }} --token ${{ secrets.TESTBRAIN_TOKEN }} --project ${{ vars.TESTBRAIN_PROJECT }} --testsuite "pytest" --branch ${{ github.ref_name }} --commit ${{ github.sha }} --report-type "junit" --import-type "prioritized" --path reports/pytest/${{ github.sha }}/; python3 -c "exit()"
+          testbrain report push --server ${{ vars.TESTBRAIN_SERVER }} --token ${{ secrets.TESTBRAIN_TOKEN }} --project ${{ vars.TESTBRAIN_PROJECT }} --testsuite "pytest" --branch ${{ github.ref_name }} --commit ${{ github.sha }} --report-type "junit" --import-type "prioritized" --path reports/pytest/${{ github.sha }}/ --merge; python3 -c "exit()"
       - name: "Surface failing tests"
         if: always()
         uses: pmeier/pytest-results-action@main
