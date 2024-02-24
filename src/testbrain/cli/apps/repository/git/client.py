@@ -47,9 +47,8 @@ class RepositoryClient(HttpClient):
                 f"Get project ID response: "
                 f"[{response.status_code}] {response.content}"
             )
-            if sys.platform.startswith("darwin"):
-                return None
-
+            # if sys.platform.startswith("darwin"):
+            #     return None
             return response
         except requests.exceptions.ConnectionError:
             ...
