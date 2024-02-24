@@ -47,4 +47,4 @@ def test_git_client_header_auth(requests_mock):
 
     assert header_keyword in api_origin_req.headers
 
-    assert api_origin_req.headers[header_keyword] == "<TOKEN2>"
+    assert api_origin_req.headers[header_keyword] == "<TOKEN>"
