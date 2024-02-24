@@ -1,4 +1,5 @@
 import logging
+import sys
 import typing as t
 from urllib.parse import urljoin
 
@@ -46,8 +47,10 @@ class RepositoryClient(HttpClient):
                 f"Get project ID response: "
                 f"[{response.status_code}] {response.content}"
             )
-            # return response
-            return None
+            if sys.platform.startswith("darwin"):
+                return None
+
+            return response
         except requests.exceptions.ConnectionError:
             ...
 
