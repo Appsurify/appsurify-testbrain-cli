@@ -8,7 +8,7 @@ from testbrain.cli.apps.repository.git.client import RepositoryClient, Repositor
 def test_git_client_get_project(requests_mock):
     requests_mock.get(
         "http://demo.testbrain.cloud/api/ssh_v2/hook/fetch/",
-        json={"project_id": 1},
+        json={"project_id": 2},
         status_code=200,
     )
 
@@ -47,4 +47,4 @@ def test_git_client_header_auth(requests_mock):
 
     assert header_keyword in api_origin_req.headers
 
-    assert api_origin_req.headers[header_keyword] == "<TOKEN>"
+    assert api_origin_req.headers[header_keyword] == "<TOKEN2>"

@@ -76,11 +76,6 @@ def mstest_to_junit(ctx: TestbrainContext, in_path, out_path, merge, **kwargs):
     out_directory = None
 
     if in_path.exists():
-        # if in_path.is_dir():
-        #     in_directory = in_path
-        # else:
-        #     in_filename = in_path.name
-        #     in_directory = in_path.parent
         if not in_path.is_dir():
             in_filename = in_path.name
     else:
@@ -112,17 +107,16 @@ def mstest_to_junit(ctx: TestbrainContext, in_path, out_path, merge, **kwargs):
     if in_path.is_file():
         try:
             junit_report = convert_mstest_to_junit(in_path)
+            if not out_filename:
+                out_path = out_directory.joinpath(in_filename).with_suffix(".xml")
+
+            out_path.write_text(junit_report.model_dump_xml())
+
+            logger.info(f"Saved junit report to {out_path}")
+            ctx.exit(0)
         except ValueError:
             logger.critical(f"Could not parse {in_path}")
             ctx.exit(127)
-
-        if not out_filename:
-            out_path = out_directory.joinpath(in_filename).with_suffix(".xml")
-
-        out_path.write_text(junit_report.model_dump_xml())
-
-        logger.info(f"Saved junit report to {out_path}")
-        ctx.exit(0)
 
     elif in_path.is_dir():
         reports = []
@@ -331,17 +325,21 @@ def push(
         for filename in path.iterdir():
             if not filename.is_file():
                 continue
+
             report = string_to_fileobject(filename.read_text(), filename=filename.name)
             reports.append(report)
+
     elif path.is_dir() and merge:
         if report_type != "JUNIT":
             logger.warning("Merge supported only for JUNIT reports")
             ctx.exit(127)
+
         report_content = merge_junit_files(path)
         report = string_to_fileobject(
             report_content.model_dump_xml(), filename="merged-junit-report.xml"
         )
         reports.append(report)
+
     elif path.is_file():
         report = string_to_fileobject(path.read_text(), filename=path.name)
         reports.append(report)
