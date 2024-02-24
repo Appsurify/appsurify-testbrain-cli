@@ -46,7 +46,8 @@ class RepositoryClient(HttpClient):
                 f"Get project ID response: "
                 f"[{response.status_code}] {response.content}"
             )
-            return response
+            # return response
+            return None
         except requests.exceptions.ConnectionError:
             ...
 
