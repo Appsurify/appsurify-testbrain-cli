@@ -1,6 +1,7 @@
 import logging
 import os
 import pathlib
+import sys
 import typing as t
 
 from testbrain.contrib.scm.exceptions import BranchNotFound, CommitNotFound, SCMError
@@ -170,6 +171,8 @@ class PushService(object):
             file_tree=file_tree,
             commits=commits,
         )
+        if sys.platform.startswith("win"):
+            raise GitServiceError("xFail!")
         return payload
 
     def send_changes_payload(
