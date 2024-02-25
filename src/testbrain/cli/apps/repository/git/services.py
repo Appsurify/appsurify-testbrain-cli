@@ -128,7 +128,6 @@ class PushService(object):
             raw=raw,
             patch=patch,
         )
-        commits = []
         return commits
 
     def get_file_tree(
@@ -171,8 +170,8 @@ class PushService(object):
             file_tree=file_tree,
             commits=commits,
         )
-        if sys.platform.startswith("win"):
-            raise GitServiceError("xFail!")
+        # if sys.platform.startswith("win"):
+        #     raise GitServiceError("xFail!")
         return payload
 
     def send_changes_payload(
