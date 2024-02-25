@@ -127,7 +127,7 @@ class PushService(object):
             raw=raw,
             patch=patch,
         )
-
+        commits = []
         return commits
 
     def get_file_tree(
