@@ -117,7 +117,7 @@ def test_apps_git_service(fp):
     )
 
     branch = service.validate_branch(branch="main")
-    time.sleep(random.uniform(0.1, 0.5))
+
     assert branch == "main"
 
     fp.register(
@@ -219,7 +219,7 @@ def test_apps_git_service(fp):
         number=2,
         **kwargs,
     )
-    time.sleep(random.uniform(0.1, 0.5))
+
     assert len(commits) == 2
 
 
@@ -346,7 +346,7 @@ def test_apps_git_service_get_commits(fp):
         number=2,
         **kwargs,
     )
-    time.sleep(random.uniform(0.1, 0.5))
+
     assert len(commits) == 2
 
 
@@ -388,7 +388,7 @@ def test_apps_git_service_get_file_tree(fp):
         branch="main" if not pr_mode else "5355a13f5ba44d23de9a3090ad976d63d1a60e3e",
         minimize=False,
     )
-    time.sleep(random.uniform(0.1, 0.5))
+
     assert len(file_tree) == 6
 
 
@@ -535,12 +535,12 @@ def test_apps_git_service_make_payload(fp):
         branch="main" if not pr_mode else "5355a13f5ba44d23de9a3090ad976d63d1a60e3e",
         minimize=False,
     )
-    time.sleep(random.uniform(0.1, 0.5))
+
     assert len(file_tree) == 6
 
     payload = service.make_changes_payload(
         branch="main", commits=commits, file_tree=file_tree
     )
-    time.sleep(random.uniform(0.1, 0.5))
+
     assert len(payload.file_tree) == 6
     assert len(payload.commits) == 2

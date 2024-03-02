@@ -6,24 +6,26 @@ on:
     branches:
       - "**"
       - "releases/*.*.*"
-
+      - "!development"
+      - "!testing"
+      - "!fake"
 jobs:
   delivery:
     name: "Delivery"
     runs-on: ubuntu-latest
     steps:
-      - name: "Checkout git"
+      - name: "Checkout Repository"
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: "Set up Python"
+      - name: "Setup Python"
         uses: actions/setup-python@v4
         with:
           python-version: 3.12
-      - name: "Set up Testbrain CLI"
+      - name: "Setup testbrain cli"
         run: |
           pip3 install appsurify-testbrain-cli
-      - name: "Delivering changes to the server"
+      - name: "Push changes to the server"
         run: |
           testbrain repository git push \
           --repo-dir ${{ github.workspace }} \
@@ -34,10 +36,10 @@ jobs:
           --commit ${{ github.sha }} \
           --number ${{ vars.TESTBRAIN_NUMBER_OF_COMMITS }} \
           --loglevel INFO
-      - name: "Upload crash dumps"
+      - name: "Upload crashdumps"
         uses: actions/upload-artifact@v3
         if: failure()
         with:
-          name: "crashdumps"
-          path: ${{ github.workspace }}/.crashdumps/
-          retention-days: 1
+          name: testbrain-repository-crashdump
+          path: .crashdumps/
+          retention-days: 3
