@@ -51,7 +51,6 @@ class ReportClient(HttpClient):
         max_retries: t.Optional[int] = None,
         report: t.Optional[BytesIO] = None,
         reports: t.Optional[t.List[BytesIO]] = None,
-        **kwargs,
     ):
         endpoint = "/api/external/import/"
         headers = {}
