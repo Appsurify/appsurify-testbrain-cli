@@ -37,7 +37,7 @@ jobs:
           --number ${{ vars.TESTBRAIN_NUMBER_OF_COMMITS }} \
           --loglevel INFO
       - name: "Upload crashdumps"
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: testbrain-repository-crashdump
@@ -74,10 +74,10 @@ jobs:
         run: |
           poetry run pytest --junitxml=reports/results-pytest-linux-py${{ matrix.python-version }}.xml -o junit_suite_name=pytest-linux-py${{ matrix.python-version }}
       - name: "Upload pytest reports"
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
-            name: appsurify-testbrain-cli-results-pytest-linux-${{ github.sha }}
+            name: appsurify-testbrain-cli-results-pytest-linux-py${{ matrix.python-version }}
             path: reports/
             retention-days: 7
   pytest-macos:
@@ -111,10 +111,10 @@ jobs:
         run: |
           poetry run pytest --junitxml=reports/results-pytest-macos-py${{ matrix.python-version }}.xml -o junit_suite_name=pytest-macos-py${{ matrix.python-version }}
       - name: "Upload pytest reports"
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
-            name: appsurify-testbrain-cli-results-pytest-macos-${{ github.sha }}
+            name: appsurify-testbrain-cli-results-pytest-macos-py${{ matrix.python-version }}
             path: reports/
             retention-days: 7
   pytest-windows:
@@ -148,10 +148,10 @@ jobs:
         run: |
           poetry run pytest --junitxml=reports/results-pytest-windows-py${{ matrix.python-version }}.xml -o junit_suite_name=pytest-windows-py${{ matrix.python-version }}
       - name: "Upload pytest reports"
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
-            name: appsurify-testbrain-cli-results-pytest-windows-${{ github.sha }}
+            name: appsurify-testbrain-cli-results-pytest-windows-py${{ matrix.python-version }}
             path: reports/
             retention-days: 7
   testbrain-report:
@@ -161,7 +161,7 @@ jobs:
     needs: [ pytest-linux, pytest-macos, pytest-windows ]
     steps:
       - name: "Download pytest reports"
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           path: reports/
           pattern: appsurify-testbrain-cli-results-pytest-*
@@ -190,7 +190,7 @@ jobs:
           --path reports/ \
           --merge
       - name: "Upload crashdumps"
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: testbrain-report-crashdump
@@ -202,11 +202,14 @@ jobs:
     if: always()
     needs: [ pytest-linux ]
     steps:
-      - name: "Download pytest linux reports"
-        uses: actions/download-artifact@v3
+      - name: "Download pytest reports"
+        uses: actions/download-artifact@v4
         with:
-          name: appsurify-testbrain-cli-results-pytest-linux-${{ github.sha }}
           path: reports/
+          pattern: appsurify-testbrain-cli-results-pytest-linux-*
+          merge-multiple: true
+      - name: "Debug list reports"
+        run: ls -R reports/
       - name: "Setup Python"
         uses: actions/setup-python@v4
         with:
@@ -229,7 +232,7 @@ jobs:
           --path reports/ \
           --merge
       - name: "Upload crashdumps"
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: testbrain-report-linux-crashdump
@@ -241,11 +244,14 @@ jobs:
     if: always()
     needs: [ pytest-macos ]
     steps:
-      - name: "Download pytest macos reports"
-        uses: actions/download-artifact@v3
+      - name: "Download pytest reports"
+        uses: actions/download-artifact@v4
         with:
-          name: appsurify-testbrain-cli-results-pytest-macos-${{ github.sha }}
           path: reports/
+          pattern: appsurify-testbrain-cli-results-pytest-macos-*
+          merge-multiple: true
+      - name: "Debug list reports"
+        run: ls -R reports/
       - name: "Setup Python"
         uses: actions/setup-python@v4
         with:
@@ -268,7 +274,7 @@ jobs:
           --path reports/ \
           --merge
       - name: "Upload crashdumps"
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: testbrain-report-macos-crashdump
@@ -280,11 +286,14 @@ jobs:
     if: always()
     needs: [ pytest-windows ]
     steps:
-      - name: "Download pytest windows reports"
-        uses: actions/download-artifact@v3
+      - name: "Download pytest reports"
+        uses: actions/download-artifact@v4
         with:
-          name: appsurify-testbrain-cli-results-pytest-windows-${{ github.sha }}
           path: reports/
+          pattern: appsurify-testbrain-cli-results-pytest-windows-*
+          merge-multiple: true
+      - name: "Debug list reports"
+        run: ls -R reports/
       - name: "Setup Python"
         uses: actions/setup-python@v4
         with:
@@ -307,7 +316,7 @@ jobs:
           --path reports/ \
           --merge
       - name: "Upload crashdumps"
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: testbrain-report-windows-crashdump
