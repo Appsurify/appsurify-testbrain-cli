@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
+       title="GitHub Actions" id="gitHub-actions" help-id="GitHub-Actions">
+
+
+    <p>
+        An example of using utilities in GitHub Actions workflow
+        for integration with the Testbrain server.
+    </p>
+    <warning>Remember that the process may differ from your goals.</warning>
+
+    <chapter title="Before you start" id="before-github-actions-workflow">
+        <p>Before you start creating a workflow file, you need to make sure that
+            the necessary secrets and variables are added
+            to the repository settings.</p>
+
+        <p>Secrets:</p>
+        <list>
+            <li><a href="auth.topic#example-token">TESTBRAIN_TOKEN</a></li>
+        </list>
+        
+        <p>Variables</p>
+        <list>
+            <li>TESTBRAIN_SERVER</li>
+            <li>TESTBRAIN_PROJECT</li>
+        </list>
+
+    </chapter>
+
+    <note>For example, the file .github/workflows/testbrain-flow.yml</note>
+    <chapter title="Testbrain Flow (example)" id="testbrain-flow-example">
+        <p>
+            In this process, all integration processes with the Testbrain system
+            are a separate independent workflow and are placed in a separate file.
+        </p>
+        <procedure title="The workflow implements the following steps" id="steps-sequence">
+            <step>
+                Sending changes to the repository to the Testbrain server.
+            </step>
+            <step>
+                Running tests (splitted ways: linux,macos,windows + python(3.8/3.9/...))
+            </step>
+            <step>
+                Sending test results to the Testbrain server
+            </step>
+        </procedure>
+
+        <note>The example is a branched workflow to demonstrate more use of features</note>
+        <chapter title="Sending changes to the repository to the Testbrain server" id="testbrain-repository-push">
+            <p>Installing and running the python package appsurify-testbrain-cli,
+                which includes the repository utility.
+            </p>
+            <note>
+                If necessary,
+                you can use appsurify-testbrain-cli
+                from <a href="quick-start.topic#quick-start-installation">docker image</a>
+            </note>
+            <p>If any error occurs, the crashdump files will be saved as artifacts
+                and can be downloaded for error analysis.</p>
+            <code-block lang="yaml" collapsible="true" collapsed-title="testbrain-repository:">
+                  testbrain-repository:
+                    name: testbrain repository
+                    runs-on: ubuntu-latest
+                    steps:
+                      - name: "Checkout Repository"
+                        uses: actions/checkout@v4
+                        with:
+                          fetch-depth: 0
+                      - name: "Setup Python"
+                        uses: actions/setup-python@v4
+                        with:
+                          python-version: 3.12
+                      - name: "Setup testbrain cli"
+                        run: |
+                          pip3 install appsurifyci --pre;
+                          pip3 install appsurify-testbrain-cli;
+                      - name: "Push changes to the server"
+                        run: |
+                          testbrain repository git push \
+                          --repo-dir ${{ github.workspace }} \
+                          --server ${{ vars.TESTBRAIN_SERVER }} \
+                          --token ${{ secrets.TESTBRAIN_TOKEN }} \
+                          --project ${{ vars.TESTBRAIN_PROJECT }} \
+                          --branch ${{ github.ref_name }} \
+                          --commit ${{ github.sha }} \
+                          --number ${{ vars.TESTBRAIN_NUMBER_OF_COMMITS }} \
+                          --loglevel INFO
+                      - name: "Upload crashdumps"
+                        uses: actions/upload-artifact@v4
+                        if: failure()
+                        with:
+                          name: testbrain-repository-crashdump
+                          path: .crashdumps/
+                          retention-days: 3
+            </code-block>
+        </chapter>
+        <chapter title="Running tests" id="testbrain-running-tests">
+            <p>
+                This step includes several steps grouped by OS type and also by interpreter version.
+                In fact, these are 15 tasks launched in different environments.
+                Each step after pytest has finished running saves the test results
+                in junit format into artifacts.
+            </p>
+            <code-block lang="yaml" collapsible="true" collapsed-title="pytest-*">
+                  pytest-linux:
+                    name: pytest on Linux (py${{ matrix.python-version }})
+                    runs-on: ubuntu-latest
+                    if: success()
+                    needs: [testbrain-repository]
+                    strategy:
+                      fail-fast: false
+                      matrix:
+                        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
+                    steps:
+                      - name: "Checkout Repository"
+                        uses: actions/checkout@v4
+                        with:
+                          fetch-depth: 0
+                      - name: "Setup Python"
+                        uses: actions/setup-python@v4
+                        with:
+                          python-version: ${{ matrix.python-version }}
+                      - name: "Setup Poetry"
+                        uses: abatilo/actions-poetry@v2
+                        with:
+                          poetry-version: "1.7.1"
+                      - name: "Install deps and tools"
+                        run: |
+                          poetry install --with test;
+                          pip3 install appsurifyci --pre;
+                          pip3 install appsurify-testbrain-cli;
+                      - name: "Invoke pytest"
+                        run: |
+                          poetry run pytest --junitxml=reports/results-pytest-linux-py${{ matrix.python-version }}.xml -o junit_suite_name=pytest-linux-py${{ matrix.python-version }}
+                      - name: "Upload pytest reports"
+                        uses: actions/upload-artifact@v4
+                        if: always()
+                        with:
+                            name: appsurify-testbrain-cli-results-pytest-linux-py${{ matrix.python-version }}
+                            path: reports/
+                            retention-days: 7
+                  pytest-macos:
+                    name: pytest on macOS (py${{ matrix.python-version }})
+                    runs-on: macos-latest
+                    if: success()
+                    needs: [ testbrain-repository ]
+                    strategy:
+                      fail-fast: false
+                      matrix:
+                        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
+                    steps:
+                      - name: "Checkout Repository"
+                        uses: actions/checkout@v4
+                        with:
+                          fetch-depth: 0
+                      - name: "Setup Python"
+                        uses: actions/setup-python@v4
+                        with:
+                          python-version: ${{ matrix.python-version }}
+                      - name: "Setup Poetry"
+                        uses: abatilo/actions-poetry@v2
+                        with:
+                          poetry-version: "1.7.1"
+                      - name: "Install deps and tools"
+                        run: |
+                          poetry install --with test;
+                          pip3 install appsurifyci --pre;
+                          pip3 install appsurify-testbrain-cli;
+                      - name: "Invoke pytest"
+                        run: |
+                          poetry run pytest --junitxml=reports/results-pytest-macos-py${{ matrix.python-version }}.xml -o junit_suite_name=pytest-macos-py${{ matrix.python-version }}
+                      - name: "Upload pytest reports"
+                        uses: actions/upload-artifact@v4
+                        if: always()
+                        with:
+                            name: appsurify-testbrain-cli-results-pytest-macos-py${{ matrix.python-version }}
+                            path: reports/
+                            retention-days: 7
+                  pytest-windows:
+                    name: pytest on Windows (py${{ matrix.python-version }})
+                    runs-on: windows-latest
+                    if: success()
+                    needs: [ testbrain-repository ]
+                    strategy:
+                      fail-fast: false
+                      matrix:
+                        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
+                    steps:
+                      - name: "Checkout Repository"
+                        uses: actions/checkout@v4
+                        with:
+                          fetch-depth: 0
+                      - name: "Setup Python"
+                        uses: actions/setup-python@v4
+                        with:
+                          python-version: ${{ matrix.python-version }}
+                      - name: "Setup Poetry"
+                        uses: abatilo/actions-poetry@v2
+                        with:
+                          poetry-version: "1.7.1"
+                      - name: "Install deps and tools"
+                        run: |
+                          poetry install --with test;
+                          pip3 install appsurifyci --pre;
+                          pip3 install appsurify-testbrain-cli;
+                      - name: "Invoke pytest"
+                        run: |
+                          poetry run pytest --junitxml=reports/results-pytest-windows-py${{ matrix.python-version }}.xml -o junit_suite_name=pytest-windows-py${{ matrix.python-version }}
+                      - name: "Upload pytest reports"
+                        uses: actions/upload-artifact@v4
+                        if: always()
+                        with:
+                            name: appsurify-testbrain-cli-results-pytest-windows-py${{ matrix.python-version }}
+                            path: reports/
+                            retention-days: 7
+            </code-block>
+
+        </chapter>
+
+        <chapter title="Sending test results to the Testbrain server" id="testbrain-report">
+            <p>
+                This step is also divided into several and it depends on your workflow.
+                In this example, after each test group is completed,
+                the task of sending reports to the Testbrain server
+                in separate TestSuites (ex. pytest-linux/pytest-macos/...) is launched.
+                When all groups are completed, another task is launched
+                to send reports to the common TestSuite called pytest.
+            </p>
+            <code-block lang="yaml" collapsible="true" collapsed-title="testbrain-report">
+              testbrain-report:
+                name: testbrain report (pytest)
+                runs-on: ubuntu-latest
+                if: always()
+                needs: [ pytest-linux, pytest-macos, pytest-windows ]
+                steps:
+                  - name: "Download pytest reports"
+                    uses: actions/download-artifact@v4
+                    with:
+                      path: reports/
+                      pattern: appsurify-testbrain-cli-results-pytest-*
+                      merge-multiple: true
+                  - name: "Debug list reports"
+                    run: ls -R reports/
+                  - name: "Setup Python"
+                    uses: actions/setup-python@v4
+                    with:
+                      python-version: 3.12
+                  - name: "Setup testbrain cli"
+                    run: |
+                      pip3 install appsurifyci --pre;
+                      pip3 install appsurify-testbrain-cli;
+                  - name: "Push test reports to server"
+                    run: |
+                      testbrain report push \
+                      --server ${{ vars.TESTBRAIN_SERVER }} \
+                      --token ${{ secrets.TESTBRAIN_TOKEN }} \
+                      --project ${{ vars.TESTBRAIN_PROJECT }} \
+                      --testsuite pytest \
+                      --branch ${{ github.ref_name }} \
+                      --commit ${{ github.sha }} \
+                      --report-type junit \
+                      --import-type prioritized \
+                      --path reports/ \
+                      --merge
+                  - name: "Upload crashdumps"
+                    uses: actions/upload-artifact@v4
+                    if: failure()
+                    with:
+                      name: testbrain-report-crashdump
+                      path: .crashdumps/
+                      retention-days: 3
+              testbrain-report-linux:
+                name: testbrain report (pytest-linux)
+                runs-on: ubuntu-latest
+                if: always()
+                needs: [ pytest-linux ]
+                steps:
+                  - name: "Download pytest reports"
+                    uses: actions/download-artifact@v4
+                    with:
+                      path: reports/
+                      pattern: appsurify-testbrain-cli-results-pytest-linux-*
+                      merge-multiple: true
+                  - name: "Debug list reports"
+                    run: ls -R reports/
+                  - name: "Setup Python"
+                    uses: actions/setup-python@v4
+                    with:
+                      python-version: 3.12
+                  - name: "Setup testbrain cli"
+                    run: |
+                      pip3 install appsurifyci --pre;
+                      pip3 install appsurify-testbrain-cli;
+                  - name: "Push test reports to server"
+                    run: |
+                      testbrain report push \
+                      --server ${{ vars.TESTBRAIN_SERVER }} \
+                      --token ${{ secrets.TESTBRAIN_TOKEN }} \
+                      --project ${{ vars.TESTBRAIN_PROJECT }} \
+                      --testsuite pytest-linux \
+                      --branch ${{ github.ref_name }} \
+                      --commit ${{ github.sha }} \
+                      --report-type junit \
+                      --import-type prioritized \
+                      --path reports/ \
+                      --merge
+                  - name: "Upload crashdumps"
+                    uses: actions/upload-artifact@v4
+                    if: failure()
+                    with:
+                      name: testbrain-report-linux-crashdump
+                      path: .crashdumps/
+                      retention-days: 3
+              testbrain-report-macos:
+                name: testbrain report (pytest-macos)
+                runs-on: ubuntu-latest
+                if: always()
+                needs: [ pytest-macos ]
+                steps:
+                  - name: "Download pytest reports"
+                    uses: actions/download-artifact@v4
+                    with:
+                      path: reports/
+                      pattern: appsurify-testbrain-cli-results-pytest-macos-*
+                      merge-multiple: true
+                  - name: "Debug list reports"
+                    run: ls -R reports/
+                  - name: "Setup Python"
+                    uses: actions/setup-python@v4
+                    with:
+                      python-version: 3.12
+                  - name: "Setup testbrain cli"
+                    run: |
+                      pip3 install appsurifyci --pre;
+                      pip3 install appsurify-testbrain-cli;
+                  - name: "Push test reports to server"
+                    run: |
+                      testbrain report push \
+                      --server ${{ vars.TESTBRAIN_SERVER }} \
+                      --token ${{ secrets.TESTBRAIN_TOKEN }} \
+                      --project ${{ vars.TESTBRAIN_PROJECT }} \
+                      --testsuite pytest-macos \
+                      --branch ${{ github.ref_name }} \
+                      --commit ${{ github.sha }} \
+                      --report-type junit \
+                      --import-type prioritized \
+                      --path reports/ \
+                      --merge
+                  - name: "Upload crashdumps"
+                    uses: actions/upload-artifact@v4
+                    if: failure()
+                    with:
+                      name: testbrain-report-macos-crashdump
+                      path: .crashdumps/
+                      retention-days: 3
+              testbrain-report-windows:
+                name: testbrain report (pytest-windows)
+                runs-on: ubuntu-latest
+                if: always()
+                needs: [ pytest-windows ]
+                steps:
+                  - name: "Download pytest reports"
+                    uses: actions/download-artifact@v4
+                    with:
+                      path: reports/
+                      pattern: appsurify-testbrain-cli-results-pytest-windows-*
+                      merge-multiple: true
+                  - name: "Debug list reports"
+                    run: ls -R reports/
+                  - name: "Setup Python"
+                    uses: actions/setup-python@v4
+                    with:
+                      python-version: 3.12
+                  - name: "Setup testbrain cli"
+                    run: |
+                      pip3 install appsurifyci --pre;
+                      pip3 install appsurify-testbrain-cli;
+                  - name: "Push test reports to server"
+                    run: |
+                      testbrain report push \
+                      --server ${{ vars.TESTBRAIN_SERVER }} \
+                      --token ${{ secrets.TESTBRAIN_TOKEN }} \
+                      --project ${{ vars.TESTBRAIN_PROJECT }} \
+                      --testsuite pytest-windows \
+                      --branch ${{ github.ref_name }} \
+                      --commit ${{ github.sha }} \
+                      --report-type junit \
+                      --import-type prioritized \
+                      --path reports/ \
+                      --merge
+                  - name: "Upload crashdumps"
+                    uses: actions/upload-artifact@v4
+                    if: failure()
+                    with:
+                      name: testbrain-report-windows-crashdump
+                      path: .crashdumps/
+                      retention-days: 3
+            </code-block>
+
+        </chapter>
+
+
+    </chapter>
+
+    <chapter title="Full workflow listing" id="testbrain-flow-example-listing">
+        <code-block lang="yaml" collapsible="true" collapsed-title="testbrain-flow.yml" src="github-actions-testbrain-flow-full.yml" />
+    </chapter>
+</topic>
