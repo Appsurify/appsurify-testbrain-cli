@@ -1,6 +1,7 @@
 import logging
 import pathlib
 import typing as t
+from urllib.parse import urljoin
 
 import click
 
@@ -42,21 +43,21 @@ def token(ctx: TestbrainContext, server, email, password, **kwargs):
     logger.debug(f"Token running with {ctx} {kwargs}")
     http_client = client.HttpClient()
     resp_login = http_client.post(
-        f"{server}/api/account/login/",
+        urljoin(server, "/api/account/login/"),
         json={"email": email, "password": password},
     )
     if resp_login.status_code != 200:
         logger.critical(f"Invalid email or password: {resp_login.content}")
         ctx.exit(118)
 
-    resp_profile = http_client.get(f"{server}/api/account/profile/")
+    resp_profile = http_client.get(urljoin(server, "/api/account/profile/"))
     if resp_profile.status_code != 200:
         logger.critical("Invalid request API key")
         ctx.exit(119)
 
     profile_data = resp_profile.json()
     try:
-        click.echo(f"API_KEY: {profile_data['api_key']}")
+        click.echo(f"{profile_data['api_key']}")
     except KeyError:
         logger.exception("Invalid API Key")
         ctx.exit(119)

@@ -1,13 +1,5 @@
-import os
-import sys
 import pytest
 import platform
-from click.testing import CliRunner
-
-
-@pytest.fixture(scope="session")
-def runner(request):
-    return CliRunner()
 
 
 @pytest.fixture(scope="session", autouse=True)

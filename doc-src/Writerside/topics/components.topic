@@ -20,6 +20,14 @@
                 <td>Authorization Component.</td>
             </tr>
             <tr>
+                <td><a href="project.topic">Project</a></td>
+                <td>Project Component.</td>
+            </tr>
+            <tr>
+                <td><a href="testsuite.topic">Testsuite</a></td>
+                <td>Testsuite Component.</td>
+            </tr>
+            <tr>
                 <td><a href="report.topic">Report</a></td>
                 <td>Component for working with testing reports.</td>
             </tr>

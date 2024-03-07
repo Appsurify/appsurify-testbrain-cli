@@ -98,7 +98,7 @@ class ReportClient(HttpClient):
             else:
                 logger.error(
                     f"Some problem with push report request: status code: "
-                    f"{response.status_code} {response.content[:255]}"
+                    f"[{response.status_code}] {response.content[:255]}"
                 )
                 raise Exception(response.content)
         except requests.exceptions.ConnectionError:
