@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
+       title="Testsuite" id="testsuite"
+       help-id="Testsuite;testsuite">
+
+    <p>
+        The component provides function for TESTSUITE creation on Testbrain server.
+    </p>
+
+    <chapter title="Available functions" id="available-functions">
+        <list type="bullet">
+            <li><a href="#example-testsuite-create">create</a></li>
+        </list>
+    </chapter>
+
+    <chapter title="Command line parameters" id="parameters">
+
+        <deflist type="narrow" sorted="desc">
+
+            <def title="--server <url>">
+                Enter your testbrain server instance url.
+            </def>
+
+            <def title="--email TEXT">
+                Enter your e-mail.
+            </def>
+
+            <def title="--password TEXT">
+                Enter your password.
+            </def>
+            <def title="--project TEXT">
+                Enter exist project name.
+            </def>
+            <def title="--testsuite TEXT">
+                Enter new testsuite name.
+            </def>
+            <def title="--work-dir <dir>">
+                Enter the testbrain script working
+                directory. If not specified, the current
+                working directory will be used.  [env var:
+                TESTBRAIN_WORK_DIR; default: ./]
+            </def>
+
+            <def title="--loglevel, -l INFO">
+                [DEBUG|INFO|WARNING|ERROR|CRITICAL]
+            </def>
+
+            <def title="--logfile PATH">
+                Log filename  [default: (stderr)]
+            </def>
+
+            <def title="--quiet">
+                Quiet mode... everytime exit with 0
+            </def>
+
+        </deflist>
+
+    </chapter>
+
+    <chapter title="Example of create new testsuite" id="example-testsuite-create">
+        <p>An example of calling a command for create new testsuite</p>
+        <tabs group="quick-start">
+
+            <tab title="Shell" group-key="quick-start-shell">
+                <procedure>
+                    <tabs>
+                        <tab title="testbrain">
+                            <code-block lang="shell">
+                                testbrain testsuite create \
+                                --server [server] \
+                                --email [email] \
+                                --password [password] \
+                                --project Demo \
+                                --testsuite DemoTS
+                            </code-block>
+                        </tab>
+                        <tab title="tbcli">
+                            <code-block lang="shell">
+                                tbcli testsuite create \
+                                --server [server] \
+                                --email [email] \
+                                --password [password] \
+                                --project Demo \
+                                --testsuite DemoTS
+                            </code-block>
+                        </tab>
+                    </tabs>
+                </procedure>
+            </tab>
+            <tab title="Docker" group-key="quick-start-docker">
+
+                <procedure>
+                    <tabs>
+                        <tab title="Stable/Latest">
+                            <code-block lang="shell">
+                                docker run --rm -it \
+                                -v $(pwd)/:/data \
+                                appsurifyinc/appsurify-testbrain-cli:latest \
+                                testsuite create \
+                                --server [server] \
+                                --email [email] \
+                                --password [password] \
+                                --project Demo \
+                                --testsuite DemoTS
+                            </code-block>
+                        </tab>
+                        <tab title="Dev/Edge">
+                            <code-block lang="shell">
+                                docker run --rm -it \
+                                -v $(pwd)/:/data \
+                                appsurifyinc/appsurify-testbrain-cli:edge \
+                                testsuite create \
+                                --server [server] \
+                                --email [email] \
+                                --password [password] \
+                                --project Demo \
+                                --testsuite DemoTS
+                            </code-block>
+                        </tab>
+                    </tabs>
+                </procedure>
+
+            </tab>
+        </tabs>
+
+    </chapter>
+</topic>
