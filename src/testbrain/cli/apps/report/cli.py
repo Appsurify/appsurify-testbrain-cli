@@ -56,7 +56,7 @@ def report(ctx: TestbrainContext, **kwargs):
     help="Merge all report files into a single?",
 )
 @click.pass_context
-def mstest_to_junit(ctx: TestbrainContext, in_path, out_path, merge, **kwargs):
+def mstest_to_junit(ctx: TestbrainContext, in_path, out_path, merge):
     if in_path == out_path:
         logger.warning(
             "Input path and output path equal... may be conflict and overwrite issue."
@@ -73,9 +73,13 @@ def mstest_to_junit(ctx: TestbrainContext, in_path, out_path, merge, **kwargs):
     in_filename = None
 
     out_filename = None
-    out_directory = None
 
     if in_path.exists():
+        # if in_path.is_dir():
+        #     in_directory = in_path
+        # else:
+        #     in_filename = in_path.name
+        #     in_directory = in_path.parent
         if not in_path.is_dir():
             in_filename = in_path.name
     else:
@@ -105,13 +109,11 @@ def mstest_to_junit(ctx: TestbrainContext, in_path, out_path, merge, **kwargs):
         ctx.exit(127)
 
     if in_path.is_file():
+        if not out_filename:
+            out_path = out_directory.joinpath(in_filename).with_suffix(".xml")
         try:
             junit_report = convert_mstest_to_junit(in_path)
-            if not out_filename:
-                out_path = out_directory.joinpath(in_filename).with_suffix(".xml")
-
             out_path.write_text(junit_report.model_dump_xml())
-
             logger.info(f"Saved junit report to {out_path}")
             ctx.exit(0)
         except ValueError:
@@ -123,22 +125,18 @@ def mstest_to_junit(ctx: TestbrainContext, in_path, out_path, merge, **kwargs):
         for infile in in_path.iterdir():
             if not infile.is_file():
                 continue
-
+            if not out_filename:
+                out_path = out_directory.joinpath(infile.name).with_suffix(".xml")
             try:
                 junit_report = convert_mstest_to_junit(infile)
+                if merge:
+                    reports.append(junit_report)
+                    continue
+                out_path.write_text(junit_report.model_dump_xml())
+                logger.info(f"Saved junit report to {out_path}")
             except ValueError:
                 logger.critical(f"Could not parse {infile}")
                 continue
-
-            if merge:
-                reports.append(junit_report)
-                continue
-
-            if not out_filename:
-                out_path = out_directory.joinpath(infile.name).with_suffix(".xml")
-            out_path.write_text(junit_report.model_dump_xml())
-
-            logger.info(f"Saved junit report to {out_path}")
 
         if merge:
             junit_report = merge_junit_reports(reports=reports)
@@ -167,7 +165,7 @@ def mstest_to_junit(ctx: TestbrainContext, in_path, out_path, merge, **kwargs):
     required=False,
 )
 @click.pass_context
-def merge_junit(ctx: TestbrainContext, in_dir, out_file, **kwargs):
+def merge_junit(ctx: TestbrainContext, in_dir, out_file):
     in_dir = pathlib.Path(in_dir).resolve()
 
     if not in_dir.is_dir():
@@ -325,21 +323,17 @@ def push(
         for filename in path.iterdir():
             if not filename.is_file():
                 continue
-
             report = string_to_fileobject(filename.read_text(), filename=filename.name)
             reports.append(report)
-
     elif path.is_dir() and merge:
         if report_type != "JUNIT":
             logger.warning("Merge supported only for JUNIT reports")
             ctx.exit(127)
-
         report_content = merge_junit_files(path)
         report = string_to_fileobject(
             report_content.model_dump_xml(), filename="merged-junit-report.xml"
         )
         reports.append(report)
-
     elif path.is_file():
         report = string_to_fileobject(path.read_text(), filename=path.name)
         reports.append(report)

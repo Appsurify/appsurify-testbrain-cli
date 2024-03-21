@@ -4,8 +4,10 @@ import click
 
 import testbrain.cli
 from testbrain.cli.apps.auth.cli import auth
+from testbrain.cli.apps.project.cli import project
 from testbrain.cli.apps.report.cli import report
 from testbrain.cli.apps.repository.cli import repository
+from testbrain.cli.apps.testsuite.cli import testsuite
 from testbrain.cli.core.command import TestbrainContext, TestbrainGroup
 
 logger = logging.getLogger(__name__)
@@ -30,5 +32,7 @@ def app(ctx: TestbrainContext, **kwargs):
 
 # TODO: Will be needed refactoring
 app.add_command(auth, "auth")
-app.add_command(repository, "repository")
+app.add_command(project, "project")
 app.add_command(report, "report")
+app.add_command(repository, "repository")
+app.add_command(testsuite, "testsuite")

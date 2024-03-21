@@ -3,7 +3,7 @@
         SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
 <topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
-       title="Components" id="Components">
+       title="Components" id="components" help-id="Components">
 
     <p>
         TestbrainCLI has several components for easy interaction with the Testbrain server.
@@ -18,6 +18,14 @@
             <tr>
                 <td><a href="auth.topic">Auth</a></td>
                 <td>Authorization Component.</td>
+            </tr>
+            <tr>
+                <td><a href="project.topic">Project</a></td>
+                <td>Project Component.</td>
+            </tr>
+            <tr>
+                <td><a href="testsuite.topic">Testsuite</a></td>
+                <td>Testsuite Component.</td>
             </tr>
             <tr>
                 <td><a href="report.topic">Report</a></td>

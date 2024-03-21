@@ -51,7 +51,6 @@ class ReportClient(HttpClient):
         max_retries: t.Optional[int] = None,
         report: t.Optional[BytesIO] = None,
         reports: t.Optional[t.List[BytesIO]] = None,
-        **kwargs,
     ):
         endpoint = "/api/external/import/"
         headers = {}
@@ -99,7 +98,7 @@ class ReportClient(HttpClient):
             else:
                 logger.error(
                     f"Some problem with push report request: status code: "
-                    f"{response.status_code} {response.content[:255]}"
+                    f"[{response.status_code}] {response.content[:255]}"
                 )
                 raise Exception(response.content)
         except requests.exceptions.ConnectionError:

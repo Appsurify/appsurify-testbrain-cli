@@ -8,14 +8,18 @@
         <toc-element topic="about-testbrain-cli.topic"/>
         <toc-element topic="quick-start.topic"/>
         <toc-element topic="сompatibility.topic"/>
-        <toc-element topic="Components.topic">
+        <toc-element topic="components.topic">
             <toc-element topic="auth.topic"/>
+            <toc-element topic="project.topic"/>
+            <toc-element topic="testsuite.topic"/>
             <toc-element topic="report.topic"/>
             <toc-element topic="repository.topic"/>
         </toc-element>
     </toc-element>
     <toc-element topic="installation.topic"/>
     <toc-element topic="configuration.topic"/>
-    <toc-element topic="integration-with-ci-systems.topic"/>
+    <toc-element topic="integration-with-ci-systems.topic">
+        <toc-element topic="gitHub-actions.topic"/>
+    </toc-element>
     <toc-element topic="tutorial.topic"/>
 </instance-profile>
