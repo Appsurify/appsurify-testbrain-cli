@@ -7,6 +7,7 @@ import click
 from testbrain.cli.apps.report.client import ReportClient
 from testbrain.cli.apps.report.utils import (
     convert_mstest_to_junit,
+    convert_allure_to_junit,
     merge_junit_files,
     merge_junit_reports,
 )
@@ -147,6 +148,65 @@ def mstest_to_junit(ctx: TestbrainContext, in_path, out_path, merge):
             logger.info(f"Saved junit report to {out_path}")
 
         ctx.exit(0)
+
+
+@report.command("allure2junit", cls=TestbrainCommand)
+@click.option(
+    "--in-path",
+    type=click.Path(exists=True, file_okay=False, dir_okay=True, readable=True),
+    default=pathlib.Path(".").resolve(),
+    show_default=True,
+    required=True,
+)
+@click.option(
+    "--out-path",
+    type=click.Path(exists=False, file_okay=True, dir_okay=True, readable=True),
+    default=pathlib.Path(".").resolve(),
+    show_default=True,
+    required=False,
+)
+@click.pass_context
+def allure_to_junit(ctx: TestbrainContext, in_path, out_path, **kwargs):
+    if in_path == out_path:
+        logger.warning(
+            "Input path and output path equal... may be conflict and overwrite issue."
+        )
+
+    in_path = pathlib.Path(in_path).resolve()
+    out_path = pathlib.Path(out_path).resolve()
+    out_filename = None
+
+    if not in_path.is_dir():
+        logger.error("Input path is not a directory")
+        ctx.exit(127)
+
+    if out_path.exists():
+        if out_path.is_dir():
+            out_directory = out_path
+        else:
+            out_filename = out_path.name
+            out_directory = out_path.parent
+    else:
+        if not out_path.suffix:
+            out_directory = out_path
+            out_directory.mkdir(parents=True, exist_ok=True)
+        else:
+            out_filename = out_path.name
+            out_directory = out_path.parent
+            out_directory.mkdir(parents=True, exist_ok=True)
+
+    if not out_filename:
+        out_filename = "junit-report.xml"
+
+    out_path = out_directory.joinpath(out_filename).with_suffix(".xml")
+    try:
+        junit_report = convert_allure_to_junit(infile=in_path)
+        out_path.write_text(junit_report.model_dump_xml())
+        logger.info(f"Saved junit report to {out_path}")
+        ctx.exit(0)
+    except AssertionError as exc:
+        logger.exception(exc, exc_info=False)
+        ctx.exit(127)
 
 
 @report.command("merge-junit", cls=TestbrainCommand)

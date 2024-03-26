@@ -1,0 +1,15 @@
+Feature: Bheave step support # <string>:2
+
+  Scenario: Scenario with failed step  # <string>:3
+    Given a step failed                # <string>:1
+      Assertion Failed: Fail message
+
+
+
+Failing scenarios:
+  <string>:3  Scenario with failed step
+
+0 features passed, 1 failed, 0 skipped
+0 scenarios passed, 1 failed, 0 skipped
+0 steps passed, 1 failed, 0 skipped, 0 undefined
+Took 0m0.000s

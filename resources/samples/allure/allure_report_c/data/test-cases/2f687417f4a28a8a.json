@@ -1,0 +1,75 @@
+{
+  "uid": "2f687417f4a28a8a",
+  "name": "3D015002 | Validate sketch command dialog & sketch ribbon command | Daredevils | ./test/specs/3DAuthor/3D004_SketchCommand",
+  "fullName": "Sketch command tests.3D015002 | Validate sketch command dialog & sketch ribbon command | Daredevils | ./test/specs/3DAuthor/3D004_SketchCommand",
+  "historyId": "8365a7b74dee5e045ad996e35a3b9fd1",
+  "time": {
+    "start": 1710996042897,
+    "stop": 1710996124212,
+    "duration": 81315
+  },
+  "description": "",
+  "descriptionHtml": "",
+  "status": "passed",
+  "flaky": false,
+  "newFailed": false,
+  "newBroken": false,
+  "newPassed": false,
+  "retriesCount": 0,
+  "retriesStatusChange": false,
+  "beforeStages": [],
+  "afterStages": [],
+  "labels": [
+    {
+      "name": "framework",
+      "value": "wdio"
+    },
+    {
+      "name": "language",
+      "value": "javascript"
+    },
+    {
+      "name": "thread",
+      "value": "0-21"
+    },
+    {
+      "name": "suite",
+      "value": "Sketch command tests"
+    },
+    {
+      "name": "testClass",
+      "value": "Sketch command tests"
+    },
+    {
+      "name": "testMethod",
+      "value": "3D015002 | Validate sketch command dialog & sketch ribbon command | Daredevils | ./test/specs/3DAuthor/3D004_SketchCommand"
+    },
+    {
+      "name": "package",
+      "value": "Sketch command tests"
+    },
+    {
+      "name": "resultFormat",
+      "value": "allure1"
+    }
+  ],
+  "parameters": [
+    {
+      "name": "browser",
+      "value": "Chrome Headless-114.0.5735.106"
+    }
+  ],
+  "links": [],
+  "hidden": false,
+  "retry": false,
+  "extra": {
+    "severity": "normal",
+    "retries": [],
+    "categories": [],
+    "tags": []
+  },
+  "source": "2f687417f4a28a8a.json",
+  "parameterValues": [
+    "Chrome Headless-114.0.5735.106"
+  ]
+}

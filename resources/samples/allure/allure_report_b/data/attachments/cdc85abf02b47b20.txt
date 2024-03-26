@@ -1,0 +1,26 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.12.0, pytest-7.4.4, pluggy-1.4.0
+rootdir: /private/var/folders/z0/zvd81kyj08xgnt8c1hbb2f780000gn/T/pytest-of-whenessel/pytest-3/test_with_fixture_duration2
+plugins: allure-pytest-2.13.4.dev2+gd759bc5
+collected 1 item
+
+test_with_fixture_duration.py E                                          [100%]
+
+==================================== ERRORS ====================================
+_____________ ERROR at setup of test_with_fixture_duration_example _____________
+
+    @pytest.fixture
+    def fixture():
+>       raise RuntimeError()
+E       RuntimeError
+
+test_with_fixture_duration.py:5: RuntimeError
+=============================== warnings summary ===============================
+../../../../../../../../../Users/whenessel/Development/PycharmProjects/allure-python/.venv/lib/python3.12/site-packages/_pytest/config/__init__.py:735
+  /Users/whenessel/Development/PycharmProjects/allure-python/.venv/lib/python3.12/site-packages/_pytest/config/__init__.py:735: PytestAssertRewriteWarning: Module already imported so cannot be rewritten: allure_pytest
+    self.import_plugin(arg, consider_entry_points=True)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+ERROR test_with_fixture_duration.py::test_with_fixture_duration_example - Run...
+========================= 1 warning, 1 error in 0.01s ==========================

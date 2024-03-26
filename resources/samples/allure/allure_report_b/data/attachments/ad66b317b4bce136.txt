@@ -1,0 +1,4 @@
+[32mINFO    [0m test_capture_log:test_capture_log.py:9 Start fixture
+[32mINFO    [0m test_capture_log:test_capture_log.py:15 Start test
+[32mINFO    [0m test_capture_log:test_capture_log.py:17 Start step
+[32mINFO    [0m test_capture_log:test_capture_log.py:11 Stop fixture

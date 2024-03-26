@@ -1,0 +1,19 @@
+Feature: Behave hooks support # <string>:1
+
+  @hook_target
+  Scenario: Tag hooks as fixture - this scenario is affected  # <string>:4
+    Given noop                                                # <string>:3
+
+  Scenario: Tag hooks as fixture - this scenario is not affected  # <string>:7
+    Given noop                                                    # <string>:3
+
+@hook_target
+Feature: Behave hook support # <string>:2
+
+  Scenario: Feature-level tag hooks as fixtures  # <string>:3
+    Given noop                                   # <string>:3
+
+2 features passed, 0 failed, 0 skipped
+3 scenarios passed, 0 failed, 0 skipped
+3 steps passed, 0 failed, 0 skipped, 0 undefined
+Took 0m0.000s

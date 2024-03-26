@@ -1,0 +1,20 @@
+Feature: Allure testplan support # <string>:1
+
+  Scenario: Scenario selection  # <string>:2
+    Given noop                  # <string>:3
+
+  Scenario: Scenario deselection  # <string>:5
+    Given noop                    # None
+
+Feature: Allure testplan support 2 # <string>:1
+
+  Scenario: Scenario selection 2  # <string>:2
+    Given noop                    # <string>:3
+
+  Scenario: Scenario deselection 2  # <string>:5
+    Given noop                      # None
+
+2 features passed, 0 failed, 0 skipped
+2 scenarios passed, 0 failed, 2 skipped
+2 steps passed, 0 failed, 2 skipped, 0 undefined
+Took 0m0.000s

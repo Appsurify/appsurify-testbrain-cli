@@ -1,0 +1,19 @@
+Feature: Allure-behave compatibility with feature backgrounds # <string>:2
+
+  Background: A background with passed step  # <string>:3
+
+  Scenario: Scenario with background containing passed step  # <string>:7
+    Given the first background step that is passed           # <string>:3
+    And the second background step with no failures          # <string>:15
+    Given the first step with no failures                    # <string>:15
+    And the second step with no failures                     # <string>:15
+
+  Scenario: Another scenario with background containing passed step  # <string>:11
+    Given the first background step that is passed                   # <string>:3
+    And the second background step with no failures                  # <string>:15
+    Given the step with no failures                                  # <string>:15
+
+1 feature passed, 0 failed, 0 skipped
+2 scenarios passed, 0 failed, 0 skipped
+7 steps passed, 0 failed, 0 skipped, 0 undefined
+Took 0m0.000s

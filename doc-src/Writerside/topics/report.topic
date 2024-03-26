@@ -24,6 +24,16 @@
                     </list>
                 </td>
             </tr>
+            <tr>
+                <td><a href="#allure2junit">allure2junit</a></td>
+                <td>Converting a report from <b>allure report</b> (Generated DIRECTORY) format to junit (.xml)</td>
+                <td>
+                    <list>
+                        <li>Allure to JUnit</li>
+
+                    </list>
+                </td>
+            </tr>
             <tr><td><a href="#merge-junit">merge-junit</a></td><td>Merging a report(s) to one report file</td>
                 <td>
                     <list>
@@ -282,6 +292,161 @@
 
     </chapter>
 
+    <chapter title="Allure2JUnit" id="allure2junit">
+        <p>Converting a generated report from allure format (DIRECTORY) format to junit (.xml)</p>
+        <p>This command will convert the generated allure report from allure-results to JUnit xml format.</p>
+
+        <chapter title="Command line parameters" id="allure2junit-parameters">
+            <deflist type="narrow" sorted="desc">
+
+                <def title="--in-path PATH">
+                    Allure report directory. [default: ./]
+                </def>
+
+                <def title="--out-path PATH">
+                    Output JUNit report filename or directory. If empty - out filename like in-path filename.xml
+                </def>
+
+                <def title="--work-dir <dir>">
+                    Enter the testbrain script working
+                    directory. If not specified, the current
+                    working directory will be used.  [env var:
+                    TESTBRAIN_WORK_DIR; default: ./]
+                </def>
+
+                <def title="--loglevel, -l INFO">
+                    [DEBUG|INFO|WARNING|ERROR|CRITICAL]
+                </def>
+
+                <def title="--logfile PATH">
+                    Log filename  [default: (stderr)]
+                </def>
+
+                <def title="--quiet">
+                    Quiet mode... everytime exit with 0
+                </def>
+
+            </deflist>
+        </chapter>
+
+        <chapter title="Usage examples" id="allure2junit-example">
+            <p>Some simple usage examples to make the behavior easier to understand.</p>
+
+            <tabs group="quick-start">
+                <tab title="Shell" group-key="quick-start-shell">
+                    <procedure>
+                        <tabs group="quick-start-internal">
+                            <tab title="testbrain" group-key="quick-start-internal-testbrain">
+                                <code-block lang="shell">
+                                    testbrain report allure2junit --help
+                                </code-block>
+                            </tab>
+                            <tab title="tbcli" group-key="quick-start-internal-tbcli">
+                                <code-block lang="shell">
+                                    tbcli report allure2junit --help
+                                </code-block>
+                            </tab>
+                            <tab title="allure2junit (alias)" group-key="quick-start-internal-alias">
+                                <code-block lang="shell">
+                                    allure2junit --help
+                                </code-block>
+                            </tab>
+                        </tabs>
+                    </procedure>
+                </tab>
+                <tab title="Docker" group-key="quick-start-docker">
+                    <procedure>
+                        <tabs group="quick-start-internal">
+                            <tab title="Stable/Latest" group-key="quick-start-internal-docker-latest">
+                                <code-block lang="shell">
+                                    docker run --rm -it \
+                                    -v $(pwd)/:/data \
+                                    appsurifyinc/appsurify-testbrain-cli:latest \
+                                    report allure2junit --help
+                                </code-block>
+                            </tab>
+                            <tab title="Dev/Edge" group-key="quick-start-internal-docker-edge">
+                                <code-block lang="shell">
+                                    docker run --rm -it \
+                                    -v $(pwd)/:/data \
+                                    appsurifyinc/appsurify-testbrain-cli:edge \
+                                    report allure2junit --help
+                                </code-block>
+                            </tab>
+                        </tabs>
+                    </procedure>
+
+                </tab>
+
+            </tabs>
+
+            <p>Convert generated allure-report directory to junit (.xml). For example, the ./reports/ directory contains files and directories (data/suites.json, data/*.json), after the conversion the files - junit-report.xml will appear in the ./out-reports/ directory or with defined name.</p>
+            <note>You can define --out-path ./out-reports/ or --out-path ./out-reports/my-report-name.xml</note>
+            <tabs group="quick-start">
+                <tab title="Shell" group-key="quick-start-shell">
+                    <procedure>
+                        <tabs group="quick-start-internal">
+                            <tab title="testbrain" group-key="quick-start-internal-testbrain">
+                                <code-block lang="shell">
+                                    testbrain report allure2junit \
+                                    --in-path ./reports/ \
+                                    --out-path ./out-reports/
+                                </code-block>
+                            </tab>
+                            <tab title="tbcli" group-key="quick-start-internal-tbcli">
+                                <code-block lang="shell">
+                                    tbcli report allure2junit \
+                                    --in-path ./reports/ \
+                                    --out-path ./out-reports/
+                                </code-block>
+                            </tab>
+                            <tab title="mstest2junit (alias)" group-key="quick-start-internal-alias">
+                                <code-block lang="shell">
+                                    allure2junit \
+                                    --in-path ./reports/ \
+                                    --out-path ./out-reports/
+                                </code-block>
+                            </tab>
+                        </tabs>
+                    </procedure>
+                </tab>
+                <tab title="Docker" group-key="quick-start-docker">
+                    <procedure>
+                        <tabs group="quick-start-internal">
+                            <tab title="Stable/Latest" group-key="quick-start-internal-docker-latest">
+                                <code-block lang="shell">
+                                    docker run --rm -it \
+                                    -v $(pwd)/:/data \
+                                    appsurifyinc/appsurify-testbrain-cli:latest \
+                                    report allure2junit \
+                                    --in-path ./reports/ \
+                                    --out-path ./out-reports/
+                                </code-block>
+                            </tab>
+                            <tab title="Dev/Edge" group-key="quick-start-internal-docker-edge">
+                                <code-block lang="shell">
+                                    docker run --rm -it \
+                                    -v $(pwd)/:/data \
+                                    appsurifyinc/appsurify-testbrain-cli:edge \
+                                    report allure2junit \
+                                    --in-path ./reports/ \
+                                    --out-path ./out-reports/
+                                </code-block>
+                            </tab>
+                        </tabs>
+                    </procedure>
+
+                </tab>
+
+            </tabs>
+            <code-block lang="shell">
+                2024-03-26 21:49:27 INFO     Saved junit report to /full/path/reports/junit-report.xml
+            </code-block>
+
+        </chapter>
+
+    </chapter>
+
     <chapter title="Merge JUnit" id="merge-junit">
         <p>Merging a report(s) to one report file</p>
         <chapter title="Command line parameters" id="merge-junit-parameters">
@@ -422,8 +587,6 @@
 
         </chapter>
     </chapter>
-
-
 
     <chapter title="Report2Testbrain" id="report2testbrain">
         <p>Pushing testing report(s) to Testbrain server</p>

@@ -71,6 +71,7 @@ testbrain = "testbrain.cli.cli:app"
 tbcli = "testbrain.cli.cli:app"
 # Extra utils
 mstest2junit = "testbrain.cli.apps.report.cli:mstest_to_junit"
+allure2junit = "testbrain.cli.apps.report.cli:allure_to_junit"
 report2testbrain = "testbrain.cli.apps.report.cli:push"
 # Backward capabilities
 # testbrain git - aliases

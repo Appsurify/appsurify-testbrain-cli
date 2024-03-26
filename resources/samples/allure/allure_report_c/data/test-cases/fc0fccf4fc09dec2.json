@@ -1,0 +1,75 @@
+{
+  "uid": "fc0fccf4fc09dec2",
+  "name": "3D006257 | Save As for Resize hole scenario | Spartans | ./test/specs/3DAuthor/3D002_Save/3D002_02_SaveAs",
+  "fullName": "SaveAs command tests.3D006257 | Save As for Resize hole scenario | Spartans | ./test/specs/3DAuthor/3D002_Save/3D002_02_SaveAs",
+  "historyId": "f97205fca80cf277165755b14ce8f8c3",
+  "time": {
+    "start": 1710995353377,
+    "stop": 1710995643779,
+    "duration": 290402
+  },
+  "description": "",
+  "descriptionHtml": "",
+  "status": "passed",
+  "flaky": false,
+  "newFailed": false,
+  "newBroken": false,
+  "newPassed": false,
+  "retriesCount": 0,
+  "retriesStatusChange": false,
+  "beforeStages": [],
+  "afterStages": [],
+  "labels": [
+    {
+      "name": "framework",
+      "value": "wdio"
+    },
+    {
+      "name": "language",
+      "value": "javascript"
+    },
+    {
+      "name": "thread",
+      "value": "0-3"
+    },
+    {
+      "name": "suite",
+      "value": "SaveAs command tests"
+    },
+    {
+      "name": "testClass",
+      "value": "SaveAs command tests"
+    },
+    {
+      "name": "testMethod",
+      "value": "3D006257 | Save As for Resize hole scenario | Spartans | ./test/specs/3DAuthor/3D002_Save/3D002_02_SaveAs"
+    },
+    {
+      "name": "package",
+      "value": "SaveAs command tests"
+    },
+    {
+      "name": "resultFormat",
+      "value": "allure1"
+    }
+  ],
+  "parameters": [
+    {
+      "name": "browser",
+      "value": "Chrome Headless-114.0.5735.106"
+    }
+  ],
+  "links": [],
+  "hidden": false,
+  "retry": false,
+  "extra": {
+    "severity": "normal",
+    "retries": [],
+    "categories": [],
+    "tags": []
+  },
+  "source": "fc0fccf4fc09dec2.json",
+  "parameterValues": [
+    "Chrome Headless-114.0.5735.106"
+  ]
+}
