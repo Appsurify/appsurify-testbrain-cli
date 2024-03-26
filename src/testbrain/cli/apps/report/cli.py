@@ -6,8 +6,8 @@ import click
 
 from testbrain.cli.apps.report.client import ReportClient
 from testbrain.cli.apps.report.utils import (
-    convert_mstest_to_junit,
     convert_allure_to_junit,
+    convert_mstest_to_junit,
     merge_junit_files,
     merge_junit_reports,
 )

@@ -2,19 +2,19 @@ import pathlib
 import typing as t
 
 from testbrain.contrib.report.converters import (
+    Allure2JUnitReportConverter,
     JUnit2TestbrainReportConverter,
     MSTest2JUnitReportConverter,
     MSTest2TestbrainReportConverter,
-    Allure2JUnitReportConverter,
 )
 from testbrain.contrib.report.mergers.junit import JUnitReportMerger
+from testbrain.contrib.report.models.allure import AllureReport
 from testbrain.contrib.report.models.junit import JUnitTestSuites
 from testbrain.contrib.report.models.testbrain import TestbrainTestSuite
-from testbrain.contrib.report.models.allure import AllureReport
 from testbrain.contrib.report.parsers import (
+    AllureReportParser,
     JUnitReportParser,
     MSTestReportParser,
-    AllureReportParser,
 )
 
 
