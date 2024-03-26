@@ -1,0 +1,13 @@
+Feature: Behave scenario support # <string>:2
+
+  Scenario: Scenario with single step  # <string>:3
+    Given a step                       # None
+
+
+Failing scenarios:
+  <string>:3  Scenario with single step
+
+0 features passed, 1 failed, 0 skipped
+0 scenarios passed, 1 failed, 0 skipped
+0 steps passed, 0 failed, 0 skipped, 1 undefined
+Took 0m0.000s

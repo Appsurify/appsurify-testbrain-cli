@@ -1,0 +1,14 @@
+@critical, @blocker
+Feature: Allure severity support # <string>:2
+
+  @minor @trivial
+  Scenario: This is a trivial scenario  # <string>:4
+    Given noop                          # <string>:1
+
+  Scenario: While this one is a blocker  # <string>:7
+    Given noop                           # <string>:1
+
+1 feature passed, 0 failed, 0 skipped
+2 scenarios passed, 0 failed, 0 skipped
+2 steps passed, 0 failed, 0 skipped, 0 undefined
+Took 0m0.000s

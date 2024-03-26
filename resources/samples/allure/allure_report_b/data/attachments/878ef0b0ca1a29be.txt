@@ -1,0 +1,5 @@
+ERROR: usage: pytest [options] [file_or_dir] [file_or_dir] [...]
+pytest: error: unrecognized arguments: --log-level=INFO
+  inifile: None
+  rootdir: /private/var/folders/z0/zvd81kyj08xgnt8c1hbb2f780000gn/T/pytest-of-whenessel/pytest-3/test_capture_log1
+

@@ -1,0 +1,26 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.12.0, pytest-7.4.4, pluggy-1.4.0
+rootdir: /private/var/folders/z0/zvd81kyj08xgnt8c1hbb2f780000gn/T/pytest-of-whenessel/pytest-3/test_failed_fixture_value_in_display_name0
+plugins: allure-pytest-2.13.4.dev2+gd759bc5
+collected 1 item
+
+test_failed_fixture_value_in_display_name.py E                           [100%]
+
+==================================== ERRORS ====================================
+__________________ ERROR at setup of test_fixture_value_name ___________________
+
+    @pytest.fixture
+    def fix():
+>       raise AssertionError("Fixture failed for some reason")
+E       AssertionError: Fixture failed for some reason
+
+test_failed_fixture_value_in_display_name.py:6: AssertionError
+=============================== warnings summary ===============================
+../../../../../../../../../Users/whenessel/Development/PycharmProjects/allure-python/.venv/lib/python3.12/site-packages/_pytest/config/__init__.py:735
+  /Users/whenessel/Development/PycharmProjects/allure-python/.venv/lib/python3.12/site-packages/_pytest/config/__init__.py:735: PytestAssertRewriteWarning: Module already imported so cannot be rewritten: allure_pytest
+    self.import_plugin(arg, consider_entry_points=True)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+ERROR test_failed_fixture_value_in_display_name.py::test_fixture_value_name
+========================= 1 warning, 1 error in 0.01s ==========================

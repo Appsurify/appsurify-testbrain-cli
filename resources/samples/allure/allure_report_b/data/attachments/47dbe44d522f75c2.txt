@@ -1,0 +1,13 @@
+@critical
+Feature: Allure severity support # <string>:2
+
+  Scenario: This scenario inherits the @cricial tag  # <string>:3
+    Given noop                                       # <string>:1
+
+  Scenario: This scenario also inherits the @cricial tag  # <string>:6
+    Given noop                                            # <string>:1
+
+1 feature passed, 0 failed, 0 skipped
+2 scenarios passed, 0 failed, 0 skipped
+2 steps passed, 0 failed, 0 skipped, 0 undefined
+Took 0m0.000s

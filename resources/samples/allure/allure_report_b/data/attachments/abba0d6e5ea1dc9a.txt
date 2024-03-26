@@ -1,0 +1,14 @@
+Feature: Allure link support # <string>:1
+
+  @allure.issue:https://github.com/allure-framework/allure-python/issues/1
+  Scenario: Scenario associated with the issue  # <string>:3
+    Given noop                                  # <string>:1
+
+  @allure.tms:https://qameta.io/#features
+  Scenario: Scenario associated with the TMS test case  # <string>:7
+    Given noop                                          # <string>:1
+
+1 feature passed, 0 failed, 0 skipped
+2 scenarios passed, 0 failed, 0 skipped
+2 steps passed, 0 failed, 0 skipped, 0 undefined
+Took 0m0.000s

@@ -1,0 +1,104 @@
+{
+  "uid": "60141912fc738f4b",
+  "name": "3D000014 | Validate that after selecting millimeter option file are opened in mm units | Spartans | ./test/specs/3DAuthor/3D001_CreateNewdesign",
+  "fullName": "Create New design command tests.3D000014 | Validate that after selecting millimeter option file are opened in mm units | Spartans | ./test/specs/3DAuthor/3D001_CreateNewdesign",
+  "historyId": "b4a8e7b50368a4e06b3bd1d17433a746",
+  "time": {
+    "start": 1710997009969,
+    "stop": 1710997177623,
+    "duration": 167654
+  },
+  "description": "",
+  "descriptionHtml": "",
+  "status": "broken",
+  "statusMessage": "Can't call getAttribute on element with selector \"[data-locator=\"Entity Type\"]\" because element wasn't found",
+  "statusTrace": "Error: Can't call getAttribute on element with selector \"[data-locator=\"Entity Type\"]\" because element wasn't found\n                    at Object.validateInquireCommandDialog (/builds/mainstream-eng-cloud/zelx-testsuite/test/page-objects/3DAuthor/inquireCommand.js:132:12)\n                    at Operations (/builds/mainstream-eng-cloud/zelx-testsuite/test/page-objects/operationsMaster.js:1192:24)\n                    at Context.<anonymous> (/builds/mainstream-eng-cloud/zelx-testsuite/test/page-objects/common.js:225:5)",
+  "flaky": false,
+  "newFailed": false,
+  "newBroken": false,
+  "newPassed": false,
+  "retriesCount": 0,
+  "retriesStatusChange": false,
+  "beforeStages": [],
+  "testStage": {
+    "status": "broken",
+    "statusMessage": "Can't call getAttribute on element with selector \"[data-locator=\"Entity Type\"]\" because element wasn't found",
+    "statusTrace": "Error: Can't call getAttribute on element with selector \"[data-locator=\"Entity Type\"]\" because element wasn't found\n                    at Object.validateInquireCommandDialog (/builds/mainstream-eng-cloud/zelx-testsuite/test/page-objects/3DAuthor/inquireCommand.js:132:12)\n                    at Operations (/builds/mainstream-eng-cloud/zelx-testsuite/test/page-objects/operationsMaster.js:1192:24)\n                    at Context.<anonymous> (/builds/mainstream-eng-cloud/zelx-testsuite/test/page-objects/common.js:225:5)",
+    "steps": [],
+    "attachments": [
+      {
+        "uid": "2fad09be4171e7ac",
+        "name": "Screenshot",
+        "source": "2fad09be4171e7ac.png",
+        "type": "image/png",
+        "size": 191945
+      }
+    ],
+    "parameters": [],
+    "stepsCount": 0,
+    "shouldDisplayMessage": true,
+    "attachmentsCount": 1,
+    "hasContent": true,
+    "attachmentStep": false
+  },
+  "afterStages": [],
+  "labels": [
+    {
+      "name": "framework",
+      "value": "wdio"
+    },
+    {
+      "name": "language",
+      "value": "javascript"
+    },
+    {
+      "name": "thread",
+      "value": "0-39"
+    },
+    {
+      "name": "suite",
+      "value": "Create New design command tests"
+    },
+    {
+      "name": "testClass",
+      "value": "Create New design command tests"
+    },
+    {
+      "name": "testMethod",
+      "value": "3D000014 | Validate that after selecting millimeter option file are opened in mm units | Spartans | ./test/specs/3DAuthor/3D001_CreateNewdesign"
+    },
+    {
+      "name": "package",
+      "value": "Create New design command tests"
+    },
+    {
+      "name": "resultFormat",
+      "value": "allure1"
+    }
+  ],
+  "parameters": [
+    {
+      "name": "browser",
+      "value": "Chrome Headless-114.0.5735.106"
+    }
+  ],
+  "links": [],
+  "hidden": false,
+  "retry": false,
+  "extra": {
+    "severity": "normal",
+    "retries": [],
+    "categories": [
+      {
+        "name": "Test defects",
+        "matchedStatuses": [],
+        "flaky": false
+      }
+    ],
+    "tags": []
+  },
+  "source": "60141912fc738f4b.json",
+  "parameterValues": [
+    "Chrome Headless-114.0.5735.106"
+  ]
+}

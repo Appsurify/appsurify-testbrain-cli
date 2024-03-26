@@ -1,0 +1,24 @@
+Feature: Allure-behave compatibility with feature backgrounds # <string>:2
+
+  Background: A background with undefined step  # <string>:3
+
+  Scenario: Scenario with background containing undefined step  # <string>:7
+    Given the first background step that is undefined           # None
+    And the second background step with no failures             # None
+    Given the first step with no failures                       # None
+    And the second step with no failures                        # None
+
+  Scenario: Another scenario with background containing undefined step  # <string>:11
+    Given the first background step that is undefined                   # None
+    And the second background step with no failures                     # None
+    Given the step with no failures                                     # None
+
+
+Failing scenarios:
+  <string>:7  Scenario with background containing undefined step
+  <string>:11  Another scenario with background containing undefined step
+
+0 features passed, 1 failed, 0 skipped
+0 scenarios passed, 2 failed, 0 skipped
+0 steps passed, 0 failed, 5 skipped, 2 undefined
+Took 0m0.000s

@@ -1,0 +1,40 @@
+Feature: Allure-behave compatibility with feature backgrounds # <string>:2
+
+  Background: A background with broken step  # <string>:3
+
+  Scenario: Scenario with background containing broken step  # <string>:7
+    Given the first background step that is broken           # <string>:11
+      Traceback (most recent call last):
+        File "/Users/whenessel/Development/PycharmProjects/allure-python/.venv/lib/python3.12/site-packages/behave/model.py", line 1329, in run
+          match.run(runner.context)
+        File "/Users/whenessel/Development/PycharmProjects/allure-python/.venv/lib/python3.12/site-packages/behave/matchers.py", line 98, in run
+          self.func(context, *args, **kwargs)
+        File "<string>", line 13, in step_impl
+      ValueError: Something is broken
+
+    And the second background step with no failures          # None
+    Given the first step with no failures                    # None
+    And the second step with no failures                     # None
+
+  Scenario: Another scenario with background containing broken step  # <string>:11
+    Given the first background step that is broken                   # <string>:11
+      Traceback (most recent call last):
+        File "/Users/whenessel/Development/PycharmProjects/allure-python/.venv/lib/python3.12/site-packages/behave/model.py", line 1329, in run
+          match.run(runner.context)
+        File "/Users/whenessel/Development/PycharmProjects/allure-python/.venv/lib/python3.12/site-packages/behave/matchers.py", line 98, in run
+          self.func(context, *args, **kwargs)
+        File "<string>", line 13, in step_impl
+      ValueError: Something is broken
+
+    And the second background step with no failures                  # None
+    Given the step with no failures                                  # None
+
+
+Failing scenarios:
+  <string>:7  Scenario with background containing broken step
+  <string>:11  Another scenario with background containing broken step
+
+0 features passed, 1 failed, 0 skipped
+0 scenarios passed, 2 failed, 0 skipped
+0 steps passed, 2 failed, 5 skipped, 0 undefined
+Took 0m0.000s
