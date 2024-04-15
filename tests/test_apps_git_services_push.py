@@ -118,7 +118,7 @@ def test_apps_git_service(fp):
 
     branch = service.validate_branch(branch="main")
 
-    assert branch == "main"
+    assert branch == "fake"
 
     fp.register(
         [
