@@ -1,0 +1,2 @@
+[33mWARNING [0m behave:model.py:646 SKIP Scenario Scenario deselection: Not in allure test plan
+[33mWARNING [0m behave:model.py:646 SKIP Scenario Scenario deselection 2: Not in allure test plan

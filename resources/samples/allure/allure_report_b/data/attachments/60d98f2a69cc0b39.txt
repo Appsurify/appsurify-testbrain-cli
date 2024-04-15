@@ -1,0 +1,28 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.12.0, pytest-7.4.4, pluggy-1.4.0
+rootdir: /private/var/folders/z0/zvd81kyj08xgnt8c1hbb2f780000gn/T/pytest-of-whenessel/pytest-3/test_separate_result_for_each_rerun0
+plugins: allure-pytest-2.13.4.dev2+gd759bc5, rerunfailures-14.0
+collected 1 item
+
+test_separate_result_for_each_rerun.py R                                 [100%]F [100%]
+
+=================================== FAILURES ===================================
+______________________ test_pytest_rerunfailures_example _______________________
+
+request = <FixtureRequest for <Function test_pytest_rerunfailures_example>>
+
+    @pytest.mark.flaky(reruns=1)
+    def test_pytest_rerunfailures_example(request):
+>       assert False
+E       assert False
+
+test_separate_result_for_each_rerun.py:5: AssertionError
+=============================== warnings summary ===============================
+../../../../../../../../../Users/whenessel/Development/PycharmProjects/allure-python/.venv/lib/python3.12/site-packages/_pytest/config/__init__.py:735
+  /Users/whenessel/Development/PycharmProjects/allure-python/.venv/lib/python3.12/site-packages/_pytest/config/__init__.py:735: PytestAssertRewriteWarning: Module already imported so cannot be rewritten: allure_pytest
+    self.import_plugin(arg, consider_entry_points=True)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED test_separate_result_for_each_rerun.py::test_pytest_rerunfailures_example
+==================== 1 failed, 1 warning, 1 rerun in 0.01s =====================

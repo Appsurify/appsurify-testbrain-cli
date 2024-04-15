@@ -1,0 +1,21 @@
+Feature: Bheave step support # <string>:2
+
+  Scenario: Scenario with broken step  # <string>:3
+    Given a broken step                # <string>:1
+      Traceback (most recent call last):
+        File "/Users/whenessel/Development/PycharmProjects/allure-python/.venv/lib/python3.12/site-packages/behave/model.py", line 1329, in run
+          match.run(runner.context)
+        File "/Users/whenessel/Development/PycharmProjects/allure-python/.venv/lib/python3.12/site-packages/behave/matchers.py", line 98, in run
+          self.func(context, *args, **kwargs)
+        File "<string>", line 2, in _
+      ValueError: Reason
+
+
+
+Failing scenarios:
+  <string>:3  Scenario with broken step
+
+0 features passed, 1 failed, 0 skipped
+0 scenarios passed, 1 failed, 0 skipped
+0 steps passed, 1 failed, 0 skipped, 0 undefined
+Took 0m0.000s

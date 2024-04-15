@@ -1,0 +1,1689 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","5","tests.allure_nose2.acceptance.allure_api.labels","test_bdd_labels","","","","test_func_label","
+    >>> import allure
+
+    >>> @allure.epic(""Label"", ""Bdd"")
+    ... @allure.feature(""Function label"")
+    ... def test_func_label_example():
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:28 MSK 2024","Tue Mar 19 18:07:28 MSK 2024","24","tests.allure_pytest.acceptance.status","base_call_status_test","","","","test_broken","
+    >>> def test_broken_example():
+    ...     raise IndentationError()
+    "
+"passed","Tue Mar 19 18:07:26 MSK 2024","Tue Mar 19 18:07:26 MSK 2024","19","tests.allure_pytest.acceptance.fixture","fixture_test","","","","test_fixture_allure_title_before",""
+"passed","Tue Mar 19 18:07:31 MSK 2024","Tue Mar 19 18:07:31 MSK 2024","13","tests.allure_robotframework.acceptance.allure_api.labels","labels_test","","","","test_builtin_label_from_robot_tag",""
+"passed","Tue Mar 19 18:07:25 MSK 2024","Tue Mar 19 18:07:25 MSK 2024","19","tests.allure_pytest.acceptance.fixture","fixture_test","","","","test_fixture[class-function]",""
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","0","tests.allure_pytest.acceptance.label.bdd","dynamic_bdd_label_test","","","","test_multiple_dynamic_labels",""
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","0","tests.allure_behave.defects","issue717_test","","","","test_step_table_data_escaping[comma]",""
+"passed","Tue Mar 19 18:07:26 MSK 2024","Tue Mar 19 18:07:26 MSK 2024","18","tests.allure_pytest.acceptance.fixture","fixture_test","","","","test_fixture_allure_title",""
+"passed","Tue Mar 19 18:07:25 MSK 2024","Tue Mar 19 18:07:25 MSK 2024","19","tests.allure_pytest.acceptance.fixture","fixture_test","","","","test_fixture[session-function]",""
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","6","tests.allure_behave.acceptance.behave_support.scenario_outlines","scenario_outline_test","","","","test_multiple_outlines_each_with_one_table",""
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","21","tests.allure_pytest.acceptance.attachment","attachment_fixture_test","","","","test_fixture_attachment",""
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","21","tests.allure_pytest.acceptance.duration","duration_time_test","","","","test_duration[skip]",""
+"passed","Tue Mar 19 18:07:26 MSK 2024","Tue Mar 19 18:07:26 MSK 2024","19","tests.allure_pytest.acceptance.fixture","yield_fixture_test","","","","test_yield_fixture","
+    >>> import pytest
+
+    >>> @pytest.fixture
+    ... def yield_fixture():
+    ...     yield
+
+    >>> def test_yield_fixture_example(yield_fixture):
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:25 MSK 2024","Tue Mar 19 18:07:25 MSK 2024","18","tests.allure_pytest.acceptance.fixture","fixture_test","","","","test_fixture[session-session]",""
+"passed","Tue Mar 19 18:07:28 MSK 2024","Tue Mar 19 18:07:28 MSK 2024","27","tests.allure_pytest.acceptance.status","base_setup_status_test","","","","test_failed_fixture","
+    >>> import pytest
+
+    >>> @pytest.fixture
+    ... def failed_fixture():
+    ...     assert False
+
+    >>> def test_failed_fixture_example(failed_fixture):
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:25 MSK 2024","Tue Mar 19 18:07:25 MSK 2024","23","tests.allure_pytest.acceptance.duration","duration_time_test","","","","test_with_fixture_finalizer_duration[exit]",""
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","22","tests.allure_pytest.acceptance.label.bdd","dynamic_bdd_label_test","","","","test_dynamic_labels",""
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","3","tests.allure_behave.acceptance.behave_support.behave_cmd","behave_cmd_test","","","","test_behave_tags_filter","Feature: Behave --tags CLI argument support
+
+        @tag
+        Scenario: Scenario with tag
+            Given noop
+
+        Scenario: Scenario without tag
+            Given noop
+    "
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","32","tests.allure_behave.acceptance.allure_api.testplan","testplan_test","","","","test_testplan_fullname_selection",""
+"passed","Tue Mar 19 18:07:29 MSK 2024","Tue Mar 19 18:07:29 MSK 2024","21","tests.allure_pytest.acceptance.status","xfail_call_status_test","","","","test_xfail_raise_not_mentioned_exception","
+    >>> import pytest
+
+    >>> @pytest.mark.xfail(raises=AssertionError)
+    ... def test_xfail_raise_not_mentioned_exception_example():
+    ...     raise ZeroDivisionError
+    "
+"passed","Tue Mar 19 18:07:29 MSK 2024","Tue Mar 19 18:07:29 MSK 2024","20","tests.allure_pytest.acceptance.status","xfail_teardown_status_test","","","","test_xfail_failed_finalizer_fixture","
+    >>> import pytest
+
+    >>> @pytest.fixture
+    ... def failed_finalizer_fixture(request):
+    ...     def fixture_finalizer():
+    ...         assert False
+    ...     request.addfinalizer(fixture_finalizer)
+
+    >>> @pytest.mark.xfail()
+    ... def test_xfail_failed_finalizer_fixture_example(failed_finalizer_fixture):
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:31 MSK 2024","Tue Mar 19 18:07:31 MSK 2024","11","tests.allure_robotframework.acceptance.robotframework_support.fixtures","fixture_test","","","","test_failed_teardown","
+    *** Keywords ***
+    Fixture
+        Fail  Reason
+
+    *** Test Cases ***
+    Test Under Test
+        [Teardown]  Fixture
+        No Operation
+    "
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","0","tests.allure_pytest.acceptance.link","dynamic_link_test","","","","test_all_links_together",""
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","3","tests.allure_behave.acceptance.behave_support.scenarios","scenario_test","","","","test_scenario_with_one_step[broken]","
+    Feature: Behave scenario support
+        Scenario: Scenario with single step
+            Given a step
+    "
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","2","tests.allure_behave.acceptance.allure_api.attachment","attachment_test","","","","test_file_attachment_from_step",""
+"passed","Tue Mar 19 18:07:30 MSK 2024","Tue Mar 19 18:07:30 MSK 2024","19","tests.allure_pytest.acceptance.testplan","select_test_from_testplan_test","","","","test_select_by_testcase_id_test[selector-nomatch]","
+    >>> import allure
+
+    >>> @allure.id(""1"")
+    ... def test_number_one():
+    ...     pass
+
+    >>> @allure.id(""2"")
+    ... def test_number_two():
+    ...     pass
+
+    >>> @allure.id(""3"")
+    ... @allure.id(""4"")
+    ... def test_number_three():
+    ...     pass
+
+    >>> def test_without_number():
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","21","tests.allure_pytest.acceptance.label.tag","tag_test","","","","test_pytest_marker_with_kwargs_native_encoding","
+    >>> import pytest
+
+    >>> @pytest.mark.marker(stuff='я')
+    ... def test_pytest_marker_with_kwargs_native_encoding_example():
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:28 MSK 2024","Tue Mar 19 18:07:29 MSK 2024","23","tests.allure_pytest.acceptance.status","base_setup_status_test","","","","test_pytest_fail_with_reason_fixture","
+    >>> import pytest
+
+    >>> @pytest.fixture
+    ... def pytest_fail_with_reason_fixture():
+    ...     pytest.fail(""Fail message"")
+
+    >>> def test_pytest_fail_with_reason_fixture_example(pytest_fail_with_reason_fixture):
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","0","tests.allure_pytest.acceptance.attachment","attachment_fixture_test","","","","test_fixture_finalizer_attachment",""
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","20","tests.allure_pytest.acceptance.description","dynamic_description_test","","","","test_dynamic_description",""
+"passed","Tue Mar 19 18:07:31 MSK 2024","Tue Mar 19 18:07:31 MSK 2024","12","tests.allure_robotframework.acceptance.robotframework_support.fixtures","fixture_test","","","","test_failed_setup","
+    *** Keywords ***
+    Fixture
+        Fail  Reason
+
+    *** Test Cases ***
+    Test Under Test
+        [Setup]     Fixture
+        No Operation
+    "
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","20","tests.allure_pytest.acceptance.label.severity","select_severity_test","","","","test_select_by_severity_level[all]",""
+"passed","Tue Mar 19 18:07:29 MSK 2024","Tue Mar 19 18:07:29 MSK 2024","21","tests.allure_pytest.acceptance.status","skip_step_status_test","","","","test_skip_in_step","
+    >>> import pytest
+    >>> import allure
+
+    >>> def test_skip_in_step_example():
+    ...     with allure.step(""Step""):
+    ...         pytest.skip()
+    "
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","2","tests.allure_behave.acceptance.allure_api.description","description_test","","","","test_descriptions_before_scenario",""
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","0","tests.allure_behave.defects","issue717_test","","","","test_step_table_data_escaping[mix]",""
+"passed","Tue Mar 19 18:07:28 MSK 2024","Tue Mar 19 18:07:28 MSK 2024","24","tests.allure_pytest.acceptance.parametrization","parametrization_test","","","","test_fullname_with_braces","
+    >>> import pytest
+    ... import allure
+
+    >>> class TestClass:
+    ...     @pytest.mark.parametrize(""param1"", [""qwe][""])
+    ...     def test_with_braces(self, param1):
+    ...         pass
+    "
+"passed","Tue Mar 19 18:07:29 MSK 2024","Tue Mar 19 18:07:29 MSK 2024","22","tests.allure_pytest.acceptance.status","xfail_call_status_test","","","","test_xfail","
+    >>> import pytest
+
+    >>> @pytest.mark.xfail()
+    ... def test_xfail_example():
+    ...     assert False
+
+    "
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","21","tests.allure_pytest.acceptance.display_name","dynamic_display_name_test","","","","test_dynamic_display_name",""
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","1","tests.allure_pytest.acceptance.label.severity","class_severity_test","","","","test_not_decorated_sub_class_decorated_method",""
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","3","tests.allure_behave.acceptance.allure_api.severities","severity_test","","","","test_severity_on_scenario[minor]",""
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","20","tests.allure_pytest.acceptance.label.severity","module_severity_test","","","","test_not_decorated_function",""
+"passed","Tue Mar 19 18:07:25 MSK 2024","Tue Mar 19 18:07:25 MSK 2024","20","tests.allure_pytest.acceptance.fixture","fixture_test","","","","test_fixture[class-class]",""
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","19","tests.allure_pytest.acceptance.display_name","display_name_test","","","","test_display_name_with_features","
+    >>> import allure
+    >>> import pytest
+
+    >>> @allure.feature('Feature 1')
+    ... @allure.title('Titled test with features')
+    ... @allure.feature('Feature 2')
+    ... def test_feature_label_for_titled_test():
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","19","tests.allure_pytest.acceptance.display_name","display_name_test","","","","test_no_param_id_in_display_name","
+    >>> import allure
+    >>> import pytest
+
+    >>> @pytest.mark.parametrize(""param1, param2"", [pytest.param(""value1"", ""value2"")])
+    ... @allure.title('Title with id - {param_id}')
+    ... def test_no_param_id(param1, param2):
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:25 MSK 2024","Tue Mar 19 18:07:25 MSK 2024","21","tests.allure_pytest.acceptance.fixture","fixture_test","","","","test_fixture[function-class]",""
+"passed","Tue Mar 19 18:07:30 MSK 2024","Tue Mar 19 18:07:30 MSK 2024","26","tests.allure_pytest.externals.pytest_rerunfailures","pytest_rerunfailures_test","","","","test_pytest_rerunfailures[2-failed]",""
+"passed","Tue Mar 19 18:07:29 MSK 2024","Tue Mar 19 18:07:29 MSK 2024","20","tests.allure_pytest.acceptance.status","xfail_call_status_test","","","","test_xfail_with_reason_do_not_raise_mentioned_exception","
+    >>> import pytest
+
+    >>> @pytest.mark.xfail(raises=AssertionError, reason=""Some reason"")
+    ... def test_xfail_with_reason_do_not_raise_mentioned_exception_example():
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:29 MSK 2024","Tue Mar 19 18:07:29 MSK 2024","22","tests.allure_pytest.acceptance.step","outside_step_test","","","","test_fixture_with_step_from_conftest",""
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","19","tests.allure_pytest.acceptance.duration","duration_time_test","","","","test_duration[xfail]",""
+"passed","Tue Mar 19 18:07:25 MSK 2024","Tue Mar 19 18:07:25 MSK 2024","19","tests.allure_pytest.acceptance.fixture","fixture_test","","","","test_fixture[function-module]",""
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","0","tests.allure_pytest.acceptance.label.severity","module_severity_test","","","","test_method_of_not_decorated_class",""
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","0","tests.allure_behave.defects","issue717_test","","","","test_step_table_data_escaping[2c-commas]",""
+"passed","Tue Mar 19 18:07:29 MSK 2024","Tue Mar 19 18:07:29 MSK 2024","21","tests.allure_pytest.acceptance.status","xfail_setup_status_test","","","","test_xfail_fixture","
+    >>> import pytest
+
+    >>> @pytest.fixture
+    ... def broken_fixture():
+    ...     raise NotImplementedError
+
+    >>> @pytest.mark.xfail()
+    ... def test_xfail_fixture_example(broken_fixture):
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","4","tests.allure_behave.acceptance.allure_api.testplan","testplan_test","","","","test_skipping_of_tests_missing_in_testplan",""
+"passed","Tue Mar 19 18:07:26 MSK 2024","Tue Mar 19 18:07:26 MSK 2024","19","tests.allure_pytest.acceptance.fixture","fixture_test","","","","test_nested_fixtures","
+    >>> import pytest
+
+    If we have two fixtures:
+    >>> @pytest.fixture
+    ... def first_fixture():
+    ...     pass
+
+
+    >>> @pytest.fixture
+    ... def second_fixture():
+    ...     pass
+
+    And one that uses both previous:
+    >>> @pytest.fixture
+    ... def child_fixture(first_fixture, second_fixture):
+    ...     pass
+
+    For next test, allure report will contain all tree fixtures:
+    >>> def test_nested_fixtures_example(child_fixture):
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:31 MSK 2024","Tue Mar 19 18:07:31 MSK 2024","11","tests.allure_robotframework.acceptance.allure_api.tags","tags_test","","","","test_explicit_tags",""
+"passed","Tue Mar 19 18:07:31 MSK 2024","Tue Mar 19 18:07:31 MSK 2024","18","tests.allure_robotframework.acceptance.allure_api.tags","tags_test","","","","test_robot_tags",""
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","0","tests.allure_pytest.acceptance.label.severity","module_severity_test","","","","test_decorated_function",""
+"passed","Tue Mar 19 18:07:29 MSK 2024","Tue Mar 19 18:07:29 MSK 2024","21","tests.allure_pytest.acceptance.step","outside_step_test","","","","test_step_from_init_py",""
+"passed","Tue Mar 19 18:07:29 MSK 2024","Tue Mar 19 18:07:29 MSK 2024","22","tests.allure_pytest.acceptance.status","xfail_call_status_test","","","","test_xfail_do_not_raise_mentioned_exception","
+    >>> import pytest
+
+    >>> @pytest.mark.xfail(raises=AssertionError)
+    ... def test_xfail_do_not_raise_mentioned_exception_example():
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","18","tests.allure_pytest.acceptance.label.bdd","select_bdd_test","","","","test_select_by_bdd_label[story-or-epic]",""
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","4","tests.allure_behave.acceptance.behave_support.hooks","hook_test","","","","test_tag_hooks",""
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","18","tests.allure_pytest.acceptance.link","dynamic_link_test","","","","test_unique_dynamic_links","
+    >>> import allure
+
+    >>> def test_unique_dynamic_links_example():
+    ...     allure.dynamic.link(""some/unique/dynamic/link"")
+    ...     allure.dynamic.link(""some/unique/dynamic/link"")
+    "
+"passed","Tue Mar 19 18:07:29 MSK 2024","Tue Mar 19 18:07:29 MSK 2024","25","tests.allure_pytest.acceptance.status","base_teardown_status_test","","","","test_failed_finalizer_fixture","
+    >>> import pytest
+
+    >>> @pytest.fixture
+    ... def failed_finalizer_fixture(request):
+    ...     def fixture_finalizer():
+    ...         assert False
+    ...     request.addfinalizer(fixture_finalizer)
+    ...
+    ... def test_failed_finalizer_fixture_example(failed_finalizer_fixture):
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","19","tests.allure_pytest.acceptance.capture","capture_attach_test","","","","test_capture_empty_stdout[sys]","
+    >>> import pytest
+    >>> import allure
+
+    >>> @pytest.fixture
+    ... def fixture(request):
+    ...     def finalizer():
+    ...         pass
+    ...     request.addfinalizer(finalizer)
+
+    >>> def test_capture_stdout_example(fixture):
+    ...     with allure.step(""Step""):
+    ...         pass
+    "
+"passed","Tue Mar 19 18:07:25 MSK 2024","Tue Mar 19 18:07:25 MSK 2024","24","tests.allure_pytest.acceptance.duration","duration_time_test","","","","test_with_fixture_finalizer_duration[pytest-fail]",""
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","4","tests.allure_behave.acceptance.allure_api.severities","severity_test","","","","test_severity_on_scenario[critical]",""
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","3","tests.allure_behave.acceptance.allure_api.description","description_test","","","","test_descriptions_from_step",""
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","19","tests.allure_pytest.acceptance.capture","capture_attach_test","","","","test_capture_empty_stdout[fd]","
+    >>> import pytest
+    >>> import allure
+
+    >>> @pytest.fixture
+    ... def fixture(request):
+    ...     def finalizer():
+    ...         pass
+    ...     request.addfinalizer(finalizer)
+
+    >>> def test_capture_stdout_example(fixture):
+    ...     with allure.step(""Step""):
+    ...         pass
+    "
+"passed","Tue Mar 19 18:07:28 MSK 2024","Tue Mar 19 18:07:28 MSK 2024","21","tests.allure_pytest.acceptance.status","base_setup_status_test","","","","test_skip_fixture","
+    >>> import pytest
+
+    >>> @pytest.fixture
+    ... def skip_fixture():
+    ...     pytest.skip()
+
+    >>> def test_skip_fixture_example(skip_fixture):
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","19","tests.allure_pytest.acceptance.label.suite","default_suite_test","","","","test_with_parent_module","
+    >>> def test_default_suite_example():
+    ...     pass
+
+    "
+"passed","Tue Mar 19 18:07:25 MSK 2024","Tue Mar 19 18:07:25 MSK 2024","19","tests.allure_pytest.acceptance.fixture","fixture_test","","","","test_fixture[module-session]",""
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","19","tests.allure_pytest.acceptance.capture","capture_attach_test","","","","test_capture_stdout[fd]","
+    >>> import pytest
+    >>> import allure
+
+    >>> @pytest.fixture
+    ... def fixture(request):
+    ...     print (""Start fixture"")
+    ...     def finalizer():
+    ...         print (""Stop fixture"")
+    ...     request.addfinalizer(finalizer)
+
+    >>> def test_capture_stdout_example(fixture):
+    ...     print (""Start test"")
+    ...     with allure.step(""Step""):
+    ...         print (""Start step"")
+    "
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","21","tests.allure_pytest.acceptance.label.custom","select_custom_label_test","","","","test_select_by_custom_label[desktop-or-mobile]",""
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","4","tests.allure_behave.acceptance.behave_support.scenarios","scenario_test","","","","test_when_not_passed_remaining_steps_are_skipped[broken]","
+    Feature: Behave scenario support
+        Scenario: Scenario with four steps
+            Given step 1
+            And trigger
+            And step 3
+            And step 4
+    "
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","19","tests.allure_pytest.acceptance.label.suite","default_suite_test","","","","test_no_parent_module","
+    >>> def test_default_suite_example():
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","19","tests.allure_pytest.acceptance.attachment","attachment_hook_test","","","","test_attach_from_runtest_teardown",""
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","4","tests.allure_behave.acceptance.allure_api.severities","severity_test","","","","test_multiple_severity_tags",""
+"passed","Tue Mar 19 18:07:30 MSK 2024","Tue Mar 19 18:07:30 MSK 2024","25","tests.allure_pytest.externals.pytest_rerunfailures","pytest_rerunfailures_test","","","","test_pytest_rerunfailures[4-passed]",""
+"passed","Tue Mar 19 18:07:25 MSK 2024","Tue Mar 19 18:07:25 MSK 2024","131","tests.allure_pytest.acceptance.duration","duration_time_test","","","","test_with_fixture_duration[exit]",""
+"passed","Tue Mar 19 18:07:30 MSK 2024","Tue Mar 19 18:07:30 MSK 2024","0","tests.allure_pytest.unit","history_id_test","","","","test_no_dependency_on_parameters_order",""
+"passed","Tue Mar 19 18:07:30 MSK 2024","Tue Mar 19 18:07:31 MSK 2024","26","tests.allure_robotframework.acceptance.allure_api.attachment","attachment_test","","","","test_data_attachment_with_default_name_and_type",""
+"passed","Tue Mar 19 18:07:29 MSK 2024","Tue Mar 19 18:07:29 MSK 2024","22","tests.allure_pytest.acceptance.status","skip_call_status_test","","","","test_skipif_false","
+    >>> import pytest
+
+    >>> @pytest.mark.skipif(False, reason=""Skip reason"")
+    ... def test_skipif_false_example():
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:26 MSK 2024","Tue Mar 19 18:07:26 MSK 2024","21","tests.allure_pytest.acceptance.fixture","fixture_test","","","","test_dynamically_called_fixture[session-module]",""
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","20","tests.allure_pytest.acceptance.label.suite","custom_suite_test","","","","test_custom_suite",""
+"passed","Tue Mar 19 18:07:28 MSK 2024","Tue Mar 19 18:07:28 MSK 2024","23","tests.allure_pytest.acceptance.parametrization","parametrization_test","","","","test_dynamic_parameter_add","
+    >>> import allure
+
+    >>> def test_parameter_add():
+    ...     allure.dynamic.parameter(""param1"", ""param-value"")
+    "
+"passed","Tue Mar 19 18:07:28 MSK 2024","Tue Mar 19 18:07:28 MSK 2024","45","tests.allure_pytest.acceptance.results","results_test","","","","test_clean_alluredir_with_collectonly",""
+"passed","Tue Mar 19 18:07:26 MSK 2024","Tue Mar 19 18:07:26 MSK 2024","20","tests.allure_pytest.acceptance.fixture","fixture_test","","","","test_nested_fixture[session-session]",""
+"passed","Tue Mar 19 18:07:25 MSK 2024","Tue Mar 19 18:07:25 MSK 2024","20","tests.allure_pytest.acceptance.fixture","fixture_test","","","","test_fixture[session-module]",""
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","9","tests.allure_behave.acceptance.allure_api.description","description_test","","","","test_descriptions_from_feature_file",""
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","4","tests.allure_nose2.acceptance.allure_api.labels","test_bdd_labels","","","","test_class_method_label","
+    >>> import unittest
+    >>> import allure
+
+    >>> @allure.epic(""Label"", ""Bdd"")
+    ... class TestBDDLabelExample(unittest.TestCase):
+    ...     @allure.feature(""Method label"")
+    ...     def test_class_and_method_label_example(self):
+    ...         pass
+    "
+"passed","Tue Mar 19 18:07:28 MSK 2024","Tue Mar 19 18:07:28 MSK 2024","26","tests.allure_pytest.acceptance.status","base_call_status_test","","","","test_call_pytest_fail","
+    >>> import pytest
+
+    >>> def test_call_pytest_fail_example():
+    ...     pytest.fail()
+    "
+"passed","Tue Mar 19 18:07:30 MSK 2024","Tue Mar 19 18:07:30 MSK 2024","30","tests.allure_pytest_bdd.acceptance","scenario_outline_test","","","","test_scenario_outline",""
+"passed","Tue Mar 19 18:07:28 MSK 2024","Tue Mar 19 18:07:28 MSK 2024","22","tests.allure_pytest.acceptance.status","base_setup_status_test","","","","test_pytest_fail_fixture","
+    >>> import pytest
+
+    >>> @pytest.fixture
+    ... def pytest_fail_fixture():
+    ...     pytest.fail()
+
+    >>> def test_pytest_fail_fixture_example(pytest_fail_fixture):
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:26 MSK 2024","Tue Mar 19 18:07:26 MSK 2024","21","tests.allure_pytest.acceptance.fixture","fixture_test","","","","test_nested_fixture[session-module]",""
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:28 MSK 2024","21","tests.allure_pytest.acceptance.link","link_pattern_test","","","","test_link_pattern"," ./allure-pytest/examples/link/dynamic_link.rst "
+"passed","Tue Mar 19 18:07:26 MSK 2024","Tue Mar 19 18:07:26 MSK 2024","18","tests.allure_pytest.acceptance.history_id","history_id_test","","","","test_history_id","
+    >>> def test_history_id_example():
+    ...     assert True
+    "
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","20","tests.allure_pytest.acceptance.description","description_test","","","","test_description",""
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","21","tests.allure_pytest.acceptance.duration","duration_time_test","","","","test_duration[exit]",""
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","5","tests.allure_behave.acceptance.behave_support.background","background_test","","","","test_background[failed]","
+    Feature: Allure-behave compatibility with feature backgrounds
+        Background: A background with {step_outcome} step
+            Given the first background step that is {step_outcome}
+            And the second background step with no failures
+
+        Scenario: Scenario with background containing {step_outcome} step
+            Given the first step with no failures
+            And the second step with no failures
+
+        Scenario: Another scenario with background containing {step_outcome} step
+            Given the step with no failures
+    "
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","20","tests.allure_pytest.acceptance.capture","capture_attach_test","","","","test_capture_log[True]","
+    >>> import logging
+    >>> import pytest
+    >>> import allure
+
+    >>> logger = logging.getLogger(__name__)
+
+    >>> @pytest.fixture
+    ... def fixture(request):
+    ...     logger.info(""Start fixture"")
+    ...     def finalizer():
+    ...         logger.info(""Stop fixture"")
+    ...     request.addfinalizer(finalizer)
+
+    >>> def test_capture_log_example(fixture):
+    ...     logger.info(""Start test"")
+    ...     with allure.step(""Step""):
+    ...         logger.info(""Start step"")
+    "
+"passed","Tue Mar 19 18:07:29 MSK 2024","Tue Mar 19 18:07:29 MSK 2024","21","tests.allure_pytest.acceptance.status","base_step_status_test","","","","test_pytest_bytes_data_in_assert","
+    >>> import allure
+
+    >>> def test_pytest_bytes_data_in_assert_example():
+    ...     with allure.step(""Step""):
+    ...         assert ""0\x82"" == 1
+    "
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","21","tests.allure_pytest.acceptance.label.tag","tag_test","","","","test_show_reserved_pytest_markers_full_decorator","
+    >>> import pytest
+
+    >>> @pytest.mark.usermark1
+    ... @pytest.mark.usermark2
+    ... @pytest.mark.parametrize(""param"", [""foo""])
+    ... @pytest.mark.skipif(False, reason=""reason2"")
+    ... @pytest.mark.skipif(False, reason=""reason1"")
+    ... def test_show_reserved_pytest_markers_full_decorator_example(param):
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:29 MSK 2024","Tue Mar 19 18:07:29 MSK 2024","39","tests.allure_pytest.acceptance.status","xfail_setup_status_test","","","","test_xfail_with_run_false","
+    >>> import pytest
+
+    >>> @pytest.mark.xfail(run=False)
+    ... def test_xfail_with_run_false_example():
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:30 MSK 2024","Tue Mar 19 18:07:30 MSK 2024","20","tests.allure_pytest.acceptance.testplan","select_test_from_testplan_test","","","","test_select_by_testcase_id_test[id-for-test-with-two-ids]","
+    >>> import allure
+
+    >>> @allure.id(""1"")
+    ... def test_number_one():
+    ...     pass
+
+    >>> @allure.id(""2"")
+    ... def test_number_two():
+    ...     pass
+
+    >>> @allure.id(""3"")
+    ... @allure.id(""4"")
+    ... def test_number_three():
+    ...     pass
+
+    >>> def test_without_number():
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","10","tests.allure_behave.acceptance.allure_api.links","link_test","","","","test_link_on_scenario_level",""
+"passed","Tue Mar 19 18:07:30 MSK 2024","Tue Mar 19 18:07:30 MSK 2024","24","tests.allure_pytest.externals.pytest_rerunfailures","pytest_rerunfailures_test","","","","test_separate_result_for_each_rerun",""
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","19","tests.allure_pytest.acceptance.label.id","set_testcase_id_test","","","","test_set_dynamic_testcase_id_label","
+    >>> import allure
+
+    >>> def test_allure_ee_id_dynamic_label_example():
+    ...     allure.dynamic.id(345)
+    "
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","3","tests.allure_behave.acceptance.behave_support.hooks","hook_test","","","","test_func_step_in_scenario_hooks",""
+"passed","Tue Mar 19 18:07:30 MSK 2024","Tue Mar 19 18:07:30 MSK 2024","23","tests.allure_pytest.externals.pytest_flakes","pytest_flakes_test","","","","test_pytest_flakes","
+    >>> from os.path import *
+    >>> def test_pytest_flakes_example():
+    ...     assert True
+    "
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","6","tests.allure_nose2.acceptance.nose2_support.result","test_status","","","","test_broken_status","
+    >>> import unittest
+
+    >>> class TestStatusExample(unittest.TestCase):
+    ...     def test_broken_example(self):
+    ...         raise Exception(""my error"")
+    "
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","19","tests.allure_pytest.acceptance.capture","capture_attach_test","","","","test_capture_disabled","
+    >>> import logging
+    >>> logger = logging.getLogger(__name__)
+
+    >>> def test_capture_disabled_example():
+    ...     logger.info(""Start logging"")
+    ...     #print (""Start printing"")
+
+    "
+"passed","Tue Mar 19 18:07:29 MSK 2024","Tue Mar 19 18:07:30 MSK 2024","47","tests.allure_pytest.acceptance.testplan","select_test_from_testplan_test","","","","test_select_by_testcase_id_test[ids-only]","
+    >>> import allure
+
+    >>> @allure.id(""1"")
+    ... def test_number_one():
+    ...     pass
+
+    >>> @allure.id(""2"")
+    ... def test_number_two():
+    ...     pass
+
+    >>> @allure.id(""3"")
+    ... @allure.id(""4"")
+    ... def test_number_three():
+    ...     pass
+
+    >>> def test_without_number():
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:28 MSK 2024","Tue Mar 19 18:07:28 MSK 2024","36","tests.allure_pytest.acceptance.pytest_pluginmanager","pytest_get_allure_plugin_test","","","","test_pytest_get_allure_listener_plugin","
+    >>> def test_pytest_get_allure_listener_plugin(request):
+    ...     assert request.config.pluginmanager.get_plugin('allure_listener')
+    "
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","2","tests.allure_behave.acceptance.behave_support.scenarios","scenario_test","","","","test_scenario_with_one_step[undefined]","
+    Feature: Behave scenario support
+        Scenario: Scenario with single step
+            Given a step
+    "
+"passed","Tue Mar 19 18:07:28 MSK 2024","Tue Mar 19 18:07:28 MSK 2024","0","tests.allure_pytest.acceptance.parametrization","dynamic_parameter_test","","","","test_excluded_dynamic_parameter",""
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","21","tests.allure_pytest.acceptance.attachment","attachment_class_test","","","","test_class_method_attachment","
+    >>> import allure
+
+    >>> class TestClass:
+    ...     def test_class_method_attachment(self):
+    ...         allure.attach(""text"", ""failed"", allure.attachment_type.TEXT)
+    "
+"passed","Tue Mar 19 18:07:26 MSK 2024","Tue Mar 19 18:07:26 MSK 2024","23","tests.allure_pytest.acceptance.fixture","fixture_test","","","","test_dynamically_called_fixture[module-class]",""
+"passed","Tue Mar 19 18:07:25 MSK 2024","Tue Mar 19 18:07:25 MSK 2024","23","tests.allure_pytest.acceptance.duration","duration_time_test","","","","test_with_fixture_finalizer_duration[assert-fail]",""
+"passed","Tue Mar 19 18:07:26 MSK 2024","Tue Mar 19 18:07:26 MSK 2024","23","tests.allure_pytest.acceptance.fixture","fixture_test","","","","test_dynamically_called_fixture[class-class]",""
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","5","tests.allure_nose2.acceptance.nose2_support.with_mp","test_mp","","","","test_func_fullname","
+    >>> def test_func_fullname_example1():
+    ...     pass
+    >>> def test_func_fullname_example2():
+    ...     pass
+    >>> def test_func_fullname_example3():
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:29 MSK 2024","Tue Mar 19 18:07:29 MSK 2024","20","tests.allure_pytest.acceptance.step","test_step_with_several_step_inside_thread","","","","test_step_with_reused_threads","
+    >>> from concurrent.futures import ThreadPoolExecutor
+    >>> from threading import Event
+    >>> from random import shuffle
+    >>> from time import sleep
+    >>> import allure
+
+    >>> def parallel_step(data):
+    ...     event, index = data
+    ...     with allure.step(f""thread {index}""):
+    ...         event.wait()
+
+    >>> def __execute_randomly(executor):
+    ...     events = [Event() for i in range(1, 4)]
+    ...     executor.map(parallel_step, zip(events, range(1, 4)))
+    ...     shuffle(events)
+    ...     for e in events:
+    ...         e.set()
+
+    >>> def test_thread():
+    ...     with ThreadPoolExecutor(max_workers=2) as executor:
+    ...         __execute_randomly(executor)
+    ...     with allure.step(""Reuse previous threads""):
+    ...         with ThreadPoolExecutor(max_workers=2) as executor:
+    ...             __execute_randomly(executor)
+    "
+"passed","Tue Mar 19 18:07:31 MSK 2024","Tue Mar 19 18:07:31 MSK 2024","10","tests.allure_robotframework.acceptance.allure_api.description","description_test","","","","test_miltiline_description_from_setting",""
+"passed","Tue Mar 19 18:07:30 MSK 2024","Tue Mar 19 18:07:30 MSK 2024","22","tests.allure_pytest.externals.pytest_lazy_fixture","pytest_lazy_fixture_test","","","","test_nested_lazy_fixture","
+    >>> import pytest
+    ... from pytest_lazyfixture import lazy_fixture
+
+    >>> @pytest.fixture
+    ... def my_lazy_fixture():
+    ...     pass
+
+    >>> @pytest.fixture(params=[lazy_fixture('my_lazy_fixture')])
+    ... def my_ordinary_fixture():
+    ...     pass
+
+    >>> def test_nested_lazy_fixture_example(my_ordinary_fixture):
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","20","tests.allure_pytest.acceptance.display_name","display_name_test","","","","test_fixture_value_in_display_name","
+    >>> import allure
+    >>> import pytest
+
+    >>> @pytest.fixture
+    ... def fix():
+    ...     return 'fixture value'
+
+    >>> @allure.title('title with {fix}')
+    ... def test_fixture_value_name(fix):
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:25 MSK 2024","Tue Mar 19 18:07:25 MSK 2024","19","tests.allure_pytest.acceptance.fixture","fixture_test","","","","test_fixture[function-function]",""
+"passed","Tue Mar 19 18:07:30 MSK 2024","Tue Mar 19 18:07:30 MSK 2024","76","tests.allure_pytest_bdd.acceptance.results","results_test","","","","test_custom_alluredir",""
+"passed","Tue Mar 19 18:07:28 MSK 2024","Tue Mar 19 18:07:28 MSK 2024","27","tests.allure_pytest.acceptance.parametrization","parametrization_test","","","","test_dynamic_parameter_override_from_fixture","
+    >>> import pytest
+    ... import allure
+
+
+    >>> @pytest.fixture()
+    ... def fixt():
+    ...     allure.dynamic.parameter(""param1"", ""readable-value"")
+
+    >>> @pytest.mark.parametrize(""param1"", [object()], ids=[""param-id""])
+    ... def test_parameter_override_from_fixture(fixt, param1):
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:31 MSK 2024","Tue Mar 19 18:07:31 MSK 2024","13","tests.allure_robotframework.acceptance.allure_api.links","links_test","","","","test_tms_from_robot_tag",""
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","20","tests.allure_pytest.acceptance.label.tag","tag_test","","","","test_pytest_marker_with_kwargs_utf_encoding","
+    >>> import pytest
+
+    >>> @pytest.mark.marker(stuff='я')
+    ... def test_pytest_marker_with_kwargs_utf_encoding_example():
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:31 MSK 2024","Tue Mar 19 18:07:31 MSK 2024","11","tests.allure_robotframework.acceptance.allure_api.description","description_test","","","","test_miltiline_description_from_keyword",""
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","4","tests.allure_nose2.acceptance.nose2_support.result","test_fullname","","","","test_func_fullname","
+    >>> def test_func_fullname_example():
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","5","tests.allure_behave.acceptance.allure_api.severities","severity_test","","","","test_severity_on_scenario[normal]",""
+"passed","Tue Mar 19 18:07:31 MSK 2024","Tue Mar 19 18:07:31 MSK 2024","12","tests.allure_robotframework.acceptance.robotframework_support.fixtures","fixture_test","","","","test_setup","
+    *** Keywords ***
+    Fixture
+        No Operation
+
+    *** Test Cases ***
+    Test Under Test
+        [Setup]     Fixture
+        No Operation
+    "
+"passed","Tue Mar 19 18:07:26 MSK 2024","Tue Mar 19 18:07:26 MSK 2024","19","tests.allure_pytest.acceptance.fixture","parametrized_fixture_test","","","","test_function_scope_parametrized_fixture","
+    >>> import pytest
+
+    >>> @pytest.fixture(params=[True, False])
+    ... def parametrized_fixture(request):
+    ...     pass
+
+    >>> def test_function_scope_parametrized_fixture_example(parametrized_fixture):
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","21","tests.allure_pytest.acceptance.label.severity","severity_test","","","","test_severity",""
+"passed","Tue Mar 19 18:07:28 MSK 2024","Tue Mar 19 18:07:28 MSK 2024","0","tests.allure_pytest.acceptance.parametrization","dynamic_parameter_test","","","","test_masked_dynamic_parameter",""
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","5","tests.allure_behave.acceptance.behave_support.scenario_outlines","scenario_outline_test","","","","test_outline_with_single_table",""
+"passed","Tue Mar 19 18:07:31 MSK 2024","Tue Mar 19 18:07:31 MSK 2024","10","tests.allure_robotframework.acceptance.allure_api.links","links_test","","","","test_issue_from_robot_tag",""
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","4","tests.allure_behave.acceptance.allure_api.severities","severity_test","","","","test_severity_on_scenario[trivial]",""
+"passed","Tue Mar 19 18:07:29 MSK 2024","Tue Mar 19 18:07:29 MSK 2024","52","tests.allure_pytest.acceptance.status","skip_setup_status_test","","","","test_skip_fixture","
+    >>> import pytest
+
+    >>> @pytest.fixture
+    ... def skip_fixture():
+    ...     pytest.skip()
+
+    >>> @pytest.mark.xfail()
+    ... def test_skip_fixture_example(skip_fixture):
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","2","tests.allure_behave.acceptance.allure_api.attachment","attachment_test","","","","test_data_attachment_from_hook",""
+"passed","Tue Mar 19 18:07:29 MSK 2024","Tue Mar 19 18:07:29 MSK 2024","22","tests.allure_pytest.acceptance.status","base_step_status_test","","","","test_pytest_fail_in_step","
+    >>> import pytest
+    >>> import allure
+
+    >>> def test_pytest_fail_in_step_example():
+    ...     with allure.step(""Step""):
+    ...         pytest.fail()
+    "
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","4","tests.allure_behave.acceptance.behave_support.background","background_test","","","","test_background[undefined]","
+    Feature: Allure-behave compatibility with feature backgrounds
+        Background: A background with {step_outcome} step
+            Given the first background step that is {step_outcome}
+            And the second background step with no failures
+
+        Scenario: Scenario with background containing {step_outcome} step
+            Given the first step with no failures
+            And the second step with no failures
+
+        Scenario: Another scenario with background containing {step_outcome} step
+            Given the step with no failures
+    "
+"passed","Tue Mar 19 18:07:28 MSK 2024","Tue Mar 19 18:07:28 MSK 2024","0","tests.allure_pytest.acceptance.parametrization","dynamic_parameter_test","","","","test_hidden_dynamic_parameter",""
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","9","tests.allure_nose2.acceptance.allure_api.labels","test_bdd_labels","","","","test_method_label","
+    >>> import unittest
+    >>> import allure
+
+    >>> class TestBDDLabelExample(unittest.TestCase):
+    ...     @allure.epic(""Label"", ""Bdd"")
+    ...     @allure.feature(""Method label"")
+    ...     def test_method_label_example(self):
+    ...         pass
+    "
+"passed","Tue Mar 19 18:07:31 MSK 2024","Tue Mar 19 18:07:31 MSK 2024","11","tests.allure_robotframework.acceptance.allure_api.tags","tags_test","","","","test_tags_from_library",""
+"passed","Tue Mar 19 18:07:31 MSK 2024","Tue Mar 19 18:07:31 MSK 2024","46","tests.allure_robotframework.acceptance.allure_api.testplan","testplan_test","","","","test_testplan",""
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","3","tests.allure_behave.acceptance.allure_api.links","link_test","","","","test_link_on_feature_level",""
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","3","tests.allure_behave.acceptance.behave_support.scenarios","scenario_test","","","","test_when_not_passed_remaining_steps_are_skipped[undefined]","
+    Feature: Behave scenario support
+        Scenario: Scenario with four steps
+            Given step 1
+            And trigger
+            And step 3
+            And step 4
+    "
+"passed","Tue Mar 19 18:07:26 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","44","tests.allure_pytest.acceptance.label.bdd","bdd_label_test","","","","test_single_bdd_label",""
+"passed","Tue Mar 19 18:07:31 MSK 2024","Tue Mar 19 18:07:31 MSK 2024","12","tests.allure_robotframework.acceptance.robotframework_support.statuses","statuses_test","","","","test_failed_in_library","
+    *** Settings ***
+    Library     ./library.py
+
+    *** Test Cases ***
+    Failed Test Case
+        Fail In Library
+    "
+"passed","Tue Mar 19 18:07:26 MSK 2024","Tue Mar 19 18:07:26 MSK 2024","36","tests.allure_pytest.acceptance.history_id","history_id_test","","","","test_history_id_affected_by_allure_parameter","
+    >>> import allure
+    >>> from time import perf_counter
+
+    >>> def test_allure_parameter_with_changing_value():
+    ...     allure.dynamic.parameter(""time"", perf_counter())
+    "
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","18","tests.allure_pytest.acceptance.attachment","attachment_step_test","","","","test_step_with_attachment",""
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","4","tests.allure_behave.acceptance.allure_api.labels","label_test","","","","test_label_from_feature_file",""
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","21","tests.allure_pytest.acceptance.label.severity","select_severity_test","","","","test_select_by_severity_level[normal]",""
+"passed","Tue Mar 19 18:07:29 MSK 2024","Tue Mar 19 18:07:29 MSK 2024","22","tests.allure_pytest.acceptance.status","base_teardown_status_test","","","","test_pytest_failed_finalizer_fixture","
+    >>> import pytest
+
+    >>> @pytest.fixture
+    ... def pytest_failed_finalizer_fixture(request):
+    ...     def fixture_finalizer():
+    ...         pytest.fail()
+    ...     request.addfinalizer(fixture_finalizer)
+
+    >>> def test_pytest_failed_finalizer_fixture_example(pytest_failed_finalizer_fixture):
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","7","tests.allure_behave.acceptance.allure_api.severities","severity_test","","","","test_severity_on_scenario[blocker]",""
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","0","tests.allure_pytest.acceptance.label.severity","class_severity_test","","","","test_decorated_class_decorated_method",""
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","21","tests.allure_pytest.acceptance.duration","duration_time_test","","","","test_duration[assert-fail]",""
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","21","tests.allure_pytest.acceptance.attachment","attachment_parametrized_test","","","","test_parametrized_attachment","
+    >>> import pytest
+    >>> import allure
+
+    >>> @pytest.mark.parametrize(""param"", [""first"", ""second""])
+    ... def test_parametrized_attachment_example(param):
+    ...     allure.attach(param)
+    "
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","20","tests.allure_pytest.acceptance.label.suite","default_suite_test","","","","test_with_class_and_parent_module","
+    >>> class TestSuiteClass:
+    ...     def test_default_class_suite_example(self):
+    ...         pass
+
+    "
+"passed","Tue Mar 19 18:07:29 MSK 2024","Tue Mar 19 18:07:29 MSK 2024","23","tests.allure_pytest.acceptance.step","step_test","","","","test_inline_step",""
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","23","tests.allure_pytest.acceptance.link","dynamic_link_test","","","","test_dynamic_link",""
+"passed","Tue Mar 19 18:07:26 MSK 2024","Tue Mar 19 18:07:26 MSK 2024","45","tests.allure_pytest.acceptance.history_id","history_id_test","","","","test_history_id_not_affected_by_excluded_parameter","
+    >>> import allure
+    >>> from time import perf_counter
+
+    >>> def test_excluded_allure_parameter():
+    ...     allure.dynamic.parameter(""time"", perf_counter(), excluded=True)
+    "
+"passed","Tue Mar 19 18:07:30 MSK 2024","Tue Mar 19 18:07:30 MSK 2024","0","tests.allure_pytest.unit","history_id_test","","","","test_excluded_values_are_ignored",""
+"passed","Tue Mar 19 18:07:25 MSK 2024","Tue Mar 19 18:07:25 MSK 2024","42","tests.allure_pytest.acceptance.fixture","fixture_test","","","","test_fixture[module-class]",""
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","19","tests.allure_pytest.acceptance.duration","duration_time_test","","","","test_with_fixture_duration[pass]",""
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","3","tests.allure_behave.acceptance.behave_support.scenarios","scenario_test","","","","test_scenario_with_one_step[passed]","
+    Feature: Behave scenario support
+        Scenario: Scenario with single step
+            Given a step
+    "
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","19","tests.allure_pytest.acceptance.label.tag","tag_test","","","","test_pytest_marker_with_args","
+    >>> import pytest
+
+    >>> @pytest.mark.marker('cool', 'stuff')
+    ... def test_pytest_marker_with_args_example():
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:25 MSK 2024","43","tests.allure_pytest.acceptance.duration","duration_time_test","","","","test_with_fixture_duration[assert-fail]",""
+"passed","Tue Mar 19 18:07:28 MSK 2024","Tue Mar 19 18:07:28 MSK 2024","22","tests.allure_pytest.acceptance.parametrization","parametrization_test","","","","test_dynamic_parameter_mode","
+    >>> import allure
+
+    >>> def test_parameter_mode():
+    ...     allure.dynamic.parameter(""param1"", ""param-value"", mode=allure.parameter_mode.MASKED)
+    "
+"passed","Tue Mar 19 18:07:26 MSK 2024","Tue Mar 19 18:07:26 MSK 2024","21","tests.allure_pytest.acceptance.fixture","fixture_test","","","","test_nested_fixture[class-class]",""
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","3","tests.allure_behave.acceptance.allure_api.description","description_test","","","","test_descriptions_after_scenario",""
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","19","tests.allure_pytest.acceptance.attachment","attachment_hook_test","","","","test_attach_from_runtest_logfinish",""
+"passed","Tue Mar 19 18:07:26 MSK 2024","Tue Mar 19 18:07:26 MSK 2024","22","tests.allure_pytest.acceptance.fixture","fixture_test","","","","test_nested_fixture[session-function]",""
+"passed","Tue Mar 19 18:07:29 MSK 2024","Tue Mar 19 18:07:29 MSK 2024","40","tests.allure_pytest.acceptance.status","xfail_setup_status_test","","","","test_xfail_with_run_false_and_with_reason","
+    >>> import pytest
+
+    >>> @pytest.mark.xfail(run=False, reason=""Some reason"")
+    ... def test_xfail_with_run_false_and_with_reason_example():
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:28 MSK 2024","Tue Mar 19 18:07:28 MSK 2024","22","tests.allure_pytest.acceptance.parametrization","parametrization_test","","","","test_parametrization","
+    >>> import pytest
+
+    >>> @pytest.mark.parametrize(""n"", [1, 2])
+    ... def test_parametrization_example(n):
+    ...     assert param
+    "
+"passed","Tue Mar 19 18:07:31 MSK 2024","Tue Mar 19 18:07:31 MSK 2024","11","tests.allure_robotframework.acceptance.robotframework_support.statuses","statuses_test","","","","test_failed_test","
+    *** Test Cases ***
+    Failed Test Case
+        Fail    msg=Reason
+    "
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","37","tests.allure_pytest.acceptance.capture","capture_attach_test","","","","test_capture_stdout[no]","
+    >>> import pytest
+    >>> import allure
+
+    >>> @pytest.fixture
+    ... def fixture(request):
+    ...     print (""Start fixture"")
+    ...     def finalizer():
+    ...         print (""Stop fixture"")
+    ...     request.addfinalizer(finalizer)
+
+    >>> def test_capture_stdout_example(fixture):
+    ...     print (""Start test"")
+    ...     with allure.step(""Step""):
+    ...         print (""Start step"")
+    "
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","5","tests.allure_behave.acceptance.behave_support.background","background_test","","","","test_background[broken]","
+    Feature: Allure-behave compatibility with feature backgrounds
+        Background: A background with {step_outcome} step
+            Given the first background step that is {step_outcome}
+            And the second background step with no failures
+
+        Scenario: Scenario with background containing {step_outcome} step
+            Given the first step with no failures
+            And the second step with no failures
+
+        Scenario: Another scenario with background containing {step_outcome} step
+            Given the step with no failures
+    "
+"passed","Tue Mar 19 18:07:28 MSK 2024","Tue Mar 19 18:07:28 MSK 2024","21","tests.allure_pytest.acceptance.link","link_test","","","","test_link",""
+"passed","Tue Mar 19 18:07:28 MSK 2024","Tue Mar 19 18:07:28 MSK 2024","25","tests.allure_pytest.acceptance.parametrization","parametrization_test","","","","test_parametrization_with_ids","
+    >>> import pytest
+
+    >>> @pytest.mark.parametrize(""v"", [1, 2], ids=[""a"", ""b""])
+    ... def test_parametrization_with_ids_example(v):
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:30 MSK 2024","Tue Mar 19 18:07:30 MSK 2024","0","tests.allure_pytest.defects","issue733_test","","","","test_no_allure_title_error_if_item_obj_missing",""
+"passed","Tue Mar 19 18:07:28 MSK 2024","Tue Mar 19 18:07:28 MSK 2024","27","tests.allure_pytest.acceptance.parametrization","parametrization_test","","","","test_dynamic_parameter_override","
+    >>> import pytest
+    ... import allure
+
+    >>> @pytest.mark.parametrize(""param1"", [object()], ids=[""param-id""])
+    ... def test_parameter_override(param1):
+    ...     allure.dynamic.parameter(""param1"", ""readable-value"")
+    "
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","0","tests.allure_pytest.acceptance.label.severity","module_severity_test","","","","test_method_of_decorated_class",""
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","2","tests.allure_behave.acceptance.behave_support.steps","behave_step_test","","","","test_step_table_data","
+    Feature: Bheave step support
+        Scenario: Scenario with step which contains a table
+            Given a step with table data
+                | id | name |
+                | 1  | John |
+                | 2  | Jane |
+    "
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","0","tests.allure_pytest.acceptance.description","description_test","","","","test_docstring_description",""
+"passed","Tue Mar 19 18:07:25 MSK 2024","Tue Mar 19 18:07:25 MSK 2024","23","tests.allure_pytest.acceptance.duration","duration_time_test","","","","test_with_fixture_finalizer_duration[xfail]",""
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","45","tests.allure_behave.acceptance.allure_api.attachment","attachment_test","","","","test_data_attachment_from_step",""
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","20","tests.allure_pytest.acceptance.display_name","display_name_test","","","","test_non_ascii_id_in_display_name","
+    >>> import allure
+    >>> import pytest
+
+    >>> @pytest.mark.parametrize(""name"", [pytest.param(""value"", id=""Ид,本我,पहचान,بطاقة تعريف"")])
+    ... @allure.title('Title with non-ASCII id - {param_id}')
+    ... def test_non_ascii_param_id(name):
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:26 MSK 2024","Tue Mar 19 18:07:26 MSK 2024","23","tests.allure_pytest.acceptance.fixture","fixture_test","","","","test_dynamically_called_fixture[module-module]",""
+"passed","Tue Mar 19 18:07:26 MSK 2024","Tue Mar 19 18:07:26 MSK 2024","21","tests.allure_pytest.acceptance.fixture","parametrized_fixture_test","","","","test_function_scope_parametrized_fixture_with_ids","
+    >>> import pytest
+
+    >>> @pytest.fixture(params=[True, False], ids=[""param_true"", ""param_false""])
+    ... def parametrized_fixture(request):
+    ...     pass
+
+    >>> def test_function(parametrized_fixture):
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:30 MSK 2024","Tue Mar 19 18:07:30 MSK 2024","21","tests.allure_pytest.externals.pytest_lazy_fixture","pytest_lazy_fixture_test","","","","test_lazy_fixture","
+    >>> import pytest
+    ... from pytest_lazyfixture import lazy_fixture
+
+    >>> @pytest.fixture
+    ... def my_lazy_fixture():
+    ...     pass
+
+    >>> @pytest.mark.parametrize('param', [lazy_fixture('my_lazy_fixture')])
+    ... def test_lazy_fixture_example(param):
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:26 MSK 2024","Tue Mar 19 18:07:26 MSK 2024","23","tests.allure_pytest.acceptance.fixture","fixture_test","","","","test_dynamically_called_fixture[function-function]",""
+"passed","Tue Mar 19 18:07:28 MSK 2024","Tue Mar 19 18:07:28 MSK 2024","27","tests.allure_pytest.acceptance.parametrization","parametrization_test","","","","test_parametrization_many_decorators","
+    >>> import pytest
+
+    >>> @pytest.mark.parametrize(""s"", [""a"", ""b""])
+    ... @pytest.mark.parametrize(""n"", [1, 2])
+    ... def test_parametrization_many_decorators_example(n, s):
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:31 MSK 2024","Tue Mar 19 18:07:31 MSK 2024","17","tests.allure_robotframework.acceptance.allure_api.labels","labels_test","","","","test_custom_label_from_robot_tag",""
+"passed","Tue Mar 19 18:07:28 MSK 2024","Tue Mar 19 18:07:28 MSK 2024","51","tests.allure_pytest.acceptance.results","results_test","","","","test_custom_alluredir",""
+"passed","Tue Mar 19 18:07:30 MSK 2024","Tue Mar 19 18:07:30 MSK 2024","22","tests.allure_pytest.acceptance.testplan","select_test_from_testplan_test","","","","test_select_by_testcase_id_test[no-tests-in-plan]","
+    >>> import allure
+
+    >>> @allure.id(""1"")
+    ... def test_number_one():
+    ...     pass
+
+    >>> @allure.id(""2"")
+    ... def test_number_two():
+    ...     pass
+
+    >>> @allure.id(""3"")
+    ... @allure.id(""4"")
+    ... def test_number_three():
+    ...     pass
+
+    >>> def test_without_number():
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:29 MSK 2024","Tue Mar 19 18:07:29 MSK 2024","0","tests.allure_pytest.acceptance.step","step_placeholder_test","","","","test_class_method_as_step",""
+"passed","Tue Mar 19 18:07:28 MSK 2024","Tue Mar 19 18:07:28 MSK 2024","26","tests.allure_pytest.acceptance.status","base_call_status_test","","","","test_failed","
+    >>> def test_failed_example():
+    ...     assert False
+    "
+"passed","Tue Mar 19 18:07:31 MSK 2024","Tue Mar 19 18:07:31 MSK 2024","18","tests.allure_robotframework.acceptance.allure_api.links","links_test","","","","test_link_from_robot_tag",""
+"passed","Tue Mar 19 18:07:31 MSK 2024","Tue Mar 19 18:07:31 MSK 2024","11","tests.allure_robotframework.acceptance.robotframework_support.fixtures","fixture_test","","","","test_teardown","
+    *** Keywords ***
+    Fixture
+        No Operation
+
+    *** Test Cases ***
+    Test Under Test
+        [Teardown]  Fixture
+        No Operation
+    "
+"passed","Tue Mar 19 18:07:29 MSK 2024","Tue Mar 19 18:07:29 MSK 2024","22","tests.allure_pytest.acceptance.step","step_placeholder_test","","","","test_step_with_args_in_placeholder",""
+"passed","Tue Mar 19 18:07:30 MSK 2024","Tue Mar 19 18:07:30 MSK 2024","204","tests.allure_pytest.externals.pytest_xdist","pytest_xdist_select_test","","","","test_xdist_and_select_test_by_bdd_label","
+    >>> import pytest
+    >>> import allure
+
+    >>> @pytest.mark.foo
+    ... def test_with_mark_foo():
+    ...     print (""hello"")
+
+    >>> @allure.feature(""boo"")
+    ... def test_with_feature_boo():
+    ...     print (""hello"")
+    "
+"passed","Tue Mar 19 18:07:28 MSK 2024","Tue Mar 19 18:07:28 MSK 2024","22","tests.allure_pytest.acceptance.status","base_setup_status_test","","","","test_broken_fixture","
+    >>> import pytest
+
+    >>> @pytest.fixture
+    ... def broken_fixture():
+    ...     raise IndexError
+
+    >>> def test_broken_fixture_example(broken_fixture):
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:29 MSK 2024","Tue Mar 19 18:07:29 MSK 2024","20","tests.allure_pytest.acceptance.status","base_step_status_test","","","","test_broken_step","
+    >>> import allure
+
+    >>> def test_broken_step_example():
+    ...     with allure.step(""Step""):
+    ...         raise ZeroDivisionError
+    "
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","4","tests.allure_behave.acceptance.behave_support.hooks","hook_test","","","","test_attachment_before_feature",""
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","5","tests.allure_nose2.acceptance.allure_api.labels","test_bdd_labels","","","","test_class_label","
+    >>> import unittest
+    >>> import allure
+
+    >>> @allure.epic(""Label"", ""Bdd"")
+    ... class TestBDDLabelExample(unittest.TestCase):
+    ...     def test_class_label_example(self):
+    ...         pass
+    "
+"passed","Tue Mar 19 18:07:26 MSK 2024","Tue Mar 19 18:07:26 MSK 2024","22","tests.allure_pytest.acceptance.fixture","fixture_test","","","","test_dynamically_called_fixture[class-function]",""
+"passed","Tue Mar 19 18:07:25 MSK 2024","Tue Mar 19 18:07:25 MSK 2024","23","tests.allure_pytest.acceptance.duration","duration_time_test","","","","test_with_fixture_finalizer_duration[skip]",""
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","19","tests.allure_pytest.acceptance.label.package","regression_test","","","","test_path_with_dots_test",""
+"passed","Tue Mar 19 18:07:29 MSK 2024","Tue Mar 19 18:07:29 MSK 2024","20","tests.allure_pytest.acceptance.status","xfail_step_status_test","","","","test_xfail_step_failure","
+    >>> import pytest
+    >>> import allure
+
+    >>> @pytest.mark.xfail()
+    ... def test_xfail_step_failure_example():
+    ...     with allure.step(""Step""):
+    ...         assert False
+    "
+"passed","Tue Mar 19 18:07:31 MSK 2024","Tue Mar 19 18:07:31 MSK 2024","12","tests.allure_robotframework.acceptance.allure_api.attachment","attachment_test","","","","test_data_attachment_with_name_and_type",""
+"passed","Tue Mar 19 18:07:26 MSK 2024","Tue Mar 19 18:07:26 MSK 2024","20","tests.allure_pytest.acceptance.history_id","history_id_test","","","","test_history_id_for_skipped","
+    >>> import pytest
+
+    >>> @pytest.mark.skip
+    ... def test_history_id_for_skipped_example():
+    ...     assert True
+    "
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","5","tests.allure_behave.acceptance.allure_api.tags","tag_test","","","","test_behave_tags_as_allure_tags[scenario-tag]",""
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","4","tests.allure_behave.acceptance.behave_support.hooks","hook_test","","","","test_global_hooks",""
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","20","tests.allure_pytest.acceptance.attachment","attachment_step_test","","","","test_step_with_thread_and_attachment",""
+"passed","Tue Mar 19 18:07:25 MSK 2024","Tue Mar 19 18:07:25 MSK 2024","21","tests.allure_pytest.acceptance.fixture","fixture_test","","","","test_fixture[function-session]",""
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","0","tests.allure_pytest.acceptance.description","dynamic_description_test","","","","test_dynamic_description_html",""
+"passed","Tue Mar 19 18:07:29 MSK 2024","Tue Mar 19 18:07:29 MSK 2024","0","tests.allure_pytest.acceptance.step","step_test","","","","test_reusable_step",""
+"passed","Tue Mar 19 18:07:26 MSK 2024","Tue Mar 19 18:07:26 MSK 2024","20","tests.allure_pytest.acceptance.history_id","history_id_test","","","","test_different_byte_arrays_are_distinguishable","
+    The 'allure_commons.utils.represent' function used to convert allure
+    parameter values to strings makes all byte arrays indistinguishable.
+    Some extra effort is required to properly calculate 'historyId' on tests
+    that are parametrized with byte arrays.
+    "
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","0","tests.allure_pytest.acceptance.attachment","attachment_test","","","","test_attach_file",""
+"passed","Tue Mar 19 18:07:25 MSK 2024","Tue Mar 19 18:07:25 MSK 2024","21","tests.allure_pytest.acceptance.duration","duration_time_test","","","","test_with_fixture_duration[skip]",""
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","19","tests.allure_pytest.acceptance.label.custom","select_custom_label_test","","","","test_select_by_custom_label[mobile]",""
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","20","tests.allure_pytest.acceptance.label.bdd","select_bdd_test","","","","test_select_by_bdd_label[epics]",""
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","0","tests.allure_pytest.acceptance.label.bdd","dynamic_bdd_label_test","","","","test_parametrized_dynamic_labels[second]",""
+"passed","Tue Mar 19 18:07:28 MSK 2024","Tue Mar 19 18:07:28 MSK 2024","0","tests.allure_pytest.acceptance.link","link_test","","","","test_testcase_link",""
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","0","tests.allure_pytest.acceptance.label.manual","manual_test","","","","test_allure_manual_label_dynamic",""
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","4","tests.allure_behave.acceptance.behave_support.steps","behave_step_test","","","","test_broken_behave_step","
+    Feature: Bheave step support
+        Scenario: Scenario with broken step
+            Given a broken step
+    "
+"passed","Tue Mar 19 18:07:29 MSK 2024","Tue Mar 19 18:07:29 MSK 2024","0","tests.allure_pytest.acceptance.step","step_test","","","","test_nested_steps",""
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","20","tests.allure_pytest.acceptance.label.bdd","select_bdd_test","","","","test_select_by_bdd_label[stories]",""
+"passed","Tue Mar 19 18:07:30 MSK 2024","Tue Mar 19 18:07:30 MSK 2024","19","tests.allure_pytest.acceptance.testplan","select_test_from_testplan_test","","","","test_select_by_testcase_id_test[id-nomatch]","
+    >>> import allure
+
+    >>> @allure.id(""1"")
+    ... def test_number_one():
+    ...     pass
+
+    >>> @allure.id(""2"")
+    ... def test_number_two():
+    ...     pass
+
+    >>> @allure.id(""3"")
+    ... @allure.id(""4"")
+    ... def test_number_three():
+    ...     pass
+
+    >>> def test_without_number():
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:25 MSK 2024","Tue Mar 19 18:07:25 MSK 2024","126","tests.allure_pytest.acceptance.duration","duration_time_test","","","","test_test_skipped_if_fixture_exits","Test should be market as skipped: pytest reports it as 'not run'"
+"passed","Tue Mar 19 18:07:26 MSK 2024","Tue Mar 19 18:07:26 MSK 2024","19","tests.allure_pytest.acceptance.fixture","fixture_test","","","","test_nested_fixture[module-function]",""
+"passed","Tue Mar 19 18:07:31 MSK 2024","Tue Mar 19 18:07:31 MSK 2024","13","tests.allure_robotframework.acceptance.allure_api.description","description_test","","","","test_single_line_description_from_setting",""
+"passed","Tue Mar 19 18:07:26 MSK 2024","Tue Mar 19 18:07:26 MSK 2024","21","tests.allure_pytest.acceptance.fixture","fixture_test","","","","test_nested_fixture[module-class]",""
+"passed","Tue Mar 19 18:07:31 MSK 2024","Tue Mar 19 18:07:31 MSK 2024","15","tests.allure_robotframework.acceptance.allure_api.attachment","attachment_test","","","","test_autoattach_wrapper",""
+"passed","Tue Mar 19 18:07:26 MSK 2024","Tue Mar 19 18:07:26 MSK 2024","20","tests.allure_pytest.acceptance.fixture","fixture_test","","","","test_nested_fixture[module-module]",""
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","21","tests.allure_pytest.acceptance.attachment","attachment_test","","","","test_attach_body_with_default_kwargs",""
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","3","tests.allure_behave.acceptance.allure_api.tags","tag_test","","","","test_behave_tags_as_allure_tags[multiple-tags]",""
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","5","tests.allure_behave.acceptance.behave_support.scenario_outlines","scenario_outline_test","","","","test_outline_with_multiple_tables",""
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","52","tests.allure_pytest.acceptance.display_name","display_name_test","","","","test_display_name",""
+"passed","Tue Mar 19 18:07:29 MSK 2024","Tue Mar 19 18:07:29 MSK 2024","20","tests.allure_pytest.acceptance.status","skip_call_status_test","","","","test_skip","
+    >>> import pytest
+
+    >>> def test_skip_example():
+    ...     pytest.skip()
+    "
+"passed","Tue Mar 19 18:07:29 MSK 2024","Tue Mar 19 18:07:29 MSK 2024","0","tests.allure_pytest.acceptance.step","step_placeholder_test","","","","test_step_with_kwargs_in_placeholder",""
+"passed","Tue Mar 19 18:07:25 MSK 2024","Tue Mar 19 18:07:25 MSK 2024","19","tests.allure_pytest.acceptance.fixture","fixture_test","","","","test_fixture[module-module]",""
+"passed","Tue Mar 19 18:07:31 MSK 2024","Tue Mar 19 18:07:31 MSK 2024","12","tests.allure_robotframework.acceptance.allure_api.labels","labels_test","","","","test_labels_from_test_library",""
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","1","tests.allure_pytest.acceptance.label.bdd","dynamic_bdd_label_test","","","","test_parametrized_dynamic_labels[first]",""
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","5","tests.allure_nose2.acceptance.nose2_support.parametrized","test_parametrized","","","","test_parametrized_method","
+    >>> import unittest
+    >>> from nose2.tools import params
+
+    >>> class TestParametrizedExample(unittest.TestCase):
+    ...     @params(({""hello"": 4}, [4, 2]), ({""wold"": 2}, [7, 7, 7]))
+    ...     def test_parametrized_method_example(self, bravo, charlie):
+    ...         pass
+    "
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","5","tests.allure_nose2.acceptance.nose2_support.result","test_status","","","","test_skipped_status","
+    >>> import unittest
+
+    >>> class TestStatusExample(unittest.TestCase):
+    ...     def test_skipped_example(self):
+    ...         self.skipTest('my skip reason')
+    "
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","21","tests.allure_pytest.acceptance.label.severity","class_severity_test","","","","test_decorated_class_not_decorated_method",""
+"passed","Tue Mar 19 18:07:30 MSK 2024","Tue Mar 19 18:07:30 MSK 2024","19","tests.allure_pytest.acceptance.testplan","select_test_from_testplan_test","","","","test_select_by_testcase_id_test[id-selector-same-test]","
+    >>> import allure
+
+    >>> @allure.id(""1"")
+    ... def test_number_one():
+    ...     pass
+
+    >>> @allure.id(""2"")
+    ... def test_number_two():
+    ...     pass
+
+    >>> @allure.id(""3"")
+    ... @allure.id(""4"")
+    ... def test_number_three():
+    ...     pass
+
+    >>> def test_without_number():
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","19","tests.allure_pytest.acceptance.label.bdd","select_bdd_test","","","","test_select_by_bdd_label[features]",""
+"passed","Tue Mar 19 18:07:26 MSK 2024","Tue Mar 19 18:07:26 MSK 2024","21","tests.allure_pytest.acceptance.fixture","fixture_test","","","","test_dynamically_called_fixture[session-class]",""
+"passed","Tue Mar 19 18:07:29 MSK 2024","Tue Mar 19 18:07:29 MSK 2024","22","tests.allure_pytest.acceptance.status","skip_teardown_status_test","","","","test_skip_finalizer_fixture","
+    >>> import pytest
+
+    >>> @pytest.fixture
+    ... def skip_finalizer_fixture(request):
+    ...     def fixture_finalizer():
+    ...         pytest.skip()
+    ...     request.addfinalizer(fixture_finalizer)
+
+    >>> def test_skip_finalizer_fixture_example(skip_finalizer_fixture):
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","0","tests.allure_pytest.acceptance.attachment","attachment_test","","","","test_attach_body",""
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","3","tests.allure_behave.acceptance.behave_support.hooks","hook_test","","","","test_context_step_in_scenario_hooks",""
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","2","tests.allure_behave.acceptance.behave_support.steps","behave_step_test","","","","test_step_text_data","
+    Feature: Bheave step support
+        Scenario: Scenario with step which contains text data
+            Given a step with text data
+                '''
+                Textual information attached to the step.
+                '''
+    "
+"passed","Tue Mar 19 18:07:25 MSK 2024","Tue Mar 19 18:07:25 MSK 2024","19","tests.allure_pytest.acceptance.fixture","fixture_finalized_test","","","","test_fixture_finalizers","
+    >>> import pytest
+
+    In pytest, you can define several finalizers for one fixture, like this:
+    >>> @pytest.fixture
+    ... def fixture_with_finalizers(request):
+    ...     def first_finalizer():
+    ...         pass
+    ...     request.addfinalizer(first_finalizer)
+    ...
+    ...     def second_finalizer():
+    ...         pass
+    ...     request.addfinalizer(second_finalizer)
+
+    Of course, allure will report all of them
+    >>> def test_fixture_with_finalizers_example(fixture_with_finalizers):
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:25 MSK 2024","Tue Mar 19 18:07:25 MSK 2024","18","tests.allure_pytest.acceptance.fixture","fixture_test","","","","test_fixture[module-function]",""
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","11","tests.allure_pytest.acceptance.capture","capture_attach_test","","","","test_capture_log[False]","
+    >>> import logging
+    >>> import pytest
+    >>> import allure
+
+    >>> logger = logging.getLogger(__name__)
+
+    >>> @pytest.fixture
+    ... def fixture(request):
+    ...     logger.info(""Start fixture"")
+    ...     def finalizer():
+    ...         logger.info(""Stop fixture"")
+    ...     request.addfinalizer(finalizer)
+
+    >>> def test_capture_log_example(fixture):
+    ...     logger.info(""Start test"")
+    ...     with allure.step(""Step""):
+    ...         logger.info(""Start step"")
+    "
+"passed","Tue Mar 19 18:07:31 MSK 2024","Tue Mar 19 18:07:31 MSK 2024","12","tests.allure_robotframework.acceptance.allure_api.attachment","attachment_test","","","","test_file_attachment_with_default_name_and_type",""
+"passed","Tue Mar 19 18:07:25 MSK 2024","Tue Mar 19 18:07:25 MSK 2024","18","tests.allure_pytest.acceptance.fixture","fixture_finalized_test","","","","test_fixture_finalizer","
+    >>> import pytest
+
+    Let""s define fixture with finalizer:
+    >>> @pytest.fixture
+    ... def fixture_with_finalizer(request):
+    ...     def finalizer():
+    ...         pass
+    ...     request.addfinalizer(finalizer)
+
+    For next test, allure will report fixture finalizer in TearDown section
+    >>> def test_fixture_with_finalizer_example(fixture_with_finalizer):
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:29 MSK 2024","Tue Mar 19 18:07:29 MSK 2024","21","tests.allure_pytest.acceptance.status","skip_call_status_test","","","","test_skip_decorator_and_reason","
+    >>> import pytest
+
+    >>> @pytest.mark.skip(reason=""Skip reason"")
+    ... def test_skip_decorator_and_reason_example():
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","19","tests.allure_pytest.acceptance.label.tag","tag_test","","","","test_pytest_marker_with_kwargs","
+    >>> import pytest
+
+    >>> @pytest.mark.marker(stuff='cool')
+    ... def test_pytest_marker_with_kwargs_example():
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:28 MSK 2024","Tue Mar 19 18:07:28 MSK 2024","22","tests.allure_pytest.acceptance.parametrization","dynamic_parameter_test","","","","test_dynamic_parameter",""
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","0","tests.allure_pytest.acceptance.description","description_test","","","","test_description_html",""
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","21","tests.allure_pytest.acceptance.label.custom","select_custom_label_test","","","","test_select_by_custom_label[mobile-or-api]",""
+"passed","Tue Mar 19 18:07:29 MSK 2024","Tue Mar 19 18:07:29 MSK 2024","22","tests.allure_pytest.acceptance.step","test_step_with_several_step_inside_thread","","","","test_step_with_thread","
+    >>> from concurrent.futures import ThreadPoolExecutor
+    >>> import allure
+
+    >>> @allure.step(""thread {x}"")
+    ... def parallel_step(x=1):
+    ...     with allure.step(""Sub-step in thread""):
+    ...         pass
+
+    >>> def test_thread():
+    ...     with allure.step(""Start in thread""):
+    ...         with ThreadPoolExecutor(max_workers=2) as executor:
+    ...             executor.map(parallel_step, [1, 2])
+    "
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","17","tests.allure_pytest.acceptance.label.package","regression_test","","","","test_with_no_package","
+    >>> def test_package_less(request):
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","19","tests.allure_pytest.acceptance.duration","duration_time_test","","","","test_duration[pass]",""
+"passed","Tue Mar 19 18:07:26 MSK 2024","Tue Mar 19 18:07:26 MSK 2024","18","tests.allure_pytest.acceptance.fixture","fixture_test","","","","test_nested_fixture[session-class]",""
+"passed","Tue Mar 19 18:07:26 MSK 2024","Tue Mar 19 18:07:26 MSK 2024","22","tests.allure_pytest.acceptance.fixture","fixture_test","","","","test_dynamically_called_fixture[session-function]",""
+"passed","Tue Mar 19 18:07:26 MSK 2024","Tue Mar 19 18:07:26 MSK 2024","19","tests.allure_pytest.acceptance.fixture","fixture_test","","","","test_nested_fixture[class-function]",""
+"passed","Tue Mar 19 18:07:29 MSK 2024","Tue Mar 19 18:07:29 MSK 2024","21","tests.allure_pytest.acceptance.status","skip_call_status_test","","","","test_skipif_true","
+    >>> import pytest
+
+    >>> @pytest.mark.skipif(True, reason=""Skip reason"")
+    ... def test_skipif_true_example():
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:25 MSK 2024","Tue Mar 19 18:07:25 MSK 2024","20","tests.allure_pytest.acceptance.fixture","fixture_test","","","","test_fixture[class-session]",""
+"passed","Tue Mar 19 18:07:26 MSK 2024","Tue Mar 19 18:07:26 MSK 2024","22","tests.allure_pytest.acceptance.fixture","fixture_test","","","","test_dynamically_called_fixture[module-function]",""
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","1","tests.allure_pytest.acceptance.display_name","display_name_test","","","","test_display_name_template",""
+"passed","Tue Mar 19 18:07:31 MSK 2024","Tue Mar 19 18:07:31 MSK 2024","11","tests.allure_robotframework.acceptance.allure_api.links","links_test","","","","test_rf_specific_tag_syntax","
+    *** Test Cases ***
+    RF-Specific Tag Syntax
+        [Tags]  link:[allure-python]https://github.com/allure-framework/allure-python
+        ...     link:https://github.com/allure-framework/allure-python/issues
+        ...     issue:ISSUE-1
+        ...     issue:https://github.com/allure-framework/allure-python/issues/1
+        ...     issue:[ISSUE-1]https://github.com/allure-framework/allure-python/issues/1
+        ...     tms:TESTCASE-1
+        ...     tms:https://my-tms/test-cases/1
+        ...     tms:[TESTCASE-1]https://my-tms/test-cases/1
+        No Operation
+    "
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","2","tests.allure_behave.acceptance.allure_api.links","link_test","","","","test_dynamic_links",""
+"passed","Tue Mar 19 18:07:30 MSK 2024","Tue Mar 19 18:07:30 MSK 2024","46","tests.allure_pytest_bdd.acceptance.results","results_test","","","","test_clean_alluredir",""
+"passed","Tue Mar 19 18:07:31 MSK 2024","Tue Mar 19 18:07:31 MSK 2024","10","tests.allure_robotframework.acceptance.allure_api.links","links_test","","","","test_named_link_from_robot_tag",""
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","7","tests.allure_nose2.acceptance.nose2_support.parametrized","test_parametrized","","","","test_parametrized_func","
+    >>> from nose2.tools import params
+
+    >>> @params((""hello"", 42), (""world"", 777))
+    ... def test_parametrized_func_example(alpha, betta):
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","3","tests.allure_behave.acceptance.behave_support.scenarios","scenario_test","","","","test_scenario_with_one_step[failed]","
+    Feature: Behave scenario support
+        Scenario: Scenario with single step
+            Given a step
+    "
+"passed","Tue Mar 19 18:07:28 MSK 2024","Tue Mar 19 18:07:28 MSK 2024","77","tests.allure_pytest.acceptance.results","results_test","","","","test_clean_alluredir",""
+"passed","Tue Mar 19 18:07:26 MSK 2024","Tue Mar 19 18:07:26 MSK 2024","43","tests.allure_pytest.acceptance.fixture","fixture_test","","","","test_fixture_override",""
+"passed","Tue Mar 19 18:07:31 MSK 2024","Tue Mar 19 18:07:31 MSK 2024","12","tests.allure_robotframework.acceptance.allure_api.links","links_test","","","","test_links_from_code",""
+"passed","Tue Mar 19 18:07:30 MSK 2024","Tue Mar 19 18:07:30 MSK 2024","21","tests.allure_pytest.acceptance.testplan","select_test_from_testplan_test","","","","test_select_by_testcase_id_test[empty-plan]","
+    >>> import allure
+
+    >>> @allure.id(""1"")
+    ... def test_number_one():
+    ...     pass
+
+    >>> @allure.id(""2"")
+    ... def test_number_two():
+    ...     pass
+
+    >>> @allure.id(""3"")
+    ... @allure.id(""4"")
+    ... def test_number_three():
+    ...     pass
+
+    >>> def test_without_number():
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:25 MSK 2024","Tue Mar 19 18:07:25 MSK 2024","21","tests.allure_pytest.acceptance.duration","duration_time_test","","","","test_with_fixture_duration[xfail]",""
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","2","tests.allure_behave.acceptance.behave_support.behave_cmd","behave_cmd_test","","","","test_behave_no_skipped_support","Feature: Behave --tags CLI argument support
+
+    @tag
+    Scenario: Scenario with tag
+        Given noop
+
+    Scenario: Scenario without tag
+        Given noop
+    "
+"passed","Tue Mar 19 18:07:31 MSK 2024","Tue Mar 19 18:07:31 MSK 2024","11","tests.allure_robotframework.acceptance.allure_api.labels","labels_test","","","","test_robot_tag_from_settings",""
+"passed","Tue Mar 19 18:07:30 MSK 2024","Tue Mar 19 18:07:30 MSK 2024","25","tests.allure_pytest_bdd.acceptance","scenario_test","","","","test_simple_passed_scenario",""
+"passed","Tue Mar 19 18:07:29 MSK 2024","Tue Mar 19 18:07:29 MSK 2024","21","tests.allure_pytest.acceptance.step","step_placeholder_test","","","","test_args_less_than_placeholders","
+    >>> import allure
+
+    >>> @allure.step(""{0} and {1}"")
+    ... def step(arg):
+    ...     pass
+
+    >>> def test_args_less_than_placeholders_example():
+    ...     step(0)
+    "
+"passed","Tue Mar 19 18:07:25 MSK 2024","Tue Mar 19 18:07:25 MSK 2024","20","tests.allure_pytest.acceptance.duration","duration_time_test","","","","test_with_fixture_duration[pytest-fail]",""
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","20","tests.allure_pytest.acceptance.duration","duration_time_test","","","","test_duration[pytest-fail]",""
+"passed","Tue Mar 19 18:07:31 MSK 2024","Tue Mar 19 18:07:31 MSK 2024","11","tests.allure_robotframework.acceptance.robotframework_support.fixtures","fixture_test","","","","test_failed_setup_teardown","
+    *** Keywords ***
+    Setup Fixture
+        Fail  Setup fail reason
+
+    Teardown Fixture
+        Fail  Teardown fail reason
+
+    *** Test Cases ***
+    Test Under Test
+        [Setup]     Setup Fixture
+        [Teardown]  Teardown Fixture
+        No Operation
+    "
+"passed","Tue Mar 19 18:07:26 MSK 2024","Tue Mar 19 18:07:26 MSK 2024","21","tests.allure_pytest.acceptance.fixture","fixture_test","","","","test_one_fixture_on_two_tests",""
+"passed","Tue Mar 19 18:07:26 MSK 2024","Tue Mar 19 18:07:26 MSK 2024","19","tests.allure_pytest.acceptance.fixture","fixture_test","","","","test_titled_fixture_from_conftest",""
+"passed","Tue Mar 19 18:07:30 MSK 2024","Tue Mar 19 18:07:30 MSK 2024","19","tests.allure_pytest.acceptance.testplan","select_test_from_testplan_test","","","","test_select_by_testcase_id_test[selectors-only]","
+    >>> import allure
+
+    >>> @allure.id(""1"")
+    ... def test_number_one():
+    ...     pass
+
+    >>> @allure.id(""2"")
+    ... def test_number_two():
+    ...     pass
+
+    >>> @allure.id(""3"")
+    ... @allure.id(""4"")
+    ... def test_number_three():
+    ...     pass
+
+    >>> def test_without_number():
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:25 MSK 2024","Tue Mar 19 18:07:25 MSK 2024","21","tests.allure_pytest.acceptance.duration","duration_time_test","","","","test_with_fixture_duration[break]",""
+"passed","Tue Mar 19 18:07:29 MSK 2024","Tue Mar 19 18:07:29 MSK 2024","19","tests.allure_pytest.acceptance.step","outside_step_test","","","","test_call_decorated_as_step_function","
+    >>> import allure
+
+    >>> with allure.step(""step outside""):
+    ...     pass
+
+    >>> def test_call_decorated_as_step_function_example():
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:25 MSK 2024","Tue Mar 19 18:07:25 MSK 2024","22","tests.allure_pytest.acceptance.duration","duration_time_test","","","","test_with_fixture_finalizer_duration[break]",""
+"passed","Tue Mar 19 18:07:31 MSK 2024","Tue Mar 19 18:07:31 MSK 2024","12","tests.allure_robotframework.acceptance.robotframework_support.fixtures","fixture_test","","","","test_setup_teardown","
+    *** Keywords ***
+    Setup Fixture
+        No Operation
+
+    Teardown Fixture
+        No Operation
+
+    *** Test Cases ***
+    Test Under Test
+        [Setup]     Setup Fixture
+        [Teardown]  Teardown Fixture
+        No Operation
+    "
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","0","tests.allure_pytest.acceptance.label.suite","custom_suite_test","","","","test_custom_dynamic_suites",""
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","3","tests.allure_behave.acceptance.behave_support.steps","behave_step_test","","","","test_failed_behave_step","
+    Feature: Bheave step support
+        Scenario: Scenario with failed step
+            Given a step failed
+    "
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","0","tests.allure_pytest.acceptance.label.severity","class_severity_test","","","","test_not_decorated_sub_class_not_decorated_method",""
+"passed","Tue Mar 19 18:07:28 MSK 2024","Tue Mar 19 18:07:28 MSK 2024","25","tests.allure_pytest.acceptance.status","base_call_status_test","","","","test_call_pytest_fail_with_reason","
+    >>> import pytest
+
+    >>> def test_call_pytest_fail_with_reason_example():
+    ...     pytest.fail(""Fail message"")
+    "
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","21","tests.allure_pytest.acceptance.duration","duration_time_test","","","","test_duration[break]",""
+"passed","Tue Mar 19 18:07:28 MSK 2024","Tue Mar 19 18:07:28 MSK 2024","22","tests.allure_pytest.acceptance.parametrization","metafunc_test","","","","test_metafunc_param_with_ids","
+    >>> def pytest_generate_tests(metafunc):
+    ...     if ""metafunc_param_with_ids"" in metafunc.fixturenames:
+    ...         metafunc.parametrize(
+    ...             ""metafunc_param_with_ids"",
+    ...             [True, False],
+    ...             ids=[""pass"", ""fail""]
+    ...         )
+
+
+    >>> def test_metafunc_param_with_ids_example(metafunc_param_with_ids):
+    ...     assert metafunc_param_with_ids
+    "
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","18","tests.allure_pytest.acceptance.display_name","display_name_test","","","","test_param_id_in_display_name","
+    >>> import allure
+    >>> import pytest
+
+    >>> @pytest.mark.parametrize(""name"", [pytest.param(""value"", id=""some id"")])
+    ... @allure.title('Title with id - {param_id}')
+    ... def test_param_id(name):
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","20","tests.allure_pytest.acceptance.label.id","set_testcase_id_test","","","","test_set_testcase_id_label","
+    >>> import allure
+
+    >>> @allure.id(123)
+    ... def test_allure_ee_id_label_example():
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:31 MSK 2024","Tue Mar 19 18:07:31 MSK 2024","11","tests.allure_robotframework.acceptance.allure_api.tags","tags_test","","","","test_modified_robot_tags",""
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","4","tests.allure_behave.acceptance.allure_api.testplan","testplan_test","","","","test_testplan_id_selection",""
+"passed","Tue Mar 19 18:07:26 MSK 2024","Tue Mar 19 18:07:26 MSK 2024","19","tests.allure_pytest.acceptance.history_id","history_id_test","","","","test_history_id_not_affected_by_pytest_ids",""
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","18","tests.allure_pytest.acceptance.label.custom","custom_label_test","","","","test_custom_label",""
+"passed","Tue Mar 19 18:07:28 MSK 2024","Tue Mar 19 18:07:28 MSK 2024","0","tests.allure_pytest.acceptance.link","link_test","","","","test_custom_link",""
+"passed","Tue Mar 19 18:07:31 MSK 2024","Tue Mar 19 18:07:31 MSK 2024","13","tests.allure_robotframework.acceptance.robotframework_support.statuses","statuses_test","","","","test_steps_after_failed_are_skipped","
+    *** Test Cases ***
+    Failed Test Case
+        Fail
+        Log     This step is skipped
+    "
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","0","tests.allure_behave.defects","issue717_test","","","","test_step_table_data_escaping[quote]",""
+"passed","Tue Mar 19 18:07:30 MSK 2024","Tue Mar 19 18:07:30 MSK 2024","27","tests.allure_pytest.externals.pytest_check","pytest_check_test","","","","test_pytest_check","
+    >>> import pytest_check as check
+    >>> def test_pytest_check_example():
+    ...     check.equal(1, 2, msg=""First failure"")
+    ...     check.equal(1, 2, msg=""Second failure"")
+    "
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","2","tests.allure_behave.acceptance.allure_api.tags","tag_test","","","","test_behave_tags_as_allure_tags[feature-tag]",""
+"passed","Tue Mar 19 18:07:26 MSK 2024","Tue Mar 19 18:07:26 MSK 2024","21","tests.allure_pytest.acceptance.fixture","fixture_test","","","","test_nested_fixture[function-function]",""
+"passed","Tue Mar 19 18:07:26 MSK 2024","Tue Mar 19 18:07:26 MSK 2024","21","tests.allure_pytest.acceptance.fixture","yield_fixture_test","","","","test_opened_step_function","
+    >>> import allure
+    >>> import pytest
+
+    >>> @pytest.fixture()
+    ... def yield_fixture():
+    ...     with allure.step(""Opened step""):
+    ...         yield
+
+    >>> def test_opened_step(yield_fixture):
+    ...     with allure.step(""Body step""):
+    ...         pass
+    "
+"passed","Tue Mar 19 18:07:28 MSK 2024","Tue Mar 19 18:07:28 MSK 2024","25","tests.allure_pytest.acceptance.parametrization","parametrization_test","","","","test_dynamic_parameter_excluded","
+    >>> import allure
+
+    >>> def test_parameter_excluded():
+    ...     allure.dynamic.parameter(""param1"", ""param-value"", excluded=True)
+    "
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","18","tests.allure_pytest.acceptance.label.suite","module_level_custom_suite_test","","","","test_module_custom_suite",""
+"passed","Tue Mar 19 18:07:28 MSK 2024","Tue Mar 19 18:07:28 MSK 2024","0","tests.allure_pytest.acceptance.link","link_test","","","","test_issue_link",""
+"passed","Tue Mar 19 18:07:30 MSK 2024","Tue Mar 19 18:07:30 MSK 2024","22","tests.allure_pytest.externals.pytest_doctest","pytest_doctest_test","","","","test_pytest_doctest","
+    >>> def some_func():
+    ...     '''
+    ...     >>> some_func()
+    ...     True
+    ...     '''
+    ...     return True
+
+    "
+"passed","Tue Mar 19 18:07:31 MSK 2024","Tue Mar 19 18:07:31 MSK 2024","11","tests.allure_robotframework.acceptance.allure_api.attachment","attachment_test","","","","test_file_attachment_with_name_and_type",""
+"passed","Tue Mar 19 18:07:25 MSK 2024","Tue Mar 19 18:07:25 MSK 2024","23","tests.allure_pytest.acceptance.duration","duration_time_test","","","","test_with_fixture_finalizer_duration[pass]",""
+"passed","Tue Mar 19 18:07:30 MSK 2024","Tue Mar 19 18:07:30 MSK 2024","21","tests.allure_pytest.externals.pytest_doctest","pytest_doctest_test","","","","test_pytest_doctest_failed","
+    >>> def some_func():
+    ...     '''
+    ...     >>> some_func()
+    ...     True
+    ...     '''
+    ...     return not True
+
+    "
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","3","tests.allure_behave.acceptance.behave_support.scenarios","scenario_test","","","","test_when_not_passed_remaining_steps_are_skipped[failed]","
+    Feature: Behave scenario support
+        Scenario: Scenario with four steps
+            Given step 1
+            And trigger
+            And step 3
+            And step 4
+    "
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","0","tests.allure_pytest.acceptance.label.bdd","bdd_label_test","","","","test_multiple_bdd_label",""
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","2","tests.allure_behave.acceptance.behave_support.scenarios","scenario_test","","","","test_nameless_scenario","
+    Feature: Behave scenario support
+        Scenario:
+            Given noop
+    "
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","0","tests.allure_pytest.acceptance.link","dynamic_link_test","","","","test_parametrize_dynamic_link",""
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","20","tests.allure_pytest.acceptance.capture","capture_attach_test","","","","test_capture_stdout[sys]","
+    >>> import pytest
+    >>> import allure
+
+    >>> @pytest.fixture
+    ... def fixture(request):
+    ...     print (""Start fixture"")
+    ...     def finalizer():
+    ...         print (""Stop fixture"")
+    ...     request.addfinalizer(finalizer)
+
+    >>> def test_capture_stdout_example(fixture):
+    ...     print (""Start test"")
+    ...     with allure.step(""Step""):
+    ...         print (""Start step"")
+    "
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","40","tests.allure_pytest.acceptance.label.tag","tag_test","","","","test_pytest_xfail_marker","
+    >>> import pytest
+
+    >>> @pytest.mark.xfail(reason='this is unexpect pass')
+    ... def test_pytest_xfail_marker_example():
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","4","tests.allure_nose2.acceptance.nose2_support.result","test_status","","","","test_passed_status","
+    >>> import unittest
+
+    >>> class TestStatusExample(unittest.TestCase):
+    ...     def test_passed_example(self):
+    ...         assert True
+    "
+"passed","Tue Mar 19 18:07:30 MSK 2024","Tue Mar 19 18:07:30 MSK 2024","22","tests.allure_pytest.externals.pytest_doctest","pytest_doctest_test","","","","test_pytest_doctest_broken","
+    >>> def some_func():
+    ...     '''
+    ...     >>> raise ValueError()
+    ...     '''
+    "
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","23","tests.allure_pytest.acceptance.display_name","display_name_test","","","","test_failed_fixture_value_in_display_name","
+    >>> import allure
+    >>> import pytest
+
+    >>> @pytest.fixture
+    ... def fix():
+    ...     raise AssertionError(""Fixture failed for some reason"")
+
+    >>> @allure.title('title with {fix}')
+    ... def test_fixture_value_name(fix):
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","18","tests.allure_pytest.acceptance.label.suite","default_suite_test","","","","test_class_no_parent_module","
+    >>> class TestSuiteClass:
+    ...     def test_default_class_suite_example(self):
+    ...         pass
+
+    "
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","19","tests.allure_pytest.acceptance.label.tag","tag_test","","","","test_pytest_marker","
+    >>> import pytest
+
+    >>> @pytest.mark.cool
+    ... @pytest.mark.stuff
+    ... def test_pytest_marker_example():
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","2","tests.allure_behave.acceptance.allure_api.links","link_test","","","","test_specialized_links",""
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","21","tests.allure_pytest.acceptance.label.custom","select_custom_label_test","","","","test_select_by_custom_label[desktop]",""
+"passed","Tue Mar 19 18:07:25 MSK 2024","Tue Mar 19 18:07:25 MSK 2024","19","tests.allure_pytest.acceptance.fixture","fixture_test","","","","test_fixture[session-class]",""
+"passed","Tue Mar 19 18:07:28 MSK 2024","Tue Mar 19 18:07:28 MSK 2024","24","tests.allure_pytest.acceptance.status","base_call_status_test","","","","test_passed","
+    >>> def test_passed_example():
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","4","tests.allure_behave.acceptance.behave_support.background","background_test","","","","test_background[passed]","
+    Feature: Allure-behave compatibility with feature backgrounds
+        Background: A background with {step_outcome} step
+            Given the first background step that is {step_outcome}
+            And the second background step with no failures
+
+        Scenario: Scenario with background containing {step_outcome} step
+            Given the first step with no failures
+            And the second step with no failures
+
+        Scenario: Another scenario with background containing {step_outcome} step
+            Given the step with no failures
+    "
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","6","tests.allure_nose2.acceptance.nose2_support.result","test_status","","","","test_failed_status","
+    >>> import unittest
+
+    >>> class TestStatusExample(unittest.TestCase):
+    ...     def test_failed_example(self):
+    ...         assert False, ""my message""
+    "
+"passed","Tue Mar 19 18:07:31 MSK 2024","Tue Mar 19 18:07:31 MSK 2024","15","tests.allure_robotframework.acceptance.allure_api.steps","steps_test","","","","test_library_steps",""
+"passed","Tue Mar 19 18:07:31 MSK 2024","Tue Mar 19 18:07:31 MSK 2024","13","tests.allure_robotframework.acceptance.allure_api.tags","tags_test","","","","test_robot_tags_not_modified_because_of_failure",""
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","19","tests.allure_pytest.acceptance.display_name","display_name_test","","","","test_explicit_parameter_called_param_id_in_display_name","
+    >>> import allure
+    >>> import pytest
+
+    >>> @pytest.mark.parametrize(""param_id"", [pytest.param(""param value"", id=""some id"")])
+    ... @allure.title('Title with id - {param_id}')
+    ... def test_explicit_parameter_called_param_id(param_id):
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:28 MSK 2024","Tue Mar 19 18:07:28 MSK 2024","26","tests.allure_pytest.acceptance.parametrization","parametrization_test","","","","test_parametrization_decorators_with_partial_ids","
+    >>> import pytest
+
+    >>> @pytest.mark.parametrize(""s"", [""a"", ""b""], ids=[""A"", ""B""])
+    ... @pytest.mark.parametrize(""n"", [1, 2])
+    ... def test_two_marks_one_with_ids(n, s):
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","20","tests.allure_pytest.acceptance.label.severity","select_severity_test","","","","test_select_by_severity_level[critical,minor]",""
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","20","tests.allure_pytest.acceptance.label.severity","select_severity_test","","","","test_select_by_severity_level[critical]",""
+"passed","Tue Mar 19 18:07:29 MSK 2024","Tue Mar 19 18:07:29 MSK 2024","23","tests.allure_pytest.acceptance.step","step_parameters_test","","","","test_step_parameters","
+    >>> import pytest
+    >>> import allure
+
+    >>> @allure.step
+    ... def step(arg, kwarg=None):
+    ...     pass
+
+    >>> @pytest.mark.parametrize(
+    ...     [""args"", ""kwargs""],
+    ...     [
+    ...         ([True], {""kwarg"": False}),
+    ...         ([""hi""], {""kwarg"": None}),
+    ...         ([None], {""kwarg"": 42})
+    ...     ]
+    ... )
+    ... def test_step_parameters(args, kwargs):
+    ...     step(*args, **kwargs)
+    "
+"passed","Tue Mar 19 18:07:30 MSK 2024","Tue Mar 19 18:07:30 MSK 2024","19","tests.allure_pytest.acceptance.testplan","select_test_from_testplan_test","","","","test_select_by_testcase_id_test[selector-for-test-with-noid]","
+    >>> import allure
+
+    >>> @allure.id(""1"")
+    ... def test_number_one():
+    ...     pass
+
+    >>> @allure.id(""2"")
+    ... def test_number_two():
+    ...     pass
+
+    >>> @allure.id(""3"")
+    ... @allure.id(""4"")
+    ... def test_number_three():
+    ...     pass
+
+    >>> def test_without_number():
+    ...     pass
+    "
+"passed","Tue Mar 19 18:07:30 MSK 2024","Tue Mar 19 18:07:30 MSK 2024","2","tests.allure_pytest.unit","history_id_test","","","","test_original_values_are_used",""
+"passed","Tue Mar 19 18:07:29 MSK 2024","Tue Mar 19 18:07:29 MSK 2024","20","tests.allure_pytest.acceptance.status","skip_call_status_test","","","","test_skip_with_reason","
+    >>> import pytest
+
+    >>> def test_skip_with_reason_example():
+    ...     pytest.skip(""Skip reason"")
+    "
+"passed","Tue Mar 19 18:07:27 MSK 2024","Tue Mar 19 18:07:27 MSK 2024","20","tests.allure_pytest.acceptance.label.manual","manual_test","","","","test_allure_manual_label",""
+"passed","Tue Mar 19 18:07:26 MSK 2024","Tue Mar 19 18:07:26 MSK 2024","21","tests.allure_pytest.acceptance.fixture","fixture_test","","","","test_dynamically_called_fixture[session-session]",""
+"passed","Tue Mar 19 18:07:28 MSK 2024","Tue Mar 19 18:07:28 MSK 2024","20","tests.allure_pytest.acceptance.parametrization","metafunc_test","","","","test_metafunc_param","
+    >>> def pytest_generate_tests(metafunc):
+    ...     if ""metafunc_param"" in metafunc.fixturenames:
+    ...         metafunc.parametrize(""metafunc_param"", [True, False])
+
+
+    >>> def test_metafunc_param_example(metafunc_param):
+    ...     assert metafunc_param
+    "
+"passed","Tue Mar 19 18:07:29 MSK 2024","Tue Mar 19 18:07:29 MSK 2024","23","tests.allure_pytest.acceptance.status","xfail_call_status_test","","","","test_xfail_with_reason_raise_mentioned_exception","
+    >>> import pytest
+
+    >>> @pytest.mark.xfail(raises=AssertionError, reason='Some reason')
+    ... def test_xfail_with_reason_raise_mentioned_exception_example():
+    ...     assert False
+
+    "
+"passed","Tue Mar 19 18:07:30 MSK 2024","Tue Mar 19 18:07:30 MSK 2024","45","tests.allure_pytest_bdd.acceptance.results","results_test","","","","test_clean_alluredir_with_collectonly",""
+"passed","Tue Mar 19 18:07:29 MSK 2024","Tue Mar 19 18:07:29 MSK 2024","0","tests.allure_pytest.acceptance.step","step_test","","","","test_class_method_as_step",""
+"passed","Tue Mar 19 18:07:23 MSK 2024","Tue Mar 19 18:07:23 MSK 2024","3","tests.allure_behave.acceptance.allure_api.severities","severity_test","","","","test_severity_on_feature",""
+"passed","Tue Mar 19 18:07:25 MSK 2024","Tue Mar 19 18:07:25 MSK 2024","19","tests.allure_pytest.acceptance.fixture","fixture_test","","","","test_fixture[class-module]",""
+"passed","Tue Mar 19 18:07:31 MSK 2024","Tue Mar 19 18:07:31 MSK 2024","10","tests.allure_robotframework.acceptance.allure_api.tags","tags_test","","","","test_rf_tags_starting_with_allure_not_added",""
+"passed","Tue Mar 19 18:07:24 MSK 2024","Tue Mar 19 18:07:24 MSK 2024","5","tests.allure_nose2.acceptance.nose2_support.result","test_fullname","","","","test_method_fullname","
+    >>> import unittest
+
+    >>> class TestFullnameExample(unittest.TestCase):
+    ...     def test_method_fullname_example(self):
+    ...         pass
+    "

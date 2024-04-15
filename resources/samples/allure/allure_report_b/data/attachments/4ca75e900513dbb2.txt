@@ -1,0 +1,12 @@
+E
+======================================================================
+ERROR: test_broken_example (test_broken_status.TestStatusExample.test_broken_example)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<string>", line 5, in test_broken_example
+Exception: my error
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (errors=1)

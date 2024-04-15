@@ -1,0 +1,104 @@
+{
+  "uid": "1b1a222bb7fe6dfd",
+  "name": "3D162506 | The user should be able to modify the SE file in 3DA author with Extrude command. | Abhijeet Sabale",
+  "fullName": "Solidedge Files  tests.3D162506 | The user should be able to modify the SE file in 3DA author with Extrude command. | Abhijeet Sabale",
+  "historyId": "7b6e320a09f96d123673751f7f48c085",
+  "time": {
+    "start": 1705874237973,
+    "stop": 1705874381507,
+    "duration": 143534
+  },
+  "description": "",
+  "descriptionHtml": "",
+  "status": "broken",
+  "statusMessage": "Can't call $ on element with selector \".project-cards\" because element wasn't found",
+  "statusTrace": "Error: Can't call $ on element with selector \".project-cards\" because element wasn't found\n                    at Object.projectCard (/builds/mainstream-eng-cloud/zelx-testsuite/test/page-objects/projects-page.js:21:12)\n                    at Object.createProject (/builds/mainstream-eng-cloud/zelx-testsuite/test/page-objects/create-project-modal.js:401:34)\n                    at Operations (/builds/mainstream-eng-cloud/zelx-testsuite/test/page-objects/operationsMaster.js:142:24)\n                    at Context.<anonymous> (/builds/mainstream-eng-cloud/zelx-testsuite/test/page-objects/common.js:176:5)",
+  "flaky": false,
+  "newFailed": false,
+  "newBroken": false,
+  "newPassed": false,
+  "retriesCount": 0,
+  "retriesStatusChange": false,
+  "beforeStages": [],
+  "testStage": {
+    "status": "broken",
+    "statusMessage": "Can't call $ on element with selector \".project-cards\" because element wasn't found",
+    "statusTrace": "Error: Can't call $ on element with selector \".project-cards\" because element wasn't found\n                    at Object.projectCard (/builds/mainstream-eng-cloud/zelx-testsuite/test/page-objects/projects-page.js:21:12)\n                    at Object.createProject (/builds/mainstream-eng-cloud/zelx-testsuite/test/page-objects/create-project-modal.js:401:34)\n                    at Operations (/builds/mainstream-eng-cloud/zelx-testsuite/test/page-objects/operationsMaster.js:142:24)\n                    at Context.<anonymous> (/builds/mainstream-eng-cloud/zelx-testsuite/test/page-objects/common.js:176:5)",
+    "steps": [],
+    "attachments": [
+      {
+        "uid": "ed2179e40264ff3a",
+        "name": "Screenshot",
+        "source": "ed2179e40264ff3a.png",
+        "type": "image/png",
+        "size": 155151
+      }
+    ],
+    "parameters": [],
+    "stepsCount": 0,
+    "shouldDisplayMessage": true,
+    "attachmentsCount": 1,
+    "hasContent": true,
+    "attachmentStep": false
+  },
+  "afterStages": [],
+  "labels": [
+    {
+      "name": "framework",
+      "value": "wdio"
+    },
+    {
+      "name": "language",
+      "value": "javascript"
+    },
+    {
+      "name": "thread",
+      "value": "0-55"
+    },
+    {
+      "name": "suite",
+      "value": "Solidedge Files  tests"
+    },
+    {
+      "name": "testClass",
+      "value": "Solidedge Files  tests"
+    },
+    {
+      "name": "testMethod",
+      "value": "3D162506 | The user should be able to modify the SE file in 3DA author with Extrude command. | Abhijeet Sabale"
+    },
+    {
+      "name": "package",
+      "value": "Solidedge Files  tests"
+    },
+    {
+      "name": "resultFormat",
+      "value": "allure1"
+    }
+  ],
+  "parameters": [
+    {
+      "name": "browser",
+      "value": "Chrome Headless-114.0.5735.106"
+    }
+  ],
+  "links": [],
+  "hidden": false,
+  "retry": false,
+  "extra": {
+    "severity": "normal",
+    "retries": [],
+    "categories": [
+      {
+        "name": "Test defects",
+        "matchedStatuses": [],
+        "flaky": false
+      }
+    ],
+    "tags": []
+  },
+  "source": "1b1a222bb7fe6dfd.json",
+  "parameterValues": [
+    "Chrome Headless-114.0.5735.106"
+  ]
+}

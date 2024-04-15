@@ -1,0 +1,28 @@
+Feature: Allure-behave compatibility with feature backgrounds # <string>:2
+
+  Background: A background with failed step  # <string>:3
+
+  Scenario: Scenario with background containing failed step  # <string>:7
+    Given the first background step that is failed           # <string>:7
+      Assertion Failed: Failed assertion message
+
+    And the second background step with no failures          # None
+    Given the first step with no failures                    # None
+    And the second step with no failures                     # None
+
+  Scenario: Another scenario with background containing failed step  # <string>:11
+    Given the first background step that is failed                   # <string>:7
+      Assertion Failed: Failed assertion message
+
+    And the second background step with no failures                  # None
+    Given the step with no failures                                  # None
+
+
+Failing scenarios:
+  <string>:7  Scenario with background containing failed step
+  <string>:11  Another scenario with background containing failed step
+
+0 features passed, 1 failed, 0 skipped
+0 scenarios passed, 2 failed, 0 skipped
+0 steps passed, 2 failed, 5 skipped, 0 undefined
+Took 0m0.000s

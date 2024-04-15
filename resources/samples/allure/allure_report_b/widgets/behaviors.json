@@ -1,0 +1,1 @@
+{"total":334,"items":[{"uid":"829de772a9badf49bda455a1dbd8f74d","name":"Fixture","statistic":{"failed":0,"broken":0,"skipped":0,"passed":22,"unknown":0,"total":22}},{"uid":"8f83dfde1b9601d1152a20984aa33fc8","name":"Integration","statistic":{"failed":0,"broken":0,"skipped":0,"passed":11,"unknown":0,"total":11}}]}

@@ -1,0 +1,13 @@
+@allure.link.homepage:https://qameta.io
+Feature: Allure link support # <string>:2
+
+  Scenario: Scenario with the link to the homepage  # <string>:3
+    Given noop                                      # <string>:1
+
+  Scenario: Another scenario with the link to the homepage  # <string>:6
+    Given noop                                              # <string>:1
+
+1 feature passed, 0 failed, 0 skipped
+2 scenarios passed, 0 failed, 0 skipped
+2 steps passed, 0 failed, 0 skipped, 0 undefined
+Took 0m0.000s

@@ -1,0 +1,12 @@
+Feature: Behave hook support # <string>:1
+
+  Scenario: Attachment from before_feature fixture-hook  # <string>:2
+    Given noop                                           # <string>:3
+
+  Scenario: One more scenario with same attachment in fixture-hook  # <string>:5
+    Given noop                                                      # <string>:3
+
+1 feature passed, 0 failed, 0 skipped
+2 scenarios passed, 0 failed, 0 skipped
+2 steps passed, 0 failed, 0 skipped, 0 undefined
+Took 0m0.000s

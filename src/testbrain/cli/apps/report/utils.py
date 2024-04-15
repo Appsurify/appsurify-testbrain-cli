@@ -2,14 +2,20 @@ import pathlib
 import typing as t
 
 from testbrain.contrib.report.converters import (
+    Allure2JUnitReportConverter,
     JUnit2TestbrainReportConverter,
     MSTest2JUnitReportConverter,
     MSTest2TestbrainReportConverter,
 )
 from testbrain.contrib.report.mergers.junit import JUnitReportMerger
+from testbrain.contrib.report.models.allure import AllureReport
 from testbrain.contrib.report.models.junit import JUnitTestSuites
 from testbrain.contrib.report.models.testbrain import TestbrainTestSuite
-from testbrain.contrib.report.parsers import JUnitReportParser, MSTestReportParser
+from testbrain.contrib.report.parsers import (
+    AllureReportParser,
+    JUnitReportParser,
+    MSTestReportParser,
+)
 
 
 def merge_junit_reports(reports: t.List[JUnitTestSuites]) -> JUnitTestSuites:
@@ -33,6 +39,16 @@ def convert_mstest_to_junit(infile: pathlib.Path) -> JUnitTestSuites:
     mstest_to_junit_converter = MSTest2JUnitReportConverter(source=mstest_report)
     mstest_to_junit_converter.convert()
     junit_report = mstest_to_junit_converter.result
+    return junit_report
+
+
+def convert_allure_to_junit(infile: pathlib.Path) -> JUnitTestSuites:
+    allure_parser = AllureReportParser.fromfile(filename=infile)
+    allure_parser.parse()
+    allure_report = allure_parser.result
+    allure_to_junit_converter = Allure2JUnitReportConverter(source=allure_report)
+    allure_to_junit_converter.convert()
+    junit_report = allure_to_junit_converter.result
     return junit_report
 
 

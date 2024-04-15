@@ -1,0 +1,19 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.12.0, pytest-7.4.4, pluggy-1.4.0
+rootdir: /private/var/folders/z0/zvd81kyj08xgnt8c1hbb2f780000gn/T/pytest-of-whenessel/pytest-3/test_clean_alluredir_with_collectonly1
+plugins: bdd-7.1.2, allure-pytest-bdd-2.13.4.dev2+gd759bc5
+collected 1 item
+
+test_clean_alluredir_with_collectonly.py .                               [100%]
+
+============================== 1 passed in 0.01s ===============================
+============================= test session starts ==============================
+platform darwin -- Python 3.12.0, pytest-7.4.4, pluggy-1.4.0
+rootdir: /private/var/folders/z0/zvd81kyj08xgnt8c1hbb2f780000gn/T/pytest-of-whenessel/pytest-3/test_clean_alluredir_with_collectonly1
+plugins: bdd-7.1.2, allure-pytest-bdd-2.13.4.dev2+gd759bc5
+collected 1 item
+
+<Module test_clean_alluredir_with_collectonly.py>
+  <Function test_scenario_passes>
+
+========================== 1 test collected in 0.00s ===========================

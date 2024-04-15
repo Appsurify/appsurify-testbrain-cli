@@ -1,0 +1,1 @@
+[32mINFO    [0m test_capture_disabled:test_capture_disabled.py:5 Start logging

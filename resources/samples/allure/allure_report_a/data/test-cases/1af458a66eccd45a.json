@@ -1,0 +1,104 @@
+{
+  "uid": "1af458a66eccd45a",
+  "name": "3D010006 | Error validation for Delete Invalid face | Varsha Chaudhari",
+  "fullName": "Delete command tests.3D010006 | Error validation for Delete Invalid face | Varsha Chaudhari",
+  "historyId": "26ddbf223945d93d40b9d39e4392296b",
+  "time": {
+    "start": 1705862650655,
+    "stop": 1705862654739,
+    "duration": 4084
+  },
+  "description": "",
+  "descriptionHtml": "",
+  "status": "broken",
+  "statusMessage": "Cannot read properties of undefined (reading 'body')",
+  "statusTrace": "TypeError: Cannot read properties of undefined (reading 'body')\n                    at getMercuryObjInfo (/builds/mainstream-eng-cloud/zelx-testsuite/test/utils/apiHelper.js:210:19)\n                    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n                    at getProjectByName (/builds/mainstream-eng-cloud/zelx-testsuite/test/utils/apiHelper.js:213:26)\n                    at Object.openFileIn3DAuthor (/builds/mainstream-eng-cloud/zelx-testsuite/test/page-objects/3DAuthor/3DAuthorPageCommon.js:1800:22)\n                    at Operations (/builds/mainstream-eng-cloud/zelx-testsuite/test/page-objects/operationsMaster.js:162:24)\n                    at Context.<anonymous> (/builds/mainstream-eng-cloud/zelx-testsuite/test/page-objects/common.js:176:5)",
+  "flaky": false,
+  "newFailed": false,
+  "newBroken": false,
+  "newPassed": false,
+  "retriesCount": 0,
+  "retriesStatusChange": false,
+  "beforeStages": [],
+  "testStage": {
+    "status": "broken",
+    "statusMessage": "Cannot read properties of undefined (reading 'body')",
+    "statusTrace": "TypeError: Cannot read properties of undefined (reading 'body')\n                    at getMercuryObjInfo (/builds/mainstream-eng-cloud/zelx-testsuite/test/utils/apiHelper.js:210:19)\n                    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n                    at getProjectByName (/builds/mainstream-eng-cloud/zelx-testsuite/test/utils/apiHelper.js:213:26)\n                    at Object.openFileIn3DAuthor (/builds/mainstream-eng-cloud/zelx-testsuite/test/page-objects/3DAuthor/3DAuthorPageCommon.js:1800:22)\n                    at Operations (/builds/mainstream-eng-cloud/zelx-testsuite/test/page-objects/operationsMaster.js:162:24)\n                    at Context.<anonymous> (/builds/mainstream-eng-cloud/zelx-testsuite/test/page-objects/common.js:176:5)",
+    "steps": [],
+    "attachments": [
+      {
+        "uid": "b4861f597042b208",
+        "name": "Screenshot",
+        "source": "b4861f597042b208.png",
+        "type": "image/png",
+        "size": 26647
+      }
+    ],
+    "parameters": [],
+    "stepsCount": 0,
+    "shouldDisplayMessage": true,
+    "attachmentsCount": 1,
+    "hasContent": true,
+    "attachmentStep": false
+  },
+  "afterStages": [],
+  "labels": [
+    {
+      "name": "framework",
+      "value": "wdio"
+    },
+    {
+      "name": "language",
+      "value": "javascript"
+    },
+    {
+      "name": "thread",
+      "value": "0-0"
+    },
+    {
+      "name": "suite",
+      "value": "Delete command tests"
+    },
+    {
+      "name": "testClass",
+      "value": "Delete command tests"
+    },
+    {
+      "name": "testMethod",
+      "value": "3D010006 | Error validation for Delete Invalid face | Varsha Chaudhari"
+    },
+    {
+      "name": "package",
+      "value": "Delete command tests"
+    },
+    {
+      "name": "resultFormat",
+      "value": "allure1"
+    }
+  ],
+  "parameters": [
+    {
+      "name": "browser",
+      "value": "Chrome Headless-114.0.5735.106"
+    }
+  ],
+  "links": [],
+  "hidden": false,
+  "retry": false,
+  "extra": {
+    "severity": "normal",
+    "retries": [],
+    "categories": [
+      {
+        "name": "Test defects",
+        "matchedStatuses": [],
+        "flaky": false
+      }
+    ],
+    "tags": []
+  },
+  "source": "1af458a66eccd45a.json",
+  "parameterValues": [
+    "Chrome Headless-114.0.5735.106"
+  ]
+}

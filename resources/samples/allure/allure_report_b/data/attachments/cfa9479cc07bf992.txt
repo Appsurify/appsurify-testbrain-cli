@@ -1,0 +1,25 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.12.0, pytest-7.4.4, pluggy-1.4.0
+rootdir: /private/var/folders/z0/zvd81kyj08xgnt8c1hbb2f780000gn/T/pytest-of-whenessel/pytest-3/test_args_less_than_placeholders0
+plugins: allure-pytest-2.13.4.dev2+gd759bc5
+collected 1 item
+
+test_args_less_than_placeholders.py F                                    [100%]
+
+=================================== FAILURES ===================================
+___________________ test_args_less_than_placeholders_example ___________________
+
+    def test_args_less_than_placeholders_example():
+>       step(0)
+E       IndexError: Replacement index 1 out of range for positional args tuple
+
+test_args_less_than_placeholders.py:8: IndexError
+=============================== warnings summary ===============================
+../../../../../../../../../Users/whenessel/Development/PycharmProjects/allure-python/.venv/lib/python3.12/site-packages/_pytest/config/__init__.py:735
+  /Users/whenessel/Development/PycharmProjects/allure-python/.venv/lib/python3.12/site-packages/_pytest/config/__init__.py:735: PytestAssertRewriteWarning: Module already imported so cannot be rewritten: allure_pytest
+    self.import_plugin(arg, consider_entry_points=True)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED test_args_less_than_placeholders.py::test_args_less_than_placeholders_example
+========================= 1 failed, 1 warning in 0.01s =========================

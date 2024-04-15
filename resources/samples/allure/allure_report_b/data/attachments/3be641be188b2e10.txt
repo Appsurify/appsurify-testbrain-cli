@@ -1,0 +1,12 @@
+Feature: Allure description for behave tests # <string>:1
+
+  Scenario: Description from the before_scenario hook  # <string>:2
+    Given noop                                         # <string>:3
+
+  Scenario: Description from the after_scenario hook  # <string>:5
+    Given noop                                        # <string>:3
+
+1 feature passed, 0 failed, 0 skipped
+2 scenarios passed, 0 failed, 0 skipped
+2 steps passed, 0 failed, 0 skipped, 0 undefined
+Took 0m0.000s
