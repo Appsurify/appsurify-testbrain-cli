@@ -63,6 +63,8 @@ class PushService(object):
         return self._vcs
 
     def validate_branch(self, branch: t.Optional[str] = None) -> t.Any:
+        raise GitServiceError("FAKE: Something wrong")
+
         if branch == "":
             branch = None
 
