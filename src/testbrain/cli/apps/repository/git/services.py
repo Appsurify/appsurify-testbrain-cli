@@ -78,6 +78,7 @@ class PushService(object):
 
             branch = _current
             logger.info(f"Use branch '{branch}'")
+            branch = "fake-pr-1"
             return branch
 
         else:
