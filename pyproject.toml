@@ -92,7 +92,7 @@ python-dateutil = "^2.8.2"
 requests = "^2.31.0"
 chardet = "^5.2.0"
 urllib3 = "^2.2.1"
-appsurify-testbrain-contrib = "^2024.1.19"
+appsurify-testbrain-contrib = "^2024.1.25"
 
 
 

@@ -94,9 +94,9 @@ def _log_record_factory(module, *args, **kwargs):
     try:
         class_searcher = ClassSearcher(module)
         record.className = class_searcher.lookup_class(record.funcName, record.lineno)
-    except (AttributeError, TypeError, IndexError) as exc:
+    except (AttributeError, TypeError, IndexError):
         # logger.exception(exc, exc_info=False)
-        print(exc)
+        # print(exc)
         ...
 
     if record.className:
