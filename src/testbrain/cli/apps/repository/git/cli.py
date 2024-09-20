@@ -1,16 +1,16 @@
 import logging
 import pathlib
 import typing as t
+from email.policy import default
 
 import click
 
+from testbrain.cli.apps.repository.git.exceptions import ProjectNotFound
+from testbrain.cli.apps.repository.git.models import Commit
+from testbrain.cli.apps.repository.git.services import CheckoutService, PushService
 from testbrain.cli.core.command import TestbrainCommand, TestbrainGroup
 from testbrain.cli.core.context import TestbrainContext
 from testbrain.contrib.scm.exceptions import SCMError
-
-from .exceptions import ProjectNotFound
-from .models import Commit
-from .services import CheckoutService, PushService
 
 logger = logging.getLogger(__name__)
 
@@ -81,6 +81,7 @@ def git(ctx: TestbrainContext, **kwargs):
     metavar="<name>",
     show_default="current",
     type=str,
+    default="main",
     required=True,
     envvar="TESTBRAIN_BRANCH",
     show_envvar=True,
@@ -136,6 +137,14 @@ def git(ctx: TestbrainContext, **kwargs):
     is_flag=True,
     help="Activate PR mode.",
 )
+@click.option(
+    "--submodules",
+    show_default="False",
+    type=bool,
+    default=False,
+    is_flag=True,
+    help="Commit changes information foreach submodules.",
+)
 @click.pass_context
 def push(
     ctx: "TestbrainContext",
@@ -150,6 +159,7 @@ def push(
     blame,
     minimize,
     pr_mode,
+    submodules,
     **kwargs,
 ):
     _params = ctx.params.copy()
@@ -177,6 +187,7 @@ def push(
         "raw": not minimize,
         "patch": not minimize,
         "blame": blame,  # not minimize,
+        "submodules": submodules,
     }
 
     try:
@@ -189,8 +200,11 @@ def push(
         logger.info(f"Finished get commits from git - {len(commits)} commits(s)")
 
         logger.info(f"Stating get file_tree from git - {service.vcs.repo_name}")
+
         file_tree: t.List[str] = service.get_file_tree(
-            branch=branch if not pr_mode else commit, minimize=minimize
+            branch=branch if not pr_mode else commit,
+            minimize=minimize,
+            submodules=submodules,
         )
         logger.info(f"Finished get file_tree from git - {len(file_tree)} file(s)")
 
@@ -269,3 +283,7 @@ def checkout(ctx: TestbrainContext, repo_dir, branch, commit, pr_mode, **kwargs)
         ctx.exit(127)
 
     logger.info("Done")
+
+
+if __name__ == "__main__":
+    git()

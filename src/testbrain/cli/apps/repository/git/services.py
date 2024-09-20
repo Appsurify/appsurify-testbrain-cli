@@ -110,6 +110,7 @@ class PushService(object):
         raw: t.Optional[bool] = True,
         patch: t.Optional[bool] = True,
         blame: t.Optional[bool] = False,
+        submodules: t.Optional[bool] = False,
         **kwargs: t.Any,
     ) -> t.List[Commit]:
         logger.debug(f"extra kwargs {kwargs}")
@@ -126,19 +127,27 @@ class PushService(object):
             numstat=numstat,
             raw=raw,
             patch=patch,
+            submodules=submodules,
         )
 
+        # sorted_data_desc = sorted(commits, key=lambda x: x["date"], reverse=True)
+        # sorted_data_asc = sorted(commits, key=lambda x: x["date"], reverse=False)
+        commits = sorted(commits, key=lambda x: x["date"], reverse=False)
         return commits
 
     def get_file_tree(
-        self, branch: str, minimize: t.Optional[bool] = False, **kwargs: t.Any
+        self,
+        branch: str,
+        minimize: t.Optional[bool] = False,
+        submodules: t.Optional[bool] = False,
+        **kwargs: t.Any,
     ) -> t.List[str]:
         logger.debug(f"extra kwargs {kwargs}")
 
         if minimize:
             return []
 
-        file_tree = self.vcs.file_tree(branch=branch)
+        file_tree = self.vcs.file_tree(branch=branch, submodules=submodules)
         return file_tree
 
     def make_changes_payload(
@@ -181,10 +190,11 @@ class PushService(object):
     ):
         logger.debug(f"extra kwargs {kwargs}")
 
-        project_id = self._get_project_id()
-
         payload_json = payload.model_dump_json()
         payload_json = payload_json.encode("utf-8")
+
+        project_id = self._get_project_id()
+
         result = self.client.send_changes_payload(
             project_id=project_id,
             data=payload_json,
